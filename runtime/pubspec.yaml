@@ -1,0 +1,16 @@
+name: messagepack_schema
+description: MessagePack Schema runtime library.
+version: 1.0.3
+repository: https://github.com/tomasweigenast/messagepack-schema
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  collection: ^1.16.0
+  darq: ^1.1.1
+
+dev_dependencies:
+  test: ^1.20.1
+  flutter_lints: ^1.0.0
+  benchmark_harness: ^2.2.0
