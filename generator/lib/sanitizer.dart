@@ -1,4 +1,4 @@
-import 'package:messagepack_schema_dart_generator/models.dart';
+import 'package:nexema_dart_generator/models.dart';
 
 class Sanitizer {
   const Sanitizer._();

@@ -1,6 +1,6 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:messagepack_schema_dart_generator/models.dart';
-import 'package:messagepack_schema_dart_generator/primitive_mapper.dart';
+import 'package:nexema_dart_generator/models.dart';
+import 'package:nexema_dart_generator/primitive_mapper.dart';
 
 String structDefault(String structName) => "$structName()";
 

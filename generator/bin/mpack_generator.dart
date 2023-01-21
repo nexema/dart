@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:messagepack_schema_dart_generator/builder.dart';
-import 'package:messagepack_schema_dart_generator/models.dart';
-import 'package:messagepack_schema_dart_generator/utils/constants.dart';
-import 'package:messagepack_schema_dart_generator/utils/logger.dart';
+import 'package:nexema_dart_generator/builder.dart';
+import 'package:nexema_dart_generator/models.dart';
+import 'package:nexema_dart_generator/utils/constants.dart';
+import 'package:nexema_dart_generator/utils/logger.dart';
 
 Future<void> main(List<String> args) async {
   bool debug = false;

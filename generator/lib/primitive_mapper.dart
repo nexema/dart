@@ -1,8 +1,8 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:messagepack_schema_dart_generator/models.dart';
-import 'package:messagepack_schema_dart_generator/references.dart';
-import 'package:messagepack_schema_dart_generator/tuple.dart';
-import 'package:messagepack_schema_dart_generator/type_reference.dart';
+import 'package:nexema_dart_generator/models.dart';
+import 'package:nexema_dart_generator/references.dart';
+import 'package:nexema_dart_generator/tuple.dart';
+import 'package:nexema_dart_generator/type_reference.dart';
 
 /// Maps Primitive to Dart types.
 class PrimitiveMapper {

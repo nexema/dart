@@ -1,1 +1,1 @@
-const kMessagePackImport = r"package:messagepack_schema/messagepack_schema.dart";
+const kMessagePackImport = r"package:nexema/messagepack_schema.dart";

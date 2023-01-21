@@ -1,7 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:typed_data' as _i2;
 
-import 'package:messagepack_schema/messagepack_schema.dart' as _i1;
+import 'package:nexema/messagepack_schema.dart' as _i1;
 
 class Default extends _i1.SchemaStruct<Default> {
   Default._() {

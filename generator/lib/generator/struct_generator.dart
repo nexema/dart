@@ -1,9 +1,9 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:messagepack_schema_dart_generator/constants.dart';
-import 'package:messagepack_schema_dart_generator/generator/utils.dart';
-import 'package:messagepack_schema_dart_generator/models.dart';
-import 'package:messagepack_schema_dart_generator/primitive_mapper.dart';
-import 'package:messagepack_schema_dart_generator/type_reference.dart';
+import 'package:nexema_dart_generator/constants.dart';
+import 'package:nexema_dart_generator/generator/utils.dart';
+import 'package:nexema_dart_generator/models.dart';
+import 'package:nexema_dart_generator/primitive_mapper.dart';
+import 'package:nexema_dart_generator/type_reference.dart';
 
 const _deepCollectionEqualityReference = Reference("kDeepCollectionEquality", kMessagePackImport);
 const _structHandlerReference = Reference("StructHandler", kMessagePackImport);

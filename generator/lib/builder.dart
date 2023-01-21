@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:code_builder/code_builder.dart' hide TypeReference;
 import 'package:dart_style/dart_style.dart';
-import 'package:messagepack_schema_dart_generator/generator/enum_generator.dart';
-import 'package:messagepack_schema_dart_generator/generator/struct_generator.dart';
-import 'package:messagepack_schema_dart_generator/generator/union_generator.dart';
-import 'package:messagepack_schema_dart_generator/models.dart';
-import 'package:messagepack_schema_dart_generator/sanitizer.dart';
-import 'package:messagepack_schema_dart_generator/type_reference.dart';
+import 'package:nexema_dart_generator/generator/enum_generator.dart';
+import 'package:nexema_dart_generator/generator/struct_generator.dart';
+import 'package:nexema_dart_generator/generator/union_generator.dart';
+import 'package:nexema_dart_generator/models.dart';
+import 'package:nexema_dart_generator/sanitizer.dart';
+import 'package:nexema_dart_generator/type_reference.dart';
 
 class Builder {
   final GenerateInput input;

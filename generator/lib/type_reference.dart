@@ -1,5 +1,5 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:messagepack_schema_dart_generator/models.dart';
+import 'package:nexema_dart_generator/models.dart';
 import 'package:path/path.dart' as p;
 
 class TypeReferenceRegistry {

@@ -1,7 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:typed_data' as _i3;
 
-import 'package:messagepack_schema/messagepack_schema.dart' as _i1;
+import 'package:nexema/messagepack_schema.dart' as _i1;
 import 'package:test_files/dtos/sub_package/another/nested/foo_nested.mpack.dart' as _i2;
 
 class MyBarNested extends _i1.SchemaStruct<MyBarNested> {

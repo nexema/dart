@@ -1,6 +1,6 @@
 import 'package:code_builder/code_builder.dart';
-import 'package:messagepack_schema_dart_generator/constants.dart';
-import 'package:messagepack_schema_dart_generator/models.dart';
+import 'package:nexema_dart_generator/constants.dart';
+import 'package:nexema_dart_generator/models.dart';
 
 const _enumNotFoundReference = Reference('EnumNotFound', kMessagePackImport);
 

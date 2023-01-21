@@ -1,5 +1,5 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:messagepack_schema/messagepack_schema.dart' as _i1;
+import 'package:nexema/messagepack_schema.dart' as _i1;
 
 class EnumType extends _i1.SchemaEnum<EnumType> {
   const EnumType._(

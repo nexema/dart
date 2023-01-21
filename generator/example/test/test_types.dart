@@ -1,4 +1,4 @@
-import 'package:messagepack_schema/messagepack_schema.dart';
+import 'package:nexema/messagepack_schema.dart';
 import 'package:test/test.dart';
 import 'package:test_files/dtos/enum.mpack.dart';
 
