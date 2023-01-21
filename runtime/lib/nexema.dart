@@ -3,6 +3,8 @@ library nexema;
 export 'package:nexema/src/nexemab/writer.dart';
 export 'package:nexema/src/nexemab/reader.dart';
 
+export 'package:nexema/src/nexemaj/writer.dart';
+
 export 'package:nexema/src/errors/enum_not_found.dart';
 export 'package:nexema/src/errors/field_not_nullable.dart';
 export 'package:nexema/src/errors/unknown_field.dart';
