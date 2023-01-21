@@ -1,7 +1,5 @@
 library nexema;
 
-export 'package:nexema/src/types.dart';
-
 export 'package:nexema/src/encoder/writer.dart';
 export 'package:nexema/src/encoder/reader.dart';
 
