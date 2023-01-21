@@ -1,3 +1,4 @@
+// coverage:ignore-file
 class FormatError extends Error {
   final String message;
 

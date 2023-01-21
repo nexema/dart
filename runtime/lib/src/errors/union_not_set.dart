@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_initializing_formals
+// coverage:ignore-file
 
 class UnionNotSetError extends Error {
   final int? fieldIndex;

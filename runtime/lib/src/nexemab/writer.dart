@@ -1,20 +1,18 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:nexema/nexema.dart';
 import 'package:nexema/src/constants/numbers.dart';
-import 'package:nexema/src/encoder/spec.dart';
+import 'package:nexema/src/nexemab/spec.dart';
 
 /// Binary serialization for Nexema.
 class NexemabWriter {
   
   /// Create a new NexemabWriter with a initial bufferSize.
-  NexemabWriter([int bufferSize = 128]) : _bufferSize = bufferSize {
+  NexemabWriter([int bufferSize = 128]) : assert(bufferSize > 0), _bufferSize = bufferSize {
     _createBuffer(_bufferSize);
   }
 
   final _builder = BytesBuilder(copy: false);
-  final _utf8Codec = const Utf8Codec();
   late Uint8List _currentBuffer;
   late ByteData _currentBufferView;
   int _bufferSize;
@@ -43,9 +41,7 @@ class NexemabWriter {
   }
 
   /// Pack binary and string uses this internally.
-  void _writeRawBytes(List<int> bytes, [int? length]) {
-    length ??= bytes.length;
-    
+  void _writeRawBytes(List<int> bytes, int length) {
     // need a new buffer
     if (_currentBuffer.length - _offset < length) {
       _nextBuf();
@@ -127,6 +123,7 @@ class NexemabWriter {
       v >>= 7;
     }
 
+    _ensure(1);
     _currentBufferView.setUint8(_offset++, v.toInt());
     return this;
   }
@@ -219,10 +216,7 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeInt64(int v) {
-    if(v < Numbers.int64MinValue || v > Numbers.int64MaxValue) {
-      throw FormatError("Value ${v.toString()} cannot be represented in int64.");
-    }
-
+   // no overflow check is needed since dart automatically handles this
     _ensure(8);
     _currentBufferView.setInt64(_offset, v);
     _offset += 8;
@@ -245,7 +239,7 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeString(String v) {
-    var stringBuffer = _utf8Codec.encode(v);
+    var stringBuffer = kUtfCodec.encode(v);
     var bufferLength = stringBuffer.length;
     encodeVarint(bufferLength);
     _writeRawBytes(stringBuffer, bufferLength);

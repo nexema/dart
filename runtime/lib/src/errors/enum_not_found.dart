@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 class EnumNotFound extends Error {
   final String? enumName;
   final int? enumIndex;

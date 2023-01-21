@@ -1,3 +1,4 @@
+// coverage:ignore-file
 class Numbers {
   const Numbers._();
   static const int uint8MinValue = 0;
@@ -31,4 +32,5 @@ class Numbers {
   static const double float64MinValue = 4.9406564584124654417656879286822137236505980e-324;
 
   static final BigInt uint64MaxValue = BigInt.parse("18446744073709551615");
+  
 }

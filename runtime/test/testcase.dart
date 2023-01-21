@@ -1,4 +1,5 @@
 import 'package:test/scaffolding.dart';
+import 'package:test/test.dart';
 
 class TestCase<TInput, TExpect> {
   final String description;
@@ -15,11 +16,10 @@ class TestCaseRunner {
   TestCaseRunner(this.tests);
 
   void run(void Function(TestCase testcase) runner) {
-    // ignore: avoid_function_literals_in_foreach_calls
-    tests.forEach((element) { 
+    for (var element in tests) { 
       test("${element.description} -> ${element.expect}", () {
         runner(element);
       });
-    });
+    }
   }
 }

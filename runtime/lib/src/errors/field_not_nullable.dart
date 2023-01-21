@@ -1,3 +1,4 @@
+// coverage:ignore-file
 
 class FieldNotNullableError extends Error {
   final int fieldIndex;
