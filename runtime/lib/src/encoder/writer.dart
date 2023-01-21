@@ -249,7 +249,9 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeBinary(Uint8List buffer) {
-    _writeRawBytes(buffer);
+    var length = buffer.length;
+    encodeVarint(length);
+    _writeRawBytes(buffer, length);
     return this;
   }
 
