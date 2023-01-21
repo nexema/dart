@@ -4,13 +4,9 @@ class TestCase<TInput, TExpect> {
   final String description;
   final TInput input;
   final TExpect expect;
-
-  TestCase(this.description, this.input, this.expect);
-}
-
-class TestCaseErr<TInput, TExpect> extends TestCase {
   final Object? error;
-  TestCaseErr(super.description, super.input, super.expect, this.error);
+
+  TestCase(this.description, this.input, this.expect, [this.error]);
 }
 
 class TestCaseRunner {

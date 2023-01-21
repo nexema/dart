@@ -2,11 +2,10 @@
 
 import 'dart:typed_data';
 
+import 'package:nexema/nexema.dart';
 import 'package:nexema/src/constants/numbers.dart';
 import 'package:nexema/src/encoder/spec.dart';
-import 'package:nexema/src/encoder/writer.dart';
-import 'package:test/expect.dart';
-import 'package:test/scaffolding.dart';
+import 'package:test/test.dart';
 
 import 'testcase.dart';
 
@@ -57,10 +56,34 @@ void main() {
           .encodeString("abc").encodeFloat32(213141.24125123)
           .encodeString("v").encodeFloat32(-4314.34123)
           .encodeString("9928910sad").encodeFloat32(-3224.99980989078489378), [0xdf, 0x6, 0x6, 0x61, 0x62, 0x63, 0x48, 0x50, 0x25, 0x4f, 0x2, 0x76, 0xc5, 0x86, 0xd2, 0xbb, 0x14, 0x39, 0x39, 0x32, 0x38, 0x39, 0x31, 0x30, 0x73, 0x61, 0x64, 0xc5, 0x49, 0x8f, 0xff]),
+        TestCase("encodeInt8 throws out of bounds", (writer) => writer.encodeInt8(Numbers.int8MaxValue+1), [], FormatError("int8 value must be less than or equals to ${Numbers.int8MaxValue}.")),
+        TestCase("encodeInt8 throws out of bounds negative", (writer) => writer.encodeInt8(Numbers.int8MinValue-1), [], FormatError("int8 value must be greater than or equals to ${Numbers.int8MinValue}.")),
+        TestCase("encodeInt16 throws out of bounds", (writer) => writer.encodeInt16(Numbers.int16MaxValue+1), [], FormatError("int16 value must be less than or equals to ${Numbers.int16MaxValue}.")),
+        TestCase("encodeInt16 throws out of bounds negative", (writer) => writer.encodeInt16(Numbers.int16MinValue-1), [], FormatError("int16 value must be greater than or equals to ${Numbers.int16MinValue}.")),
+        TestCase("encodeInt32 throws out of bounds", (writer) => writer.encodeInt32(Numbers.int32MaxValue+1), [], FormatError("int32 value must be less than or equals to ${Numbers.int32MaxValue}.")),
+        TestCase("encodeInt32 throws out of bounds negative", (writer) => writer.encodeInt32(Numbers.int32MinValue-1), [], FormatError("int32 value must be greater than or equals to ${Numbers.int32MinValue}.")),
+        TestCase("encodeBigInt64 throws out of bounds", (writer) => writer.encodeInt64AsBigInt(Numbers.int64MaxValueBigInt+BigInt.one), [], FormatError("int64 value must be less than or equals to ${Numbers.int64MaxValue}.")),
+        TestCase("encodeBigInt64 throws out of bounds negative", (writer) => writer.encodeInt64AsBigInt(Numbers.int64MinValueBigInt-BigInt.one), [], FormatError("int64 value must be greater than or equals to ${Numbers.int64MinValue}.")),
+        TestCase("encodeUint8 throws out of bounds", (writer) => writer.encodeUint8(Numbers.uint8MaxValue+1), [], FormatError("uint8 value must be less than or equals to ${Numbers.uint8MaxValue}.")),
+        TestCase("encodeUint8 throws out of bounds negative", (writer) => writer.encodeUint8(Numbers.uint8MinValue-1), [], FormatError("uint8 value must be greater than or equals to 0.")),
+        TestCase("encodeUint16 throws out of bounds", (writer) => writer.encodeUint16(Numbers.uint16MaxValue+1), [], FormatError("uint16 value must be less than or equals to ${Numbers.uint16MaxValue}.")),
+        TestCase("encodeUint16 throws out of bounds negative", (writer) => writer.encodeUint16(Numbers.uint16MinValue-1), [], FormatError("uint16 value must be greater than or equals to 0.")),
+        TestCase("encodeUint32 throws out of bounds", (writer) => writer.encodeUint32(Numbers.uint32MaxValue+1), [], FormatError("uint32 value must be less than or equals to ${Numbers.uint32MaxValue}.")),
+        TestCase("encodeUint32 throws out of bounds negative", (writer) => writer.encodeUint32(Numbers.uint32MinValue-1), [], FormatError("uint32 value must be greater than or equals to 0.")),
+        TestCase("encodeUint64 throws out of bounds", (writer) => writer.encodeUint64(Numbers.uint64MaxValue+BigInt.one), [], FormatError("uint64 value must be less than or equals to ${Numbers.uint64MaxValue}.")),
+        TestCase("encodeUint64 throws out of bounds negative", (writer) => writer.encodeUint64(-BigInt.one), [], FormatError("uint64 value must be greater than or equals to 0.")),
       ]);
       testcases.run((testcase) { 
         NexemabWriter writer = NexemabWriter();
-        testcase.input(writer);
+        if(testcase.error != null) {
+          try {
+            testcase.input(writer);
+          } catch(err) {
+            expect(err, equals(testcase.error));
+          }
+        } else {
+          expect(() => testcase.input(writer), isNot(throwsA(isA<Error>())));
+        }
         expect(writer.takeBytes(), equals(Uint8List.fromList(testcase.expect)));
       });
     });

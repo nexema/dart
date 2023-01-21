@@ -80,9 +80,9 @@ class NexemabWriter {
 
   NexemabWriter encodeUint8(int v) {
     if(v > Numbers.uint8MaxValue) {
-      throw FormatError("uint8 value must be less than ${Numbers.uint8MaxValue}");
+      throw FormatError("uint8 value must be less than or equals to ${Numbers.uint8MaxValue}.");
     } else if(v < Numbers.uint8MinValue) {
-      throw FormatError("uint8 value must be greater or equals to 0.");
+      throw FormatError("uint8 value must be greater than or equals to 0.");
     }
     
     _ensure(1);
@@ -92,7 +92,7 @@ class NexemabWriter {
 
   NexemabWriter encodeUint16(int v) {
     if(v > Numbers.uint16MaxValue) {
-      throw FormatError("uint16 value must be less than ${Numbers.uint16MaxValue}");
+      throw FormatError("uint16 value must be less than or equals to ${Numbers.uint16MaxValue}.");
     } else if(v < 0) {
       throw FormatError("uint16 value must be greater than or equals to 0.");
     }
@@ -105,7 +105,7 @@ class NexemabWriter {
 
   NexemabWriter encodeUint32(int v) {
     if(v > Numbers.uint32MaxValue) {
-      throw FormatError("uint32 value must be less than ${Numbers.uint32MaxValue}");
+      throw FormatError("uint32 value must be less than or equals to ${Numbers.uint32MaxValue}.");
     } else if(v < 0) {
       throw FormatError("uint32 value must be greater than or equals to 0.");
     }
@@ -142,9 +142,9 @@ class NexemabWriter {
 
   NexemabWriter encodeInt8(int v) {
     if(v < Numbers.int8MinValue) {
-      throw FormatError("int8 value must be greater than ${Numbers.int8MinValue}");
+      throw FormatError("int8 value must be greater than or equals to ${Numbers.int8MinValue}.");
     } else if(v > Numbers.int8MaxValue) {
-      throw FormatError("int8 value must be less than ${Numbers.int8MaxValue}");
+      throw FormatError("int8 value must be less than or equals to ${Numbers.int8MaxValue}.");
     }
     
     _ensure(1);
@@ -154,9 +154,9 @@ class NexemabWriter {
 
   NexemabWriter encodeInt16(int v) {
     if(v < Numbers.int16MinValue) {
-      throw FormatError("int16 value must be greater than ${Numbers.int16MinValue}");
+      throw FormatError("int16 value must be greater than or equals to ${Numbers.int16MinValue}.");
     } else if(v > Numbers.int16MaxValue) {
-      throw FormatError("int16 value must be less than ${Numbers.int16MaxValue}");
+      throw FormatError("int16 value must be less than or equals to ${Numbers.int16MaxValue}.");
     }
     
     _ensure(2);
@@ -167,9 +167,9 @@ class NexemabWriter {
 
   NexemabWriter encodeInt32(int v) {
     if(v < Numbers.int32MinValue) {
-      throw FormatError("int32 value must be greater than ${Numbers.int32MinValue}");
+      throw FormatError("int32 value must be greater than or equals to ${Numbers.int32MinValue}.");
     } else if(v > Numbers.int32MaxValue) {
-      throw FormatError("int32 value must be less than ${Numbers.int32MaxValue}");
+      throw FormatError("int32 value must be less than or equals to ${Numbers.int32MaxValue}.");
     }
     
     _ensure(4);
@@ -179,8 +179,10 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeUint64(BigInt v) {
-    if(v < BigInt.zero || v > Numbers.uint64MaxValue) {
-      throw FormatError("Value ${v.toString()} cannot be represented in uint64");
+    if(v < BigInt.zero) {
+      throw FormatError("uint64 value must be greater than or equals to 0.");
+    } else if(v > Numbers.uint64MaxValue) {
+      throw FormatError("uint64 value must be less than or equals to ${Numbers.uint64MaxValue}.");
     }
 
     _ensure(8);
@@ -197,8 +199,10 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeInt64AsBigInt(BigInt v) {
-    if(v < Numbers.int64MinValueBigInt || v > Numbers.int64MaxValueBigInt) {
-      throw FormatError("Value ${v.toString()} cannot be represented in int64");
+    if(v < Numbers.int64MinValueBigInt) {
+      throw FormatError("int64 value must be greater than or equals to ${Numbers.int64MinValueBigInt}.");
+    } else if(v > Numbers.int64MaxValueBigInt) {
+      throw FormatError("int64 value must be less than or equals to ${Numbers.int64MaxValueBigInt}.");
     }
 
     _ensure(8);
@@ -216,7 +220,7 @@ class NexemabWriter {
 
   NexemabWriter encodeInt64(int v) {
     if(v < Numbers.int64MinValue || v > Numbers.int64MaxValue) {
-      throw FormatError("Value ${v.toString()} cannot be represented in int64");
+      throw FormatError("Value ${v.toString()} cannot be represented in int64.");
     }
 
     _ensure(8);
