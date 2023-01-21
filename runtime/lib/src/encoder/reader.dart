@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:messagepack_schema/messagepack_schema.dart';
-import 'package:messagepack_schema/src/message_pack/messagepack_codes.dart';
+import 'package:nexema/nexema.dart';
 
 /// Streaming API for unpacking (deserializing) data from msgpack binary format.
 ///
-class MessagePackReader {
+/*class MessagePackReader {
   /// Manipulates with provided [Uint8List] to sequentially unpack values.
   MessagePackReader(this._list) : _d = ByteData.view(_list.buffer, _list.offsetInBytes);
 
@@ -580,4 +579,4 @@ class MessagePackReader {
     }
     return result;
   }
-}
+}*/
