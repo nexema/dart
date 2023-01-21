@@ -14,7 +14,7 @@ void main() {
   group("Nexemab encode/decode", () {
     group("encode", () {
       // input: expected
-      var testcases = <TestCase<void Function(NexemabWriter), List<int>>>[
+      var testcases = TestCaseRunner(<TestCase<void Function(NexemabWriter), List<int>>>[
         TestCase("true", (writer) => writer.encodeBool(true), [kBoolTrue]),
         TestCase("false", (writer) => writer.encodeBool(false), [kBoolFalse]),
         TestCase("null", (writer) => writer.encodeNull(), [kNull]),
@@ -57,16 +57,12 @@ void main() {
           .encodeString("abc").encodeFloat32(213141.24125123)
           .encodeString("v").encodeFloat32(-4314.34123)
           .encodeString("9928910sad").encodeFloat32(-3224.99980989078489378), [0xdf, 0x6, 0x6, 0x61, 0x62, 0x63, 0x48, 0x50, 0x25, 0x4f, 0x2, 0x76, 0xc5, 0x86, 0xd2, 0xbb, 0x14, 0x39, 0x39, 0x32, 0x38, 0x39, 0x31, 0x30, 0x73, 0x61, 0x64, 0xc5, 0x49, 0x8f, 0xff]),
-      ];
-
-      testcases.forEach((element) {
-        test(":- ${element.description} -> ${element.expect}", () {
-          NexemabWriter writer = NexemabWriter();
-          element.input(writer);
-          expect(writer.takeBytes(), equals(Uint8List.fromList(element.expect)));
-        }); 
+      ]);
+      testcases.run((testcase) { 
+        NexemabWriter writer = NexemabWriter();
+        testcase.input(writer);
+        expect(writer.takeBytes(), equals(Uint8List.fromList(testcase.expect)));
       });
-      
     });
   });
 }

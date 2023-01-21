@@ -1,7 +1,4 @@
-import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:nexema/nexema.dart';
 
 /// Streaming API for unpacking (deserializing) data from msgpack binary format.
 ///
