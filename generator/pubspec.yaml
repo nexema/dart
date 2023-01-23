@@ -1,13 +1,13 @@
-name: messagepack_schema_dart_generator
-description: Command line app used to generate dart code from .mpack files
-version: 1.0.10
-repository: https://github.com/tomasweigenast/messagepack-schema
+name: nexema_generator
+description: Command line app used to generate Dart code from .nex files
+version: 1.0.0
+repository: https://github.com/nexema/tool
 
 environment:
   sdk: '>=2.18.0 <3.0.0'
 
 executables:
-  mpack_generator:
+  nexema_generator:
 
 # dependencies:
 #   path: ^1.8.0

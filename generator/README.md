@@ -1,3 +1,3 @@
-# messagepack_dart_generator
+# nexema_generator
 
-The Dart source code generator for messagepack_schema
+The Dart source code generator for nexema
