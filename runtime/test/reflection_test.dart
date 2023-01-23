@@ -24,6 +24,19 @@ void main() {
       expect(User.fields.firstName.evaluate(user), "Tomás");
       expect(User.fields.lastName.evaluate(user), "Weigenast");
       expect(User.fields.tags.evaluate(user), ["tomas", "weigenast"]);
+
+      user.lastName = "A";
+      expect(user.lastName, equals("A"));
+
+      user.accountDetails.name = "Hello";
+      expect(user.accountDetails.whichField, equals(AccountDetailsField.name));
+      expect(user.accountDetails.name, equals("Hello"));
+      expect(user.accountDetails.hasValue, isTrue);
+      expect(() => user.accountDetails.enabled, throwsA(isA<UnionNotSetError>()));
+
+      user.accountDetails.clear();
+      expect(user.accountDetails.hasValue, isFalse);
+      expect(user.accountDetails.whichField, equals(AccountDetailsField.notSet));
     });
 
     test("enums", () {
