@@ -1,4 +1,4 @@
-part of 'spec.dart';
+part of 'nexemab.dart';
 
 /// Binary serialization for Nexema.
 class NexemabWriter {

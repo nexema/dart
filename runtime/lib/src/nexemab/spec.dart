@@ -1,12 +1,5 @@
 // coverage:ignore-file
-import 'dart:convert';
-import 'dart:typed_data';
-
-import 'package:nexema/nexema.dart';
-import 'package:nexema/src/constants/numbers.dart';
-
-part 'writer.dart';
-part 'reader.dart';
+part of 'nexemab.dart';
 
 const _kNull = 0xc0;
 const _kBoolTrue = 0x01;

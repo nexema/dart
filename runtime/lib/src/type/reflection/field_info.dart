@@ -1,7 +1,9 @@
-import 'package:nexema/nexema.dart';
+part of '../nexema_type.dart';
 
 /// FieldInfo provides information about a single field of any Nexema type.
-class FieldInfo {
+class FieldInfo<TType extends NexemaType> extends NexemaReflection<TType> {
+  final StateGetter<TType> _stateGetter;
+
   /// The name of the field as defined in .nex file.
   final String name;
 
@@ -14,7 +16,7 @@ class FieldInfo {
   /// The value type of the field.
   final FieldValueType valueType;
 
-  const FieldInfo({required this.name, required this.dartName, required this.index, required this.valueType});
+  const FieldInfo(this._stateGetter, {required this.name, required this.dartName, required this.index, required this.valueType});
 
   @override
   int get hashCode => Object.hash(name, dartName, index, valueType.hashCode);
@@ -26,10 +28,15 @@ class FieldInfo {
       && other.dartName == dartName 
       && other.index == index 
       && other.valueType == valueType : false;
+      
+  @override
+  Object? evaluate(TType instance) {
+    return _stateGetter(instance)._values[index];
+  }
 }
 
 /// FieldValueType contains information about the type of a field.
-abstract class FieldValueType {
+class FieldValueType {
   /// The value type kind.
   final FieldValueKind kind;
 
@@ -37,7 +44,7 @@ abstract class FieldValueType {
   final bool isNullable;
 
   /// The list of type arguments of the value type.
-  final List<FieldValueType> typeArguments;
+  final List<FieldValueType>? typeArguments;
 
   const FieldValueType({required this.kind, required this.isNullable, required this.typeArguments});
 
@@ -50,22 +57,6 @@ abstract class FieldValueType {
       other.kind == kind
       && other.isNullable == isNullable
       && kDeepCollectionEquality.equals(other.typeArguments, typeArguments) : false;
-}
-
-/// ListField is a [FieldValueType] but contains only one type argument.
-class ListField extends FieldValueType {
-  FieldValueType get typeArgument => typeArguments[0];
-
-  ListField({required FieldValueType typeArgument, required super.isNullable}) : super(kind: FieldValueKind.list, typeArguments: [typeArgument]);
-}
-
-/// MapField is a [FieldValueType] but contains only two type arguments.
-class MapField extends FieldValueType {
-  FieldValueType get keyTypeArgument => typeArguments[0];
-  FieldValueType get valueTypeArgument => typeArguments[1];
-
-  MapField({required FieldValueType keyTypeArgument, required FieldValueType valueTypeArgument, required super.isNullable})
-    : super(kind: FieldValueKind.map, typeArguments: [keyTypeArgument, valueTypeArgument]);
 }
 
 enum FieldValueKind {

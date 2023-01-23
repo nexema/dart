@@ -1,6 +1,6 @@
 library nexema;
 
-export 'package:nexema/src/nexemab/spec.dart';
+export 'package:nexema/src/nexemab/nexemab.dart';
 
 export 'package:nexema/src/nexemaj/writer.dart';
 
@@ -12,3 +12,5 @@ export 'package:nexema/src/errors/value_null.dart';
 export 'package:nexema/src/errors/format.dart';
 
 export 'package:nexema/src/utils/equality.dart';
+
+export 'package:nexema/src/type/nexema_type.dart';

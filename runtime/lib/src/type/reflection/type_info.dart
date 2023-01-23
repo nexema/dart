@@ -1,4 +1,4 @@
-import 'package:nexema/src/type/field_info.dart';
+part of '../nexema_type.dart';
 
 /// TypeInfo contains information about a Nexema type.
 class TypeInfo {
