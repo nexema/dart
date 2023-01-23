@@ -1,3 +1,3 @@
 part of '../nexema_type.dart';
 
-typedef StateGetter<T extends NexemaType> = NexemaTypeState<T> Function(T);
+typedef StateGetter<TState extends NexemaTypeState<T>, T extends BaseNexemaType> = TState Function(T);

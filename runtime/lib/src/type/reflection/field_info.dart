@@ -1,8 +1,8 @@
 part of '../nexema_type.dart';
 
 /// FieldInfo provides information about a single field of any Nexema type.
-class FieldInfo<TType extends NexemaType> extends NexemaReflection<TType> {
-  final StateGetter<TType> _stateGetter;
+class FieldInfo<TType extends BaseNexemaType> extends NexemaReflection<TType> {
+  final StateGetter<StructTypeState<TType>, TType> _stateGetter;
 
   /// The name of the field as defined in .nex file.
   final String name;
