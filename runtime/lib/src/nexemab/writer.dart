@@ -1,76 +1,69 @@
-import 'dart:typed_data';
-
-import 'package:nexema/nexema.dart';
-import 'package:nexema/src/constants/numbers.dart';
-import 'package:nexema/src/nexemab/spec.dart';
+part of 'spec.dart';
 
 /// Binary serialization for Nexema.
 class NexemabWriter {
   
   /// Create a new NexemabWriter with a initial bufferSize.
   NexemabWriter([int bufferSize = 128]) : assert(bufferSize > 0), _bufferSize = bufferSize {
-    _createBuffer(_bufferSize);
+    _createChunk(_bufferSize);
   }
 
-  final _builder = BytesBuilder(copy: false);
-  late Uint8List _currentBuffer;
-  late ByteData _currentBufferView;
+  final _chunksBuilder = BytesBuilder(copy: false);
+  late Uint8List _currentChunk;
+  late ByteData _currentChunkView;
   int _bufferSize;
   int _offset = 0;
 
-  void _createBuffer(int size) {
-    _currentBuffer = Uint8List(size);
-    _currentBufferView = ByteData.view(_currentBuffer.buffer, _currentBuffer.offsetInBytes);
+  void _createChunk(int size) {
+    _currentChunk = Uint8List(size);
+    _currentChunkView = ByteData.view(_currentChunk.buffer, _currentChunk.offsetInBytes);
     _offset = 0;
   }
 
-  void _nextBuf() {
-    _flushBuf();
+  void _nextChunk() {
+    _writeCurrentChunk();
     _bufferSize = _bufferSize *= 2;
-    _createBuffer(_bufferSize);
+    _createChunk(_bufferSize);
   }
 
-  /// Flush [_currentBuffer] to [_builder] when [_currentBuffer] if almost full
-  /// or when packer completes his job and transforms to bytes
-  void _flushBuf() {
-    _builder.add(Uint8List.view(
-      _currentBuffer.buffer,
-      _currentBuffer.offsetInBytes,
+  void _writeCurrentChunk() {
+    _chunksBuilder.add(Uint8List.view(
+      _currentChunk.buffer,
+      _currentChunk.offsetInBytes,
       _offset,
     ));
   }
 
-  /// Pack binary and string uses this internally.
   void _writeRawBytes(List<int> bytes, int length) {
     // need a new buffer
-    if (_currentBuffer.length - _offset < length) {
-      _nextBuf();
+    if (_currentChunk.length - _offset < length) {
+      _nextChunk();
     }
 
     if (_offset == 0) {
-      _builder.add(bytes);
+      _chunksBuilder.add(bytes);
     } else {
-      _currentBuffer.setRange(_offset, _offset + length, bytes);
+      _currentChunk.setRange(_offset, _offset + length, bytes);
       _offset += length;
     }
   }
 
   /// Ensure checks if the current buffer has enough space to hold n bytes
   void _ensure(int n) {
-    if(_currentBuffer.length - _offset < n) {
-      _nextBuf();
+    if(_currentChunk.length - _offset < n) {
+      _nextChunk();
     }
   }
 
   NexemabWriter encodeNull() {
     _ensure(1);
-    _currentBufferView.setUint8(_offset++, kNull);
+    _currentChunkView.setUint8(_offset++, _kNull);
     return this;
   }
 
   NexemabWriter encodeBool(bool v) {
     _ensure(1);
-    _currentBufferView.setUint8(_offset++, v ? kBoolTrue : kBoolFalse);
+    _currentChunkView.setUint8(_offset++, v ? _kBoolTrue : _kBoolFalse);
     return this;
   }
 
@@ -82,7 +75,7 @@ class NexemabWriter {
     }
     
     _ensure(1);
-    _currentBufferView.setUint8(_offset++, v);
+    _currentChunkView.setUint8(_offset++, v);
     return this;
   }
 
@@ -94,7 +87,7 @@ class NexemabWriter {
     }
     
     _ensure(2);
-    _currentBufferView.setUint16(_offset, v);
+    _currentChunkView.setUint16(_offset, v);
     _offset += 2;
     return this;
   }
@@ -107,7 +100,7 @@ class NexemabWriter {
     }
     
     _ensure(4);
-    _currentBufferView.setUint32(_offset, v);
+    _currentChunkView.setUint32(_offset, v);
     _offset += 4;
     return this;
   }
@@ -117,14 +110,14 @@ class NexemabWriter {
       throw FormatError("uvarint value must be greater than or equals to 0.");
     }
 
-    while(v >= kUvarintMin){
+    while(v >= _kUvarintMin){
       _ensure(1);
-      _currentBufferView.setUint8(_offset++, (v.toUnsigned(8) | kUvarintMin).toInt());
+      _currentChunkView.setUint8(_offset++, (v.toUnsigned(8) | _kUvarintMin).toInt());
       v >>= 7;
     }
 
     _ensure(1);
-    _currentBufferView.setUint8(_offset++, v.toInt());
+    _currentChunkView.setUint8(_offset++, v.toInt());
     return this;
   }
 
@@ -145,7 +138,7 @@ class NexemabWriter {
     }
     
     _ensure(1);
-    _currentBufferView.setInt8(_offset++, v);
+    _currentChunkView.setInt8(_offset++, v);
     return this;
   }
 
@@ -157,7 +150,7 @@ class NexemabWriter {
     }
     
     _ensure(2);
-    _currentBufferView.setInt16(_offset, v);
+    _currentChunkView.setInt16(_offset, v);
     _offset += 2;
     return this;
   }
@@ -170,7 +163,7 @@ class NexemabWriter {
     }
     
     _ensure(4);
-    _currentBufferView.setInt32(_offset, v);
+    _currentChunkView.setInt32(_offset, v);
     _offset += 4;
     return this;
   }
@@ -183,14 +176,14 @@ class NexemabWriter {
     }
 
     _ensure(8);
-    _currentBufferView.setUint8(_offset++, (v >> 56).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 48).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 40).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 32).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 24).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 16).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 8).toInt());
-    _currentBufferView.setUint8(_offset++, v.toUnsigned(8).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 56).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 48).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 40).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 32).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 24).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 16).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 8).toInt());
+    _currentChunkView.setUint8(_offset++, v.toUnsigned(8).toInt());
 
     return this;
   }
@@ -203,14 +196,14 @@ class NexemabWriter {
     }
 
     _ensure(8);
-    _currentBufferView.setUint8(_offset++, (v >> 56).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 48).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 40).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 32).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 24).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 16).toInt());
-    _currentBufferView.setUint8(_offset++, (v >> 8).toInt());
-    _currentBufferView.setUint8(_offset++, v.toUnsigned(8).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 56).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 48).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 40).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 32).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 24).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 16).toInt());
+    _currentChunkView.setUint8(_offset++, (v >> 8).toInt());
+    _currentChunkView.setUint8(_offset++, v.toUnsigned(8).toInt());
 
     return this;
   }
@@ -218,7 +211,7 @@ class NexemabWriter {
   NexemabWriter encodeInt64(int v) {
    // no overflow check is needed since dart automatically handles this
     _ensure(8);
-    _currentBufferView.setInt64(_offset, v);
+    _currentChunkView.setInt64(_offset, v);
     _offset += 8;
 
     return this;
@@ -226,20 +219,20 @@ class NexemabWriter {
 
   NexemabWriter encodeFloat32(double v) {
     _ensure(4);
-    _currentBufferView.setFloat32(_offset, v);
+    _currentChunkView.setFloat32(_offset, v);
     _offset += 4;
     return this;
   }
 
   NexemabWriter encodeFloat64(double v) {
     _ensure(8);
-    _currentBufferView.setFloat64(_offset, v);
+    _currentChunkView.setFloat64(_offset, v);
     _offset += 8;
     return this;
   }
 
   NexemabWriter encodeString(String v) {
-    var stringBuffer = kUtfCodec.encode(v);
+    var stringBuffer = _kUtfCodec.encode(v);
     var bufferLength = stringBuffer.length;
     encodeVarint(bufferLength);
     _writeRawBytes(stringBuffer, bufferLength);
@@ -255,27 +248,27 @@ class NexemabWriter {
 
   NexemabWriter beginArray(int length) {
     _ensure(1);
-    _currentBufferView.setUint8(_offset++, kArrayBegin);
+    _currentChunkView.setUint8(_offset++, _kArrayBegin);
     return encodeVarint(length);
   }
 
   NexemabWriter beginMap(int length) {
     _ensure(1);
-    _currentBufferView.setUint8(_offset++, kMapBegin);
+    _currentChunkView.setUint8(_offset++, _kMapBegin);
     return encodeVarint(length);
   }
 
   Uint8List takeBytes() {
     Uint8List bytes;
-    if (_builder.isEmpty) {
+    if (_chunksBuilder.isEmpty) {
       bytes = Uint8List.view(
-        _currentBuffer.buffer,
-        _currentBuffer.offsetInBytes,
+        _currentChunk.buffer,
+        _currentChunk.offsetInBytes,
         _offset,
       );
     } else {
-      _flushBuf();
-      bytes = _builder.takeBytes();
+      _writeCurrentChunk();
+      bytes = _chunksBuilder.takeBytes();
     }
     return bytes;
   }

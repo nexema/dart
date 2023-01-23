@@ -5,7 +5,7 @@ import 'package:nexema/nexema.dart';
 import 'package:nexema/src/constants/numbers.dart';
 
 void main() {
-  
+  // TODO: Organizations.fields.deletedAt.name
   final writer = NexemajWriter();
   writer.writeLbrace();
   writer.writeKey("my_string");
@@ -15,7 +15,12 @@ void main() {
   writer.writeKey("integer");
   writer.writeNumber(1231412312312);
   writer.writeKey("bigint");
-  writer.writeBigInt(Numbers.uint64MaxValue);
+  writer.writeBigIntAsString(Numbers.uint64MaxValue);
+  writer.writeKey("my_array");
+  writer.writeLbrack();
+  writer.writeString("hola");
+  writer.writeBool(true);
+  writer.writeRbrack();
   writer.writeRbrace(); 
   var buffer = writer.takeBytes();
   print(utf8.decode(buffer));

@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:nexema/nexema.dart';
 import 'package:nexema/src/constants/numbers.dart';
-import 'package:nexema/src/nexemab/spec.dart';
 import 'package:test/test.dart';
 
 import 'testcase.dart';
@@ -13,9 +12,9 @@ void main() {
   group("Nexemab encode/decode", () {
     group("encode", () {
       var testcases = TestCaseRunner(<TestCase<void Function(NexemabWriter), List<int>>>[
-        TestCase("true", (writer) => writer.encodeBool(true), [kBoolTrue]),
-        TestCase("false", (writer) => writer.encodeBool(false), [kBoolFalse]),
-        TestCase("null", (writer) => writer.encodeNull(), [kNull]),
+        TestCase("true", (writer) => writer.encodeBool(true), [0x01]),
+        TestCase("false", (writer) => writer.encodeBool(false), [0x00]),
+        TestCase("null", (writer) => writer.encodeNull(), [0xc0]),
         TestCase("uint8(12)", (writer) => writer.encodeUint8(12), [0x0c]),
         TestCase("uint8(${Numbers.uint8MaxValue})", (writer) => writer.encodeUint8(Numbers.uint8MaxValue), [255]),
         TestCase("uint8(0)", (writer) => writer.encodeUint8(Numbers.uint8MinValue), [0]),
@@ -102,9 +101,9 @@ void main() {
     group("decode primitives", () {
       // input: [[input binary], decode method]
       var testcases = TestCaseRunner(<TestCase<List<dynamic>, dynamic>>[
-        TestCase("true", [[kBoolTrue], (NexemabReader decoder) => decoder.decodeBool()], true),
-        TestCase("false", [[kBoolFalse], (NexemabReader decoder) => decoder.decodeBool()], false),
-        TestCase("isNextNull", [[kNull], (NexemabReader decoder) => decoder.isNextNull()], true),
+        TestCase("true", [[0x01], (NexemabReader decoder) => decoder.decodeBool()], true),
+        TestCase("false", [[0x00], (NexemabReader decoder) => decoder.decodeBool()], false),
+        TestCase("isNextNull", [[0xc0], (NexemabReader decoder) => decoder.isNextNull()], true),
         TestCase("isNextNull returns false if not null", [[0x5], (NexemabReader decoder) => decoder.isNextNull()], false),
         TestCase("uvarint(1)", [[1], (NexemabReader decoder) => decoder.decodeUvarint()], BigInt.one),
         TestCase("uvarint(1000)", [[232, 7], (NexemabReader decoder) => decoder.decodeUvarint()], BigInt.from(1000)),

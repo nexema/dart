@@ -1,7 +1,4 @@
-import 'dart:typed_data';
-
-import 'package:nexema/nexema.dart';
-import 'package:nexema/src/nexemab/spec.dart';
+part of 'spec.dart';
 
 /// Binary deserialization for Nexema.
 class NexemabReader {
@@ -15,11 +12,11 @@ class NexemabReader {
 
   bool isNextNull() {
     var byte = _bufferView.getUint8(_offset); // do not advance
-    return byte == kNull;
+    return byte == _kNull;
   }
 
   bool decodeBool() {
-    return _bufferView.getUint8(_offset++) == kBoolTrue;
+    return _bufferView.getUint8(_offset++) == _kBoolTrue;
   }
 
   BigInt decodeUvarint() {
@@ -31,12 +28,12 @@ class NexemabReader {
     while(true) {
       b = _bufferView.getUint8(_offset++);
 
-      if(i == kMaxVarintLen) {
+      if(i == _kMaxVarintLen) {
         throw FormatError("uvarint overflow");
       }
 
-      if(b < kUvarintMinInt) {
-        if(i == kMaxVarintLen-1 && b>1) {
+      if(b < _kUvarintMinInt) {
+        if(i == _kMaxVarintLen-1 && b>1) {
           throw FormatError("uvarint overflow");
         }
 
@@ -128,13 +125,13 @@ class NexemabReader {
     var strlen = decodeVarint();
     var buffer = Uint8List.view(_buffer.buffer, _offset, strlen);
     _offset+=strlen;
-    return kUtfCodec.decode(buffer);
+    return _kUtfCodec.decode(buffer);
   }
 
   int beginDecodeArray() {
     // read array identifier
     int code = _bufferView.getUint8(_offset++);
-    if(code != kArrayBegin) {
+    if(code != _kArrayBegin) {
       throw FormatError("not an array.");
     }
     return decodeVarint();
@@ -143,7 +140,7 @@ class NexemabReader {
   int beginDecodeMap() {
     // read array identifier
     int code = _bufferView.getUint8(_offset++);
-    if(code != kMapBegin) {
+    if(code != _kMapBegin) {
       throw FormatError("not a map.");
     }
     return decodeVarint();

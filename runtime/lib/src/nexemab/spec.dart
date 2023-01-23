@@ -1,12 +1,19 @@
 // coverage:ignore-file
 import 'dart:convert';
+import 'dart:typed_data';
 
-const kNull = 0xc0;
-const kBoolTrue = 0x01;
-const kBoolFalse = 0x00;
-const kArrayBegin = 0xdc;
-const kMapBegin = 0xdf;
-const kMaxVarintLen = 10;
-final kUvarintMin = BigInt.from(0x80);
-const kUvarintMinInt = 0x80;
-const kUtfCodec = Utf8Codec();
+import 'package:nexema/nexema.dart';
+import 'package:nexema/src/constants/numbers.dart';
+
+part 'writer.dart';
+part 'reader.dart';
+
+const _kNull = 0xc0;
+const _kBoolTrue = 0x01;
+const _kBoolFalse = 0x00;
+const _kArrayBegin = 0xdc;
+const _kMapBegin = 0xdf;
+const _kMaxVarintLen = 10;
+final _kUvarintMin = BigInt.from(0x80);
+const _kUvarintMinInt = 0x80;
+const _kUtfCodec = Utf8Codec();

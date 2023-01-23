@@ -1,7 +1,6 @@
 library nexema;
 
-export 'package:nexema/src/nexemab/writer.dart';
-export 'package:nexema/src/nexemab/reader.dart';
+export 'package:nexema/src/nexemab/spec.dart';
 
 export 'package:nexema/src/nexemaj/writer.dart';
 
