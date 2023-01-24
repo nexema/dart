@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_annotation_target
 
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:recase/recase.dart';
 
 part 'models.mapper.dart';
 
@@ -35,6 +36,8 @@ class NexemaTypeDefinition with NexemaTypeDefinitionMappable {
   final List<String> documentation;
   final List<NexemaTypeFieldDefinition> fields;
 
+  String get dartName => name.pascalCase;
+
   const NexemaTypeDefinition({
     required this.id,
     required this.name,
@@ -52,6 +55,8 @@ class NexemaTypeFieldDefinition with NexemaTypeFieldDefinitionMappable {
   final Map<String, Object?> metadata;
   final Object? defaultValue;
   final NexemaValueType? type;
+
+  String get dartName => name.camelCase;
 
   const NexemaTypeFieldDefinition({
     required this.index,
