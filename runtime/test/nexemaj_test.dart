@@ -5,7 +5,6 @@ import 'package:nexema/nexema.dart';
 import 'package:nexema/src/constants/numbers.dart';
 
 void main() {
-  // TODO: Organizations.fields.deletedAt.name
   final writer = NexemajWriter();
   writer.writeLbrace();
   writer.writeKey("my_string");

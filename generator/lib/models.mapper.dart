@@ -580,20 +580,16 @@ class NexemaValueTypeMapperElement extends MapperElementBase<NexemaValueType> {
   @override
   Function get encoder => encode;
   dynamic encode(NexemaValueType v) => toMap(v);
-  Map<String, dynamic> toMap(NexemaValueType n) => {
-        'kind': container.$enc(n.kind, 'kind'),
-        'nullable': container.$enc(n.nullable, 'nullable')
-      };
+  Map<String, dynamic> toMap(NexemaValueType n) =>
+      {'nullable': container.$enc(n.nullable, 'nullable')};
 
   @override
   String stringify(NexemaValueType self) =>
-      'NexemaValueType(kind: ${container.asString(self.kind)}, nullable: ${container.asString(self.nullable)})';
+      'NexemaValueType(nullable: ${container.asString(self.nullable)})';
   @override
-  int hash(NexemaValueType self) =>
-      container.hash(self.kind) ^ container.hash(self.nullable);
+  int hash(NexemaValueType self) => container.hash(self.nullable);
   @override
   bool equals(NexemaValueType self, NexemaValueType other) =>
-      container.isEqual(self.kind, other.kind) &&
       container.isEqual(self.nullable, other.nullable);
 }
 
@@ -611,7 +607,7 @@ abstract class NexemaValueTypeCopyWith<$R, $In extends NexemaValueType,
   NexemaValueTypeCopyWith<$R2, $In, $Out2>
       chain<$R2, $Out2 extends NexemaValueType>(
           Then<NexemaValueType, $Out2> t, Then<$Out2, $R2> t2);
-  $R call({String? kind, bool? nullable});
+  $R call({bool? nullable});
 }
 
 class NexemaPrimitiveValueTypeMapper
@@ -646,7 +642,6 @@ class NexemaPrimitiveValueTypeMapperElement
       checkedType(v, (Map<String, dynamic> map) => fromMap(map));
   NexemaPrimitiveValueType fromMap(Map<String, dynamic> map) =>
       NexemaPrimitiveValueType(
-          kind: container.$get(map, 'kind'),
           nullable: container.$get(map, 'nullable'),
           primitive: container.$get(map, 'primitive'),
           typeArguments: container.$get(map, 'typeArguments'));
@@ -655,7 +650,6 @@ class NexemaPrimitiveValueTypeMapperElement
   Function get encoder => encode;
   dynamic encode(NexemaPrimitiveValueType v) => toMap(v);
   Map<String, dynamic> toMap(NexemaPrimitiveValueType n) => {
-        'kind': container.$enc(n.kind, 'kind'),
         'nullable': container.$enc(n.nullable, 'nullable'),
         'primitive': container.$enc(n.primitive, 'primitive'),
         'typeArguments': container.$enc(n.typeArguments, 'typeArguments'),
@@ -664,16 +658,14 @@ class NexemaPrimitiveValueTypeMapperElement
 
   @override
   String stringify(NexemaPrimitiveValueType self) =>
-      'NexemaPrimitiveValueType(kind: ${container.asString(self.kind)}, nullable: ${container.asString(self.nullable)}, primitive: ${container.asString(self.primitive)}, typeArguments: ${container.asString(self.typeArguments)})';
+      'NexemaPrimitiveValueType(nullable: ${container.asString(self.nullable)}, primitive: ${container.asString(self.primitive)}, typeArguments: ${container.asString(self.typeArguments)})';
   @override
   int hash(NexemaPrimitiveValueType self) =>
-      container.hash(self.kind) ^
       container.hash(self.nullable) ^
       container.hash(self.primitive) ^
       container.hash(self.typeArguments);
   @override
   bool equals(NexemaPrimitiveValueType self, NexemaPrimitiveValueType other) =>
-      container.isEqual(self.kind, other.kind) &&
       container.isEqual(self.nullable, other.nullable) &&
       container.isEqual(self.primitive, other.primitive) &&
       container.isEqual(self.typeArguments, other.typeArguments);
@@ -719,8 +711,7 @@ abstract class NexemaPrimitiveValueTypeCopyWith<$R,
       get typeArguments;
   @override
   $R call(
-      {String? kind,
-      bool? nullable,
+      {bool? nullable,
       String? primitive,
       List<NexemaValueType>? typeArguments});
 }
@@ -745,12 +736,10 @@ class _NexemaPrimitiveValueTypeCopyWithImpl<$R, $Out extends NexemaValueType>
           (v) => call(typeArguments: v));
   @override
   $R call(
-          {String? kind,
-          bool? nullable,
+          {bool? nullable,
           String? primitive,
           List<NexemaValueType>? typeArguments}) =>
       $then(NexemaPrimitiveValueType(
-          kind: kind ?? $value.kind,
           nullable: nullable ?? $value.nullable,
           primitive: primitive ?? $value.primitive,
           typeArguments: typeArguments ?? $value.typeArguments));
@@ -785,16 +774,14 @@ class NexemaTypeValueTypeMapperElement
   NexemaTypeValueType decode(dynamic v) =>
       checkedType(v, (Map<String, dynamic> map) => fromMap(map));
   NexemaTypeValueType fromMap(Map<String, dynamic> map) => NexemaTypeValueType(
-      kind: container.$get(map, 'kind'),
       nullable: container.$get(map, 'nullable'),
       typeId: container.$get(map, 'typeId'),
-      importAlias: container.$get(map, 'importAlias'));
+      importAlias: container.$getOpt(map, 'importAlias'));
 
   @override
   Function get encoder => encode;
   dynamic encode(NexemaTypeValueType v) => toMap(v);
   Map<String, dynamic> toMap(NexemaTypeValueType n) => {
-        'kind': container.$enc(n.kind, 'kind'),
         'nullable': container.$enc(n.nullable, 'nullable'),
         'typeId': container.$enc(n.typeId, 'typeId'),
         'importAlias': container.$enc(n.importAlias, 'importAlias'),
@@ -803,16 +790,14 @@ class NexemaTypeValueTypeMapperElement
 
   @override
   String stringify(NexemaTypeValueType self) =>
-      'NexemaTypeValueType(kind: ${container.asString(self.kind)}, nullable: ${container.asString(self.nullable)}, typeId: ${container.asString(self.typeId)}, importAlias: ${container.asString(self.importAlias)})';
+      'NexemaTypeValueType(nullable: ${container.asString(self.nullable)}, typeId: ${container.asString(self.typeId)}, importAlias: ${container.asString(self.importAlias)})';
   @override
   int hash(NexemaTypeValueType self) =>
-      container.hash(self.kind) ^
       container.hash(self.nullable) ^
       container.hash(self.typeId) ^
       container.hash(self.importAlias);
   @override
   bool equals(NexemaTypeValueType self, NexemaTypeValueType other) =>
-      container.isEqual(self.kind, other.kind) &&
       container.isEqual(self.nullable, other.nullable) &&
       container.isEqual(self.typeId, other.typeId) &&
       container.isEqual(self.importAlias, other.importAlias);
@@ -854,7 +839,7 @@ abstract class NexemaTypeValueTypeCopyWith<$R, $In extends NexemaTypeValueType,
       chain<$R2, $Out2 extends NexemaValueType>(
           Then<NexemaTypeValueType, $Out2> t, Then<$Out2, $R2> t2);
   @override
-  $R call({String? kind, bool? nullable, String? typeId, String? importAlias});
+  $R call({bool? nullable, String? typeId, String? importAlias});
 }
 
 class _NexemaTypeValueTypeCopyWithImpl<$R, $Out extends NexemaValueType>
@@ -868,14 +853,9 @@ class _NexemaTypeValueTypeCopyWithImpl<$R, $Out extends NexemaValueType>
           _NexemaTypeValueTypeCopyWithImpl($value, t, t2);
 
   @override
-  $R call(
-          {String? kind,
-          bool? nullable,
-          String? typeId,
-          String? importAlias}) =>
+  $R call({bool? nullable, String? typeId, Object? importAlias = $none}) =>
       $then(NexemaTypeValueType(
-          kind: kind ?? $value.kind,
           nullable: nullable ?? $value.nullable,
           typeId: typeId ?? $value.typeId,
-          importAlias: importAlias ?? $value.importAlias));
+          importAlias: or(importAlias, $value.importAlias)));
 }

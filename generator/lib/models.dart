@@ -64,10 +64,9 @@ class NexemaTypeFieldDefinition with NexemaTypeFieldDefinitionMappable {
 
 @MappableClass(discriminatorKey: r'$type')
 abstract class NexemaValueType with NexemaValueTypeMappable {
-  final String kind;
   final bool nullable;
 
-  const NexemaValueType({required this.kind, required this.nullable});
+  const NexemaValueType({required this.nullable});
 }
 
 @MappableClass(discriminatorValue: 'NexemaPrimitiveValueType')
@@ -76,7 +75,6 @@ class NexemaPrimitiveValueType extends NexemaValueType with NexemaPrimitiveValue
   final List<NexemaValueType> typeArguments;
 
   const NexemaPrimitiveValueType({
-    required super.kind,
     required super.nullable,
     required this.primitive,
     required this.typeArguments
@@ -85,10 +83,10 @@ class NexemaPrimitiveValueType extends NexemaValueType with NexemaPrimitiveValue
 
 @MappableClass(discriminatorValue: 'NexemaTypeValueType')
 class NexemaTypeValueType extends NexemaValueType with NexemaTypeValueTypeMappable {
-  final String typeId, importAlias;
+  final String typeId;
+  final String? importAlias;
 
   const NexemaTypeValueType({
-    required super.kind,
     required super.nullable,
     required this.typeId,
     required this.importAlias

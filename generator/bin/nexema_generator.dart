@@ -12,5 +12,4 @@ Future<void> main(List<String> args) async {
   }
 
   var definition = NexemaDefinition.fromJson(input);
-  print(definition);
 }
