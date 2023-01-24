@@ -14,6 +14,8 @@ class NexemaDefinition with NexemaDefinitionMappable {
     required this.hashcode,
     required this.files
   });
+
+  static final fromJson = NexemaDefinitionMapper.fromJson;
 }
 
 @MappableClass()
@@ -49,7 +51,7 @@ class NexemaTypeFieldDefinition with NexemaTypeFieldDefinitionMappable {
   final String name;
   final Map<String, Object?> metadata;
   final Object? defaultValue;
-  final NexemaValueType type;
+  final NexemaValueType? type;
 
   const NexemaTypeFieldDefinition({
     required this.index,
@@ -82,7 +84,7 @@ class NexemaPrimitiveValueType extends NexemaValueType with NexemaPrimitiveValue
 }
 
 @MappableClass(discriminatorValue: 'NexemaTypeValueType')
-class NexemaTypeValueType extends NexemaValueType with NexemaPrimitiveValueTypeMappable {
+class NexemaTypeValueType extends NexemaValueType with NexemaTypeValueTypeMappable {
   final String typeId, importAlias;
 
   const NexemaTypeValueType({

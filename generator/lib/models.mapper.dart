@@ -414,7 +414,7 @@ class NexemaTypeFieldDefinitionMapperElement
           name: container.$get(map, 'name'),
           metadata: container.$get(map, 'metadata'),
           defaultValue: container.$getOpt(map, 'defaultValue'),
-          type: container.$get(map, 'type'));
+          type: container.$getOpt(map, 'type'));
 
   @override
   Function get encoder => encode;
@@ -487,7 +487,7 @@ abstract class NexemaTypeFieldDefinitionCopyWith<
           Then<NexemaTypeFieldDefinition, $Out2> t, Then<$Out2, $R2> t2);
   MapCopyWith<$R, String, Object?, ObjectCopyWith<$R, Object?, Object?>?>
       get metadata;
-  NexemaValueTypeCopyWith<$R, NexemaValueType, NexemaValueType> get type;
+  NexemaValueTypeCopyWith<$R, NexemaValueType, NexemaValueType>? get type;
   $R call(
       {int? index,
       String? name,
@@ -513,21 +513,21 @@ class _NexemaTypeFieldDefinitionCopyWithImpl<$R,
       get metadata => MapCopyWith($value.metadata,
           (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(metadata: v));
   @override
-  NexemaValueTypeCopyWith<$R, NexemaValueType, NexemaValueType> get type =>
-      $value.type.copyWith.chain($identity, (v) => call(type: v));
+  NexemaValueTypeCopyWith<$R, NexemaValueType, NexemaValueType>? get type =>
+      $value.type?.copyWith.chain($identity, (v) => call(type: v));
   @override
   $R call(
           {int? index,
           String? name,
           Map<String, Object?>? metadata,
           Object? defaultValue = $none,
-          NexemaValueType? type}) =>
+          Object? type = $none}) =>
       $then(NexemaTypeFieldDefinition(
           index: index ?? $value.index,
           name: name ?? $value.name,
           metadata: metadata ?? $value.metadata,
           defaultValue: or(defaultValue, $value.defaultValue),
-          type: type ?? $value.type));
+          type: or(type, $value.type)));
 }
 
 class NexemaValueTypeMapper extends MapperBase<NexemaValueType> {
