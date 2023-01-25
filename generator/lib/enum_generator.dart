@@ -1,4 +1,3 @@
-import 'package:dart_style/dart_style.dart';
 import 'package:nexema_generator/models.dart';
 
 class EnumGenerator {
@@ -7,7 +6,7 @@ class EnumGenerator {
   EnumGenerator(this.type);
 
   String generate() {
-    return DartFormatter().format('''
+    return '''
 class ${type.dartName} extends NexemaEnumType {
 
   final EnumTypeState<${type.dartName}> _state;
@@ -57,7 +56,7 @@ class ${type.dartName} extends NexemaEnumType {
   @override
   String toString() => "${type.dartName}(\${_state.name}: \${_state.currentValueIndex})";
 }
-''');
+''';
   }
 
   String _generateField(NexemaTypeFieldDefinition field) {
