@@ -1,6 +1,3 @@
-import 'package:nexema_generator/generator.dart';
-import 'package:nexema_generator/models.dart';
-
 const kPrimitiveMapper = <String, String>{
   "string": "String",
   "uint8": "int",
