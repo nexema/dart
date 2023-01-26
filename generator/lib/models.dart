@@ -37,6 +37,7 @@ class NexemaTypeDefinition with NexemaTypeDefinitionMappable {
   final List<NexemaTypeFieldDefinition> fields;
 
   String get dartName => name.pascalCase;
+  bool get isEnum => modifier == "enum";
 
   const NexemaTypeDefinition({
     required this.id,

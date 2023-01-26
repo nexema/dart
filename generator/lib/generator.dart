@@ -1,44 +1,93 @@
+// ignore_for_file: prefer_void_to_null
+
+import 'package:dart_style/dart_style.dart';
+import 'package:nexema_generator/enum_generator.dart';
 import 'package:nexema_generator/models.dart';
+import 'package:nexema_generator/struct_generator.dart';
 import 'package:nexema_generator/union_generator.dart';
+import 'package:path/path.dart' as path;
+
+const _kDefaultImports = [
+  r"'package:nexema/nexema.dart' as $nex",
+  r"'dart:typed_data' as $td",
+  r"'dart:core' as $core"
+];
 
 class Generator {
   static late final Generator defaultGenerator;
 
   final NexemaDefinition definition;
+  final DartFormatter _formatter = DartFormatter(fixes: StyleFix.all);
   final Map<String, TypeReference> _types = {};
+  final Map<String, Null> _currentFileImports = {}; 
+  
+  NexemaFile? _currentFile;
 
   Generator(this.definition) {
     defaultGenerator = this;
+    _scan();
   }
 
   void generate() {
-    _scan();
-    
     for(var file in definition.files) {
+      _currentFile = file;
+      var fileWriter = StringBuffer();
+
+      // generate each type
       for(var type in file.types) {
-        if(type.modifier == "union") {
-          print(UnionGenerator(type).generate());
-        }
+        String sourceCode = generateDefinition(type);
+        fileWriter.writeln(sourceCode);
       }
+
+      // format source code
+      String fileSourceCode = "${_getFormattedImports()}\n${fileWriter.toString()}";
+      fileSourceCode = _formatter.format(fileSourceCode, uri: file.name);
+
+      _resetImports();
+    }
+  }
+
+  String generateDefinition(NexemaTypeDefinition definition) {
+    switch(definition.modifier) {
+      case "struct": return StructGenerator(definition).generate();
+      case "enum": return EnumGenerator(definition).generate();
+      case "union": return UnionGenerator(definition).generate();
+      default: throw "Unknown modifier ${definition.modifier}";
     }
   }
 
   void _scan() {
     for(var file in definition.files) {
       for(var type in file.types) {
-        _types[type.id] = TypeReference(type: type, path: file.name); 
+        _types[type.id] = TypeReference(
+          type: type, 
+          path: file.name,
+          importAlias: "\$${path.basenameWithoutExtension(file.name)}"
+        ); 
       }
     }
   }
 
   TypeReference resolve(String typeId) {
-    return _types[typeId]!;
+    var typeReference =  _types[typeId]!;
+    _currentFileImports["'${typeReference.path}'"] = null;
+    return typeReference; 
+  }
+
+  void _resetImports() {
+    _currentFileImports.clear();
+    _currentFileImports.addEntries(_kDefaultImports.map((e) => MapEntry(e, null)));
+  }
+
+  String _getFormattedImports() {
+    return _currentFileImports.keys.map((e) => "import '$e';").join("\n");
   }
 }
 
 class TypeReference {
   final NexemaTypeDefinition type;
   final String path;
+  final String importAlias;
 
-  TypeReference({required this.type, required this.path});
+  TypeReference({required this.type, required this.path, required this.importAlias});
 }

@@ -6,76 +6,84 @@ abstract class TypeGenerator {
   Generator get generator => Generator.defaultGenerator;
 
   String getEncoderFor(NexemaValueType valueType, String argumentName) {
+    var sb = StringBuffer();
     if(valueType is NexemaPrimitiveValueType) {
       if(valueType.primitive == "list") {
-        return '''
+        sb.write('''
 writer.beginArray($argumentName.length);
 for(var element in $argumentName) {
   ${getEncoderFor(valueType.typeArguments.first, 'element')}
 }
-''';
+''');
       } else if(valueType.primitive == "map") {
-        return '''
+        sb.write('''
 writer.beginMap($argumentName.length);
 for(var entry in $argumentName.entries) {
   ${getEncoderFor(valueType.typeArguments.first, 'entry.key')}
   ${getEncoderFor(valueType.typeArguments.last, 'entry.value')}
 }
-''';
+''');
       } else {
-        return "writer.${kEncoderMapper[valueType.primitive]!}($argumentName);";
+        sb.write("writer.${kEncoderMapper[valueType.primitive]!}($argumentName);");
       }
     } else if(valueType is NexemaTypeValueType) {
-      return "writer.encodeBinary($argumentName.encode()}";
+      if(Generator.defaultGenerator.resolve(valueType.typeId).type.modifier == "enum") {
+        sb.write("writer.encodeUint8($argumentName.index);");
+      } else {
+        sb.write("writer.encodeBinary($argumentName.encode();");
+      }
     } else {
       throw "Type ${valueType.runtimeType} unknown.";
     }
-}
 
-  String getDecoderFor(NexemaValueType valueType, {String? argumentName, bool addSemicolon = true}) {
-    if(valueType is NexemaPrimitiveValueType) {
-      if(valueType.primitive == "list") {
-        return '''
-$argumentName = List.generate(reader.beginArrayDecode(), (index) => ${getDecoderFor(valueType.typeArguments.first, addSemicolon: false)});
-''';
-      } else if(valueType.primitive == "map") {
-        return '''
-for(int i = 0; i > reader.beginMapDecode(); i++) {
-  reader.${getDecoderFor(valueType.typeArguments.first, argumentName: 'var key')};
-  reader.${getDecoderFor(valueType.typeArguments.last, argumentName: 'var value')};
-  $argumentName[key] = value;
+    if(valueType.nullable) {
+      return '''
+if($argumentName == null) {
+  writer.encodeNull();
+} else {
+  ${sb.toString()}
 }
-''';
-      } else {
-        if(argumentName == null) {
-          return "reader.${kDecoderMapper[valueType.primitive]!}()${addSemicolon ? ';' : ''}";
-        } else {
-          return "$argumentName = reader.${kDecoderMapper[valueType.primitive]!}()${addSemicolon ? ';' : ''}";
-        }
-      }
-    } else if(valueType is NexemaTypeValueType) {
-      return "writer.encodeBinary($argumentName.encode()}";
-    } else {
-      throw "Type ${valueType.runtimeType} unknown.";
+''';  
     }
-}
 
+    return sb.toString();
+}
 
   String getTypeDeclaration(NexemaValueType valueType) {
+    String declaration;
     if(valueType is NexemaPrimitiveValueType) {
       if(valueType.primitive == "list") {
-        return "List<${getTypeDeclaration(valueType.typeArguments.first)}>";
+        declaration = "List<${getTypeDeclaration(valueType.typeArguments.first)}>";
       } else if(valueType.primitive == "map") {
-        return "Map<${getTypeDeclaration(valueType.typeArguments.first)}, ${getTypeDeclaration(valueType.typeArguments.last)}>";
-      } else if(valueType.primitive == "type") {
-        return "";
+        declaration = "Map<${getTypeDeclaration(valueType.typeArguments.first)}, ${getTypeDeclaration(valueType.typeArguments.last)}>";
       } else {
-        return kPrimitiveMapper[valueType.primitive]!;
+        declaration = kPrimitiveMapper[valueType.primitive]!;
       }
     } else if(valueType is NexemaTypeValueType) {
-      return "";
+      var type = Generator.defaultGenerator.resolve(valueType.typeId);
+      declaration = "\$nex.${type.type.dartName}";
     } else {
       throw "Type $runtimeType unknown.";
     }
+
+    if(valueType.nullable) {
+      return "$declaration?";
+    }
+
+    return declaration;
+  }
+
+  String getKind(NexemaValueType valueType) {
+    if(valueType is NexemaPrimitiveValueType) {
+      return valueType.primitive;
+    }
+
+    return "type";
+  }
+
+  /// Returns the default value declaration of an enum, for example: AccountType.unknown.
+  /// It uses the field with the index 0.
+  String getEnumDefaultValueDeclaration(NexemaTypeDefinition definition) {
+    return "${definition.dartName}.${definition.fields.firstWhere((element) => element.index == 0).dartName}";
   }
 }

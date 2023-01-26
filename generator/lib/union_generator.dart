@@ -1,3 +1,4 @@
+import 'package:nexema_generator/mapper.dart';
 import 'package:nexema_generator/models.dart';
 import 'package:nexema_generator/type_generator.dart';
 
@@ -126,9 +127,38 @@ case $fieldsEnumName.${field.dartName}:
   String _writeDecodeField(NexemaTypeFieldDefinition field) {
     return '''
 case ${field.index}:
-  ${getDecoderFor(field.type!, argumentName: field.dartName)}
+  ${_getDecoderFor(field.type!, argumentName: field.dartName)}
   break;
 ''';
   }
+
+  String _getDecoderFor(NexemaValueType valueType, {String? argumentName, bool addSemicolon = true}) {
+    if(valueType is NexemaPrimitiveValueType) {
+      if(valueType.primitive == "list") {
+        return '''
+$argumentName = List.generate(reader.beginArrayDecode(), (index) => ${_getDecoderFor(valueType.typeArguments.first, addSemicolon: false)});
+''';
+      } else if(valueType.primitive == "map") {
+        return '''
+for(int i = 0; i > reader.beginMapDecode(); i++) {
+  reader.${_getDecoderFor(valueType.typeArguments.first, argumentName: 'var key')};
+  reader.${_getDecoderFor(valueType.typeArguments.last, argumentName: 'var value')};
+  $argumentName[key] = value;
+}
+''';
+      } else {
+        if(argumentName == null) {
+          return "reader.${kDecoderMapper[valueType.primitive]!}()${addSemicolon ? ';' : ''}";
+        } else {
+          return "$argumentName = reader.${kDecoderMapper[valueType.primitive]!}()${addSemicolon ? ';' : ''}";
+        }
+      }
+    } else if(valueType is NexemaTypeValueType) {
+      return "writer.encodeBinary($argumentName.encode()}";
+    } else {
+      throw "Type ${valueType.runtimeType} unknown.";
+    }
+}
+
   
 }
