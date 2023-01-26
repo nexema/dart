@@ -25,7 +25,7 @@ class StructTypeState<T extends BaseNexemaType> extends NexemaTypeState<T> {
 
   Object? get(int index) => _values[index];
   
-  void set(int index, Object value) {
+  void set(int index, Object? value) {
     _values[index] = value;
     _hashcode = null;
   } 
