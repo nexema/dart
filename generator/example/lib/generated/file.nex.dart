@@ -3,18 +3,18 @@ import 'dart:typed_data' as $td;
 import 'dart:core' as $core;
 
 class EnumA extends $nex.NexemaEnumType {
-  final $core.String _name;
   final $core.int _index;
+  final $core.String _name;
 
   const EnumA._internal(this._name, this._index);
 
   static const EnumA unknown = EnumA._internal('unknown', 0);
-  static final EnumA red = EnumA._internal('red', 1);
-  static final EnumA green = EnumA._internal('green', 2);
-  static final EnumA blue = EnumA._internal('blue', 3);
+  static const EnumA red = EnumA._internal('red', 1);
+  static const EnumA green = EnumA._internal('green', 2);
+  static const EnumA blue = EnumA._internal('blue', 3);
 
-  $core.int get index => _state.currentValueIndex;
-  $core.String get name => _state.name;
+  $core.int get index => _index;
+  $core.String get name => _name;
 
   static EnumA? byIndex($core.int index) {
     try {
@@ -28,8 +28,8 @@ class EnumA extends $nex.NexemaEnumType {
     return _map[name];
   }
 
-  static final $core.List<EnumA> values = [unknown, red, green, blue];
-  static final _map = <$core.String, EnumA>{
+  static const $core.List<EnumA> values = [unknown, red, green, blue];
+  static const _map = <$core.String, EnumA>{
     "unknown": unknown,
     "red": red,
     "green": green,
@@ -39,12 +39,12 @@ class EnumA extends $nex.NexemaEnumType {
   @$core.override
   $td.Uint8List encode() {
     var writer = $nex.getWriter(1);
-    writer.encodeUint8(_state.currentValueIndex);
+    writer.encodeUint8(_index);
     return writer.takeBytes();
   }
 
   @$core.override
-  $core.int get hashCode => _state.hashCode;
+  $core.int get hashCode => _index;
 
   @$core.override
   $core.bool operator ==($core.Object other) {
@@ -52,12 +52,11 @@ class EnumA extends $nex.NexemaEnumType {
       return false;
     }
 
-    return other._state == _state;
+    return other._index == _index;
   }
 
   @$core.override
-  $core.String toString() =>
-      "EnumA(${_state.name}: ${_state.currentValueIndex})";
+  $core.String toString() => "EnumA($_name: $_index)";
 }
 
 /// Documentation for StructA
