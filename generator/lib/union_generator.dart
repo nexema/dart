@@ -10,19 +10,19 @@ class UnionGenerator extends TypeGenerator {
 
   String generate() {
     return '''${type.documentation.isEmpty ? '' : type.documentation.map((e) => "/// $e").join("\n")}
-class ${type.dartName} extends NexemaType {
+class ${type.dartName} extends \$nex.NexemaType {
 
-  final UnionTypeState<${type.dartName}, $fieldsEnumName> _state;
+  final \$nex.UnionTypeState<${type.dartName}, $fieldsEnumName> _state;
 
-  ${type.dartName}._empty() : _state = UnionTypeState(null, $fieldsEnumName.notSet);
-  ${type.dartName}._(dynamic value, $fieldsEnumName field) : _state = UnionTypeState(value, field);
+  ${type.dartName}._empty() : _state = \$nex.UnionTypeState(null, $fieldsEnumName.notSet);
+  ${type.dartName}._(\$core.dynamic value, $fieldsEnumName field) : _state = \$nex.UnionTypeState(value, field);
 
   $fieldsEnumName get whichField => _state.currentField;
-  bool get hasValue => _state.currentField != $fieldsEnumName.notSet;
+  \$core.bool get hasValue => _state.currentField != $fieldsEnumName.notSet;
 
   ${type.fields.map((e) => _writeFactoryConstructor(e)).join('\n')}
 
-  factory ${type.dartName}.decode(Uint8List buffer) {
+  factory ${type.dartName}.decode(\$td.Uint8List buffer) {
     var empty = ${type.dartName}._empty();
     empty.mergeFrom(buffer);
     return empty;
@@ -42,9 +42,9 @@ class ${type.dartName} extends NexemaType {
     _state.setCurrentValue(null, $fieldsEnumName.notSet);
   }
 
-  @override
-  Uint8List encode() {
-    var writer = getWriter();
+  @\$core.override
+  \$td.Uint8List encode() {
+    var writer = \$nex.getWriter();
     switch(_state.currentField) {
       case $fieldsEnumName.notSet:
         writer.encodeNull();
@@ -56,25 +56,25 @@ class ${type.dartName} extends NexemaType {
     return writer.takeBytes();
   }
 
-  @override
-  void mergeFrom(Uint8List buffer) {
-    var reader = getReader(buffer);
+  @\$core.override
+  void mergeFrom(\$td.Uint8List buffer) {
+    var reader = \$nex.getReader(buffer);
     if(reader.isNextNull()) {
       clear();
     } else {
-      int field = reader.decodeVarint();
+      \$core.int field = reader.decodeVarint();
       switch(field) {
         ${type.fields.map((e) => _writeDecodeField(e)).join("\n")}
       }
     }
   }
 
-  @override
-  int get hashCode => _state.hashCode;
+  @\$core.override
+  \$core.int get hashCode => _state.hashCode;
   
-  @override
-  bool operator ==(Object other) {
-    if(other is! AccountDetails) {
+  @\$core.override
+  \$core.bool operator ==(\$core.Object other) {
+    if(other is! ${type.dartName}) {
       return false;
     }
 
@@ -136,7 +136,7 @@ case ${field.index}:
     if(valueType is NexemaPrimitiveValueType) {
       if(valueType.primitive == "list") {
         return '''
-$argumentName = List.generate(reader.beginArrayDecode(), (index) => ${_getDecoderFor(valueType.typeArguments.first, addSemicolon: false)});
+$argumentName = \$core.List.generate(reader.beginArrayDecode(), (index) => ${_getDecoderFor(valueType.typeArguments.first, addSemicolon: false)});
 ''';
       } else if(valueType.primitive == "map") {
         return '''
@@ -160,5 +160,4 @@ for(int i = 0; i > reader.beginMapDecode(); i++) {
     }
 }
 
-  
 }

@@ -78,13 +78,17 @@ class Generator {
   }
 
   TypeReference resolve(String typeId) {
-    var typeReference =  _types[typeId]!;
-    if(_currentFile!.name != typeReference.path) {
-      _currentFileImports["'${typeReference.path}.dart' as ${typeReference.importAlias}"] = null;
-    } else {
-      typeReference = typeReference.copyWith();
+    try {
+      var typeReference =  _types[typeId]!;
+      if(_currentFile!.name != typeReference.path) {
+        _currentFileImports["'${typeReference.path}.dart' as ${typeReference.importAlias}"] = null;
+      } else {
+        typeReference = typeReference.copyWith();
+      }
+      return typeReference; 
+    } catch(err) {
+      throw Exception("Could not resolve TypeReference for type id '$typeId'. Error: $err");
     }
-    return typeReference; 
   }
 
   void _resetImports() {

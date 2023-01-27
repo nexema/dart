@@ -3,11 +3,12 @@ import 'dart:typed_data' as $td;
 import 'dart:core' as $core;
 
 class EnumA extends $nex.NexemaEnumType {
-  final $nex.EnumTypeState<EnumA> _state;
-  EnumA._internal($core.String name, $core.int index)
-      : _state = $nex.EnumTypeState(name, index);
+  final $core.String _name;
+  final $core.int _index;
 
-  static final EnumA unknown = EnumA._internal('unknown', 0);
+  const EnumA._internal(this._name, this._index);
+
+  static const EnumA unknown = EnumA._internal('unknown', 0);
   static final EnumA red = EnumA._internal('red', 1);
   static final EnumA green = EnumA._internal('green', 2);
   static final EnumA blue = EnumA._internal('blue', 3);
@@ -453,3 +454,110 @@ class StructAFields {
           kind: $nex.FieldValueKind.type,
           typeArguments: null));
 }
+
+class UnionB extends $nex.NexemaType {
+  final $nex.UnionTypeState<UnionB, UnionBField> _state;
+
+  UnionB._empty() : _state = $nex.UnionTypeState(null, UnionBField.notSet);
+  UnionB._($core.dynamic value, UnionBField field)
+      : _state = $nex.UnionTypeState(value, field);
+
+  UnionBField get whichField => _state.currentField;
+  $core.bool get hasValue => _state.currentField != UnionBField.notSet;
+
+  factory UnionB.stringField({required $core.String value}) {
+    return UnionB._(value, UnionBField.stringField);
+  }
+
+  factory UnionB.boolField({required $core.bool value}) {
+    return UnionB._(value, UnionBField.boolField);
+  }
+
+  factory UnionB.decode($td.Uint8List buffer) {
+    var empty = UnionB._empty();
+    empty.mergeFrom(buffer);
+    return empty;
+  }
+
+  factory UnionB({$core.String? stringField, $core.bool? boolField}) {
+    if (stringField != null) {
+      return UnionB.stringField(value: stringField);
+    }
+
+    if (boolField != null) {
+      return UnionB.boolField(value: boolField);
+    }
+
+    return UnionB._(null, UnionBField.notSet);
+  }
+
+  $core.String get stringField =>
+      _state.get<$core.String>(UnionBField.stringField);
+  set stringField($core.String value) {
+    _state.setCurrentValue(value, UnionBField.stringField);
+  }
+
+  $core.bool get boolField => _state.get<$core.bool>(UnionBField.boolField);
+  set boolField($core.bool value) {
+    _state.setCurrentValue(value, UnionBField.boolField);
+  }
+
+  void clear() {
+    _state.setCurrentValue(null, UnionBField.notSet);
+  }
+
+  @$core.override
+  $td.Uint8List encode() {
+    var writer = $nex.getWriter();
+    switch (_state.currentField) {
+      case UnionBField.notSet:
+        writer.encodeNull();
+        break;
+
+      case UnionBField.stringField:
+        writer.encodeVarint(1);
+        writer.encodeString(stringField);
+        break;
+
+      case UnionBField.boolField:
+        writer.encodeVarint(2);
+        writer.encodeBool(boolField);
+        break;
+    }
+
+    return writer.takeBytes();
+  }
+
+  @$core.override
+  void mergeFrom($td.Uint8List buffer) {
+    var reader = $nex.getReader(buffer);
+    if (reader.isNextNull()) {
+      clear();
+    } else {
+      $core.int field = reader.decodeVarint();
+      switch (field) {
+        case 1:
+          stringField = reader.decodeString();
+          break;
+
+        case 2:
+          boolField = reader.decodeBool();
+          break;
+      }
+    }
+  }
+
+  @$core.override
+  $core.int get hashCode => _state.hashCode;
+
+  @$core.override
+  $core.bool operator ==($core.Object other) {
+    if (other is! UnionB) {
+      return false;
+    }
+
+    return other._state == _state;
+  }
+}
+
+enum UnionBField { notSet, stringField, boolField }

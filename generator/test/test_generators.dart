@@ -36,12 +36,23 @@ void main() {
     ]
   );
 
+  final unionDef = NexemaTypeDefinition(
+    id: "union1", 
+    name: "UnionB", 
+    modifier: "union", 
+    documentation: [], 
+    fields: [
+      getField(1, "string_field", getPrimitiveValueType("string")),
+      getField(2, "bool_field", getPrimitiveValueType("bool")),
+    ]
+  );
+
   Generator(
     definition: NexemaDefinition(
       hashcode: 0,
       version: 0,
       files: [
-        NexemaFile(name: "file.nex", types: [enumDef, structDef]),
+        NexemaFile(name: "file.nex", types: [enumDef, structDef, unionDef]),
       ]
     ),
     outputPath: "./example/lib/generated"
