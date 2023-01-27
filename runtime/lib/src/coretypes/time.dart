@@ -1,0 +1,2 @@
+const kTimestampTypeId = "8557b97daef5c8a22fc7289aada44904d7890aaa1507539bfa3ced36946a9cbb";
+const kDurationTypeId = "2dc96bb16e135ba33141311c826d48ff0e43a79b2654275dd48266d215326ecf";
