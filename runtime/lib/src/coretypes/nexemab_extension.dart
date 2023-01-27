@@ -20,4 +20,8 @@ extension CoretypesNexemabWriterExtension on NexemabWriter {
     int nanos = (microsecondsSinceEpoch % Duration.microsecondsPerSecond) * 1000;
     return encodeVarint(seconds).encodeVarint(nanos);
   }
+
+  NexemabWriter encodeDuration(Duration duration) {
+    return encodeVarint(duration.inMicroseconds * 1000);
+  }
 }
