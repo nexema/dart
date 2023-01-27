@@ -150,4 +150,5 @@ class NexemabReader {
     var buflen = decodeVarint();
     return Uint8List.view(_buffer.buffer, _offset, buflen); // avoid copies
   }
+
 }
