@@ -41,7 +41,7 @@ for(var entry in $argumentName.entries) {
 if($argumentName == null) {
   writer.encodeNull();
 } else {
-  ${sb.toString()}
+  ${sb.toString().replaceAll("$argumentName.", "$argumentName!.")}
 }
 ''';  
     }
@@ -61,7 +61,7 @@ if($argumentName == null) {
       }
     } else if(valueType is NexemaTypeValueType) {
       var type = Generator.defaultGenerator.resolve(valueType.typeId);
-      declaration = "\$nex.${type.type.dartName}";
+      declaration = type.getDeclaration();
     } else {
       throw "Type $runtimeType unknown.";
     }

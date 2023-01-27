@@ -1,8 +1,8 @@
-import 'package:dart_style/dart_style.dart';
+import 'dart:io';
+
 import 'package:nexema_generator/generator.dart';
 import 'package:nexema_generator/mapper.dart';
 import 'package:nexema_generator/models.dart';
-import 'package:nexema_generator/struct_generator.dart';
 import 'package:test/scaffolding.dart';
 
 import 'test_utils.dart';
@@ -36,23 +36,23 @@ void main() {
     ]
   );
 
-  Generator(NexemaDefinition(
-    hashcode: 0,
-    version: 0,
-    files: [
-      NexemaFile(name: "file.nex", types: [enumDef, structDef]),
-    ]
-  ));
+  Generator(
+    definition: NexemaDefinition(
+      hashcode: 0,
+      version: 0,
+      files: [
+        NexemaFile(name: "file.nex", types: [enumDef, structDef]),
+      ]
+    ),
+    outputPath: "./example/lib/generated"
+  );
 
   group("StructGenerator", () {
     test("Test generate struct", () {
-      String sourceCode = Generator.defaultGenerator.generateDefinition(structDef);
-      try {
-        sourceCode = DartFormatter(fixes: StyleFix.all).format(sourceCode);
-        print(sourceCode);
-      } catch(err) {
-        print(sourceCode);
-        rethrow;
+      Generator.defaultGenerator.generate();
+      for(var entry in Generator.defaultGenerator.generatedSourceCode.entries) {
+        entry.key.createSync(recursive: true);
+        entry.key.writeAsStringSync(entry.value);
       }
     });
   });

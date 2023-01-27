@@ -5,19 +5,19 @@ import 'package:nexema_generator/type_generator.dart';
 
 class StructGenerator extends TypeGenerator {
   final NexemaTypeDefinition type;
-  String get reflectionClassName => "_${type.name}Fields";
+  String get reflectionClassName => "${type.name}Fields";
 
   StructGenerator(this.type);
 
   String generate() {
     return '''${type.documentation.isEmpty ? '' : type.documentation.map((e) => "/// $e").join("\n")}
 class ${type.dartName} extends \$nex.NexemaType {
-  static final $reflectionClassName fields = $reflectionClassName();
+  static final $reflectionClassName fields = $reflectionClassName._();
 
   final \$nex.StructTypeState<${type.dartName}> _state;
 
   ${type.dartName}._empty() : _state = \$nex.StructTypeState([${List.filled(type.fields.length, "null").join(",")}]), super();
-  ${type.dartName}._internal(\$core.Iterable<dynamic> values) : _state = \$nex.StructTypeState(values.toList(growable: false)), super();
+  ${type.dartName}._internal(\$core.Iterable<\$core.dynamic> values) : _state = \$nex.StructTypeState(values.toList(growable: false)), super();
 
   factory ${type.dartName}({
     ${type.fields.map((e) => _writeFactoryConstructorParameter(e)).join(",\n")}
@@ -33,14 +33,14 @@ class ${type.dartName} extends \$nex.NexemaType {
   
   ${type.fields.map((e) => _writeGetterAndSetter(e)).join("\n")}
 
-  @override
+  @\$core.override
   \$td.Uint8List encode() {
     var writer = \$nex.getWriter();
     ${type.fields.map((e) => getEncoderFor(e.type!, e.dartName)).join("\n")}
     return writer.takeBytes();
   }
   
-  @override
+  @\$core.override
   void mergeFrom(\$td.Uint8List buffer) {
     var reader = \$nex.getReader(buffer);
     _state.setAll([
@@ -48,11 +48,11 @@ class ${type.dartName} extends \$nex.NexemaType {
     ]);
   }
 
-  @override
-  int get hashCode => _state.hashCode;
+  @\$core.override
+  \$core.int get hashCode => _state.hashCode;
   
-  @override
-  bool operator ==(Object other) {
+  @\$core.override
+  \$core.bool operator ==(\$core.Object other) {
     if(other is! ${type.dartName}) {
       return false;
     }
@@ -60,15 +60,16 @@ class ${type.dartName} extends \$nex.NexemaType {
     return other._state == _state;
   }
 
-  @override
-  String toString() => "${type.dartName}(${type.fields.map((e) => '${e.dartName}: \$${e.dartName}').join(", ")})";
+  @\$core.override
+  \$core.String toString() => "${type.dartName}(${type.fields.map((e) => '${e.dartName}: \$${e.dartName}').join(", ")})";
 } 
 
 class $reflectionClassName {
-  $reflectionClassName();
+  $reflectionClassName._();
 
-  // ignore: prefer_function_declarations_over_variables
-  static final \$nex.StateGetter<\$nex.StructTypeState<${type.dartName}>, ${type.dartName}> _stateGetter = (instance) => instance._state;
+  static final \$nex.StateGetter<\$nex.StructTypeState<${type.dartName}>, ${type.dartName}> _stateGetter = _resolveState;
+
+  static \$nex.StructTypeState<${type.dartName}> _resolveState(${type.dartName} instance) => instance._state;
 
   ${type.fields.map((e) => _writeReflectionFieldGetter(e)).join("\n\n")}
 }
@@ -121,9 +122,9 @@ set ${field.dartName}($declaration value) {
     } else if(valueType is NexemaTypeValueType) {
       var reference = Generator.defaultGenerator.resolve(valueType.typeId);
       if(reference.type.isEnum) {
-        decoder = "${reference.type.dartName}.byIndex(reader.decodeUint8()) ?? ${getEnumDefaultValueDeclaration(reference.type)}";
+        decoder = "${reference.getDeclaration()}.byIndex(reader.decodeUint8()) ?? ${getEnumDefaultValueDeclaration(reference.type)}";
       } else {
-        decoder = "${reference.type.dartName}.decode(reader.decodeBinary())";
+        decoder = "${reference.getDeclaration()}.decode(reader.decodeBinary())";
       }
 
     } else {
