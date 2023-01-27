@@ -7,17 +7,17 @@ class EnumGenerator {
 
   String generate() {
     return '''
-class ${type.dartName} extends NexemaEnumType {
+class ${type.dartName} extends \$nex.NexemaEnumType {
 
-  final EnumTypeState<${type.dartName}> _state;
-  ${type.dartName}._internal(String name, int index) : _state = EnumTypeState(name, index);
+  final \$nex.EnumTypeState<${type.dartName}> _state;
+  ${type.dartName}._internal(\$core.String name, \$core.int index) : _state = \$nex.EnumTypeState(name, index);
 
   ${type.fields.map((e) => _generateField(e)).join("\n")}
 
-  int get index => _state.currentValueIndex;
-  String get name => _state.name;
+  \$core.int get index => _state.currentValueIndex;
+  \$core.String get name => _state.name;
 
-  static ${type.dartName}? byIndex(int index) {
+  static ${type.dartName}? byIndex(\$core.int index) {
     try {
       return values[index];
     } catch(_) {
@@ -25,41 +25,41 @@ class ${type.dartName} extends NexemaEnumType {
     }
   }
 
-  static ${type.dartName}? byName(String name) {
+  static ${type.dartName}? byName(\$core.String name) {
     return _map[name];
   }
 
-  static final List<${type.dartName}> values = [${type.fields.map((e) => e.dartName).join(", ")}];
-  static final _map = <String, ${type.dartName}>{
+  static final \$core.List<${type.dartName}> values = [${type.fields.map((e) => e.dartName).join(", ")}];
+  static final _map = <\$core.String, ${type.dartName}>{
     ${type.fields.map((e) => '"${e.dartName}": ${e.dartName}').join(",\n")}
   };
 
-  @override
-  Uint8List encode() {
-    var writer = getWriter(1);
+  @\$core.override
+  \$td.Uint8List encode() {
+    var writer = \$nex.getWriter(1);
     writer.encodeUint8(_state.currentValueIndex);
     return writer.takeBytes();
   }
 
-  @override
-  int get hashCode => _state.hashCode;
+  @\$core.override
+  \$core.int get hashCode => _state.hashCode;
   
-  @override
-  bool operator ==(Object other) {
-    if(other is! AccountType) {
+  @\$core.override
+  \$core.bool operator ==(\$core.Object other) {
+    if(other is! ${type.dartName}) {
       return false;
     }
 
     return other._state == _state;
   }
 
-  @override
-  String toString() => "${type.dartName}(\${_state.name}: \${_state.currentValueIndex})";
+  @\$core.override
+  \$core.String toString() => "${type.dartName}(\${_state.name}: \${_state.currentValueIndex})";
 }
 ''';
   }
 
   String _generateField(NexemaTypeFieldDefinition field) {
-    return '''static final ${type.dartName} ${field.dartName} = ${type.dartName}._internal(${field.dartName}, ${field.index});''';
+    return '''static final ${type.dartName} ${field.dartName} = ${type.dartName}._internal('${field.dartName}', ${field.index});''';
   }
 }

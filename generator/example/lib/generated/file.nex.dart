@@ -2,19 +2,20 @@ import 'package:nexema/nexema.dart' as $nex;
 import 'dart:typed_data' as $td;
 import 'dart:core' as $core;
 
-class EnumA extends NexemaEnumType {
-  final EnumTypeState<EnumA> _state;
-  EnumA._internal(String name, int index) : _state = EnumTypeState(name, index);
+class EnumA extends $nex.NexemaEnumType {
+  final $nex.EnumTypeState<EnumA> _state;
+  EnumA._internal($core.String name, $core.int index)
+      : _state = $nex.EnumTypeState(name, index);
 
-  static final EnumA unknown = EnumA._internal(unknown, 0);
-  static final EnumA red = EnumA._internal(red, 1);
-  static final EnumA green = EnumA._internal(green, 2);
-  static final EnumA blue = EnumA._internal(blue, 3);
+  static final EnumA unknown = EnumA._internal('unknown', 0);
+  static final EnumA red = EnumA._internal('red', 1);
+  static final EnumA green = EnumA._internal('green', 2);
+  static final EnumA blue = EnumA._internal('blue', 3);
 
-  int get index => _state.currentValueIndex;
-  String get name => _state.name;
+  $core.int get index => _state.currentValueIndex;
+  $core.String get name => _state.name;
 
-  static EnumA? byIndex(int index) {
+  static EnumA? byIndex($core.int index) {
     try {
       return values[index];
     } catch (_) {
@@ -22,39 +23,40 @@ class EnumA extends NexemaEnumType {
     }
   }
 
-  static EnumA? byName(String name) {
+  static EnumA? byName($core.String name) {
     return _map[name];
   }
 
-  static final List<EnumA> values = [unknown, red, green, blue];
-  static final _map = <String, EnumA>{
+  static final $core.List<EnumA> values = [unknown, red, green, blue];
+  static final _map = <$core.String, EnumA>{
     "unknown": unknown,
     "red": red,
     "green": green,
     "blue": blue
   };
 
-  @override
-  Uint8List encode() {
-    var writer = getWriter(1);
+  @$core.override
+  $td.Uint8List encode() {
+    var writer = $nex.getWriter(1);
     writer.encodeUint8(_state.currentValueIndex);
     return writer.takeBytes();
   }
 
-  @override
-  int get hashCode => _state.hashCode;
+  @$core.override
+  $core.int get hashCode => _state.hashCode;
 
-  @override
-  bool operator ==(Object other) {
-    if (other is! AccountType) {
+  @$core.override
+  $core.bool operator ==($core.Object other) {
+    if (other is! EnumA) {
       return false;
     }
 
     return other._state == _state;
   }
 
-  @override
-  String toString() => "EnumA(${_state.name}: ${_state.currentValueIndex})";
+  @$core.override
+  $core.String toString() =>
+      "EnumA(${_state.name}: ${_state.currentValueIndex})";
 }
 
 /// Documentation for StructA
