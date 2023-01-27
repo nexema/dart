@@ -30,7 +30,7 @@ for(var entry in $argumentName.entries) {
       if(Generator.defaultGenerator.resolve(valueType.typeId).type.modifier == "enum") {
         sb.write("writer.encodeUint8($argumentName.index);");
       } else {
-        sb.write("writer.encodeBinary($argumentName.encode();");
+        sb.write("writer.encodeBinary($argumentName.encode());");
       }
     } else {
       throw "Type ${valueType.runtimeType} unknown.";
@@ -60,8 +60,8 @@ if($argumentName == null) {
         declaration = kPrimitiveMapper[valueType.primitive]!;
       }
     } else if(valueType is NexemaTypeValueType) {
-      var type = Generator.defaultGenerator.resolve(valueType.typeId);
-      declaration = type.getDeclaration();
+      var reference = Generator.defaultGenerator.resolve(valueType.typeId);
+      declaration = getDeclarationForReference(reference);
     } else {
       throw "Type $runtimeType unknown.";
     }
@@ -83,7 +83,15 @@ if($argumentName == null) {
 
   /// Returns the default value declaration of an enum, for example: AccountType.unknown.
   /// It uses the field with the index 0.
-  String getEnumDefaultValueDeclaration(NexemaTypeDefinition definition) {
-    return "${definition.dartName}.${definition.fields.firstWhere((element) => element.index == 0).dartName}";
+  String getEnumDefaultValueDeclaration(TypeReference ref) {
+    return "${getDeclarationForReference(ref)}.${ref.type.fields.firstWhere((element) => element.index == 0).dartName}";
+  }
+
+  String getDeclarationForReference(TypeReference reference) {
+    if(reference.importAlias == null || reference.path == generator.currentFilePath) {
+      return reference.type.dartName;
+    }
+
+    return "${reference.importAlias}.${reference.type.dartName}";
   }
 }

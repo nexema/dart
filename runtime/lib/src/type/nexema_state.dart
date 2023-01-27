@@ -4,19 +4,6 @@ abstract class NexemaTypeState<T extends BaseNexemaType> {
   const NexemaTypeState();
 }
 
-class EnumTypeState<T extends NexemaEnumType> extends NexemaTypeState<T> {
-  final int currentValueIndex;
-  final String name;
-
-  const EnumTypeState(this.name, this.currentValueIndex);
-
-  @override
-  int get hashCode => currentValueIndex;
-  
-  @override
-  bool operator ==(Object other) => (other as EnumTypeState<T>).currentValueIndex == currentValueIndex;
-}
-
 class StructTypeState<T extends BaseNexemaType> extends NexemaTypeState<T> {
   List<dynamic> _values;
   int? _hashcode;

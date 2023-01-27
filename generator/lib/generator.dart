@@ -8,7 +8,7 @@ import 'package:nexema_generator/enum_generator.dart';
 import 'package:nexema_generator/models.dart';
 import 'package:nexema_generator/struct_generator.dart';
 import 'package:nexema_generator/union_generator.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart' as p;
 
 const _kDefaultImports = [
   r"'package:nexema/nexema.dart' as $nex",
@@ -19,7 +19,7 @@ const _kDefaultImports = [
 class Generator {
   static late final Generator defaultGenerator;
 
-  final String outputPath;
+  final GeneratorSettings settings;
   final NexemaDefinition definition;
   final DartFormatter _formatter = DartFormatter(fixes: StyleFix.all);
   final Map<String, TypeReference> _types = {};
@@ -27,13 +27,14 @@ class Generator {
   final Map<String, Null> _currentFileImports = {}; 
   
   Map<File, String> get generatedSourceCode => UnmodifiableMapView(_generatedSourceCode);
+  String get currentFilePath => p.join(settings.outputPath, _currentFile!.name);
 
   NexemaFile? _currentFile;
 
-  Generator({required this.definition, required this.outputPath}) {
+  Generator({required this.definition, required this.settings}) {
     _resetImports();
-    defaultGenerator = this;
     _scan();
+    defaultGenerator = this;
   }
 
   void generate() {
@@ -49,8 +50,13 @@ class Generator {
 
       // format source code
       String fileSourceCode = "${_getFormattedImports()}\n${fileWriter.toString()}";
-      fileSourceCode = _formatter.format(fileSourceCode, uri: file.name);
-      _generatedSourceCode[File(path.join(outputPath, "${file.name}.dart"))] = fileSourceCode;
+      try {
+        fileSourceCode = _formatter.format(fileSourceCode, uri: file.name);
+        _generatedSourceCode[File(p.join(settings.outputPath, "${file.name}.dart"))] = fileSourceCode;
+      } catch(err) {
+        print(fileSourceCode);
+        rethrow;
+      }
 
       _resetImports();
     }
@@ -65,29 +71,33 @@ class Generator {
     }
   }
 
+  TypeReference resolve(String typeId) {
+    try {
+      var typeReference =  _types[typeId]!;
+      if(currentFilePath != typeReference.path) {
+        _currentFileImports["'${_resolveImport(typeReference.path)}.dart' as ${typeReference.importAlias}"] = null;
+      }
+      return typeReference; 
+    } catch(err) {
+      throw Exception("Could not resolve TypeReference for type id '$typeId'. Error: $err");
+    }
+  }
+
+  /// gets the absolute path to [path] from [currentFilePath]
+  String _resolveImport(String path) {
+    String relative = p.relative(path, from: p.dirname(currentFilePath));
+    return relative;
+  }
+
   void _scan() {
     for(var file in definition.files) {
       for(var type in file.types) {
         _types[type.id] = TypeReference(
           type: type, 
-          path: file.name,
-          importAlias: "\$${path.basenameWithoutExtension(file.name)}"
+          path: p.join(settings.outputPath, file.name),
+          importAlias: "\$${p.basenameWithoutExtension(file.name)}"
         ); 
       }
-    }
-  }
-
-  TypeReference resolve(String typeId) {
-    try {
-      var typeReference =  _types[typeId]!;
-      if(_currentFile!.name != typeReference.path) {
-        _currentFileImports["'${typeReference.path}.dart' as ${typeReference.importAlias}"] = null;
-      } else {
-        typeReference = typeReference.copyWith();
-      }
-      return typeReference; 
-    } catch(err) {
-      throw Exception("Could not resolve TypeReference for type id '$typeId'. Error: $err");
     }
   }
 
@@ -107,18 +117,4 @@ class TypeReference {
   final String? importAlias;
 
   TypeReference({required this.type, required this.path, required this.importAlias});
-
-  TypeReference copyWith({String? importAlias}) => TypeReference(
-    type: type,
-    path: path,
-    importAlias: importAlias
-  );
-
-  String getDeclaration() {
-    if(importAlias == null) {
-      return type.dartName;
-    }
-
-    return "$importAlias.${type.dartName}";
-  }
 }

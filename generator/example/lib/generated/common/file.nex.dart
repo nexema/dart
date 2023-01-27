@@ -1,6 +1,7 @@
 import 'package:nexema/nexema.dart' as $nex;
 import 'dart:typed_data' as $td;
 import 'dart:core' as $core;
+import '../identity.nex.dart' as $identity;
 
 class EnumA extends $nex.NexemaEnumType {
   final $core.int _index;
@@ -83,6 +84,7 @@ class StructA extends $nex.NexemaType {
           null,
           null,
           null,
+          null,
           null
         ]),
         super();
@@ -107,7 +109,8 @@ class StructA extends $nex.NexemaType {
       required $core.double float32Field,
       required $core.double float64Field,
       required EnumA enumField,
-      EnumA? nullableEnum}) {
+      EnumA? nullableEnum,
+      $identity.AccountType? accountType}) {
     return StructA._internal([
       stringField,
       uint8Field,
@@ -125,7 +128,8 @@ class StructA extends $nex.NexemaType {
       float32Field,
       float64Field,
       enumField,
-      nullableEnum
+      nullableEnum,
+      accountType
     ]);
   }
 
@@ -220,6 +224,12 @@ class StructA extends $nex.NexemaType {
     _state.set(16, value);
   }
 
+  $identity.AccountType? get accountType =>
+      _state.get(17) as $identity.AccountType?;
+  set accountType($identity.AccountType? value) {
+    _state.set(17, value);
+  }
+
   @$core.override
   $td.Uint8List encode() {
     var writer = $nex.getWriter();
@@ -243,6 +253,12 @@ class StructA extends $nex.NexemaType {
       writer.encodeNull();
     } else {
       writer.encodeUint8(nullableEnum!.index);
+    }
+
+    if (accountType == null) {
+      writer.encodeNull();
+    } else {
+      writer.encodeUint8(accountType!.index);
     }
 
     return writer.takeBytes();
@@ -270,7 +286,11 @@ class StructA extends $nex.NexemaType {
       EnumA.byIndex(reader.decodeUint8()) ?? EnumA.unknown,
       reader.isNextNull()
           ? null
-          : (EnumA.byIndex(reader.decodeUint8()) ?? EnumA.unknown)
+          : (EnumA.byIndex(reader.decodeUint8()) ?? EnumA.unknown),
+      reader.isNextNull()
+          ? null
+          : ($identity.AccountType.byIndex(reader.decodeUint8()) ??
+              $identity.AccountType.unknown)
     ]);
   }
 
@@ -288,7 +308,7 @@ class StructA extends $nex.NexemaType {
 
   @$core.override
   $core.String toString() =>
-      "StructA(stringField: $stringField, uint8Field: $uint8Field, uint16Field: $uint16Field, uint32Field: $uint32Field, uint64Field: $uint64Field, int8Field: $int8Field, int16Field: $int16Field, int32Field: $int32Field, int64Field: $int64Field, binaryField: $binaryField, boolField: $boolField, intField: $intField, uintField: $uintField, float32Field: $float32Field, float64Field: $float64Field, enumField: $enumField, nullableEnum: $nullableEnum)";
+      "StructA(stringField: $stringField, uint8Field: $uint8Field, uint16Field: $uint16Field, uint32Field: $uint32Field, uint64Field: $uint64Field, int8Field: $int8Field, int16Field: $int16Field, int32Field: $int32Field, int64Field: $int64Field, binaryField: $binaryField, boolField: $boolField, intField: $intField, uintField: $uintField, float32Field: $float32Field, float64Field: $float64Field, enumField: $enumField, nullableEnum: $nullableEnum, accountType: $accountType)";
 }
 
 class StructAFields {
@@ -452,6 +472,15 @@ class StructAFields {
           isNullable: true,
           kind: $nex.FieldValueKind.type,
           typeArguments: null));
+
+  final accountType = $nex.FieldInfo<StructA>(_stateGetter,
+      name: "account_type",
+      dartName: "accountType",
+      index: 17,
+      valueType: const $nex.FieldValueType(
+          isNullable: true,
+          kind: $nex.FieldValueKind.type,
+          typeArguments: null));
 }
 
 class UnionB extends $nex.NexemaType {
@@ -472,19 +501,30 @@ class UnionB extends $nex.NexemaType {
     return UnionB._(value, UnionBField.boolField);
   }
 
+  factory UnionB.accountType({required $identity.AccountType value}) {
+    return UnionB._(value, UnionBField.accountType);
+  }
+
   factory UnionB.decode($td.Uint8List buffer) {
     var empty = UnionB._empty();
     empty.mergeFrom(buffer);
     return empty;
   }
 
-  factory UnionB({$core.String? stringField, $core.bool? boolField}) {
+  factory UnionB(
+      {$core.String? stringField,
+      $core.bool? boolField,
+      $identity.AccountType? accountType}) {
     if (stringField != null) {
       return UnionB.stringField(value: stringField);
     }
 
     if (boolField != null) {
       return UnionB.boolField(value: boolField);
+    }
+
+    if (accountType != null) {
+      return UnionB.accountType(value: accountType);
     }
 
     return UnionB._(null, UnionBField.notSet);
@@ -499,6 +539,12 @@ class UnionB extends $nex.NexemaType {
   $core.bool get boolField => _state.get<$core.bool>(UnionBField.boolField);
   set boolField($core.bool value) {
     _state.setCurrentValue(value, UnionBField.boolField);
+  }
+
+  $identity.AccountType get accountType =>
+      _state.get<$identity.AccountType>(UnionBField.accountType);
+  set accountType($identity.AccountType value) {
+    _state.setCurrentValue(value, UnionBField.accountType);
   }
 
   void clear() {
@@ -522,6 +568,11 @@ class UnionB extends $nex.NexemaType {
         writer.encodeVarint(2);
         writer.encodeBool(boolField);
         break;
+
+      case UnionBField.accountType:
+        writer.encodeVarint(3);
+        writer.encodeUint8(accountType.index);
+        break;
     }
 
     return writer.takeBytes();
@@ -542,6 +593,11 @@ class UnionB extends $nex.NexemaType {
         case 2:
           boolField = reader.decodeBool();
           break;
+
+        case 3:
+          accountType = $identity.AccountType.byIndex(reader.decodeUint8()) ??
+              $identity.AccountType.unknown;
+          break;
       }
     }
   }
@@ -559,4 +615,4 @@ class UnionB extends $nex.NexemaType {
   }
 }
 
-enum UnionBField { notSet, stringField, boolField }
+enum UnionBField { notSet, stringField, boolField, accountType }

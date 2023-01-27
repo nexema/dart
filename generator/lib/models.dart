@@ -5,6 +5,12 @@ import 'package:recase/recase.dart';
 
 part 'models.mapper.dart';
 
+class GeneratorSettings {
+  final String outputPath;
+
+  GeneratorSettings({required this.outputPath});
+}
+
 @MappableClass()
 class NexemaDefinition with NexemaDefinitionMappable {
   final int version, hashcode;
@@ -46,7 +52,6 @@ class NexemaTypeDefinition with NexemaTypeDefinitionMappable {
     required this.documentation,
     required this.fields
   });
-
 }
 
 @MappableClass()

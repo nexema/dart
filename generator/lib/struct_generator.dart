@@ -122,9 +122,9 @@ set ${field.dartName}($declaration value) {
     } else if(valueType is NexemaTypeValueType) {
       var reference = Generator.defaultGenerator.resolve(valueType.typeId);
       if(reference.type.isEnum) {
-        decoder = "${reference.getDeclaration()}.byIndex(reader.decodeUint8()) ?? ${getEnumDefaultValueDeclaration(reference.type)}";
+        decoder = "${getDeclarationForReference(reference)}.byIndex(reader.decodeUint8()) ?? ${getEnumDefaultValueDeclaration(reference)}";
       } else {
-        decoder = "${reference.getDeclaration()}.decode(reader.decodeBinary())";
+        decoder = "${getDeclarationForReference(reference)}.decode(reader.decodeBinary())";
       }
 
     } else {

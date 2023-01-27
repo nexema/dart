@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:nexema_generator/generator.dart';
 import 'package:nexema_generator/mapper.dart';
 import 'package:nexema_generator/models.dart';
@@ -21,6 +19,18 @@ void main() {
     ]
   );
 
+  final accountTypeEnumDef = NexemaTypeDefinition(
+    id: "accountTypeEnum1", 
+    name: "AccountType", 
+    modifier: "enum", 
+    documentation: [], 
+    fields: [
+      getEnumField(0, "unknown"),
+      getEnumField(1, "customer"),
+      getEnumField(2, "admin"),
+    ]
+  );
+
   final structDef = NexemaTypeDefinition(
     id: "struct1", 
     name: "StructA", 
@@ -33,6 +43,7 @@ void main() {
       }),
       getField(15, "enum_field", getTypeValueType(enumDef.id)),
       getField(16, "nullable_enum", getTypeValueType(enumDef.id, true)),
+      getField(17, "account_type", getTypeValueType(accountTypeEnumDef.id, true))
     ]
   );
 
@@ -44,6 +55,7 @@ void main() {
     fields: [
       getField(1, "string_field", getPrimitiveValueType("string")),
       getField(2, "bool_field", getPrimitiveValueType("bool")),
+      getField(3, "account_type", getTypeValueType(accountTypeEnumDef.id))
     ]
   );
 
@@ -52,10 +64,13 @@ void main() {
       hashcode: 0,
       version: 0,
       files: [
-        NexemaFile(name: "file.nex", types: [enumDef, structDef, unionDef]),
+        NexemaFile(name: "common/file.nex", types: [enumDef, structDef, unionDef]),
+        NexemaFile(name: "identity.nex", types: [accountTypeEnumDef])
       ]
     ),
-    outputPath: "./example/lib/generated"
+    settings: GeneratorSettings(
+      outputPath: "./example/lib/generated",
+    )
   );
 
   group("StructGenerator", () {

@@ -1,3 +1,4 @@
+import 'package:nexema_generator/generator.dart';
 import 'package:nexema_generator/mapper.dart';
 import 'package:nexema_generator/models.dart';
 import 'package:nexema_generator/type_generator.dart';
@@ -154,7 +155,12 @@ for(int i = 0; i > reader.beginMapDecode(); i++) {
         }
       }
     } else if(valueType is NexemaTypeValueType) {
-      return "writer.encodeBinary($argumentName.encode()}";
+      var reference = Generator.defaultGenerator.resolve(valueType.typeId);
+      if(reference.type.isEnum) {
+        return "$argumentName = ${getDeclarationForReference(reference)}.byIndex(reader.decodeUint8()) ?? ${getEnumDefaultValueDeclaration(reference)};";
+      }
+
+      return "$argumentName = ${getDeclarationForReference(reference)}.decode(reader.decodeBinary());";
     } else {
       throw "Type ${valueType.runtimeType} unknown.";
     }

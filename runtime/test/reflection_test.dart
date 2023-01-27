@@ -159,15 +159,17 @@ class _UserFields {
 
 class AccountType extends NexemaEnumType {
 
-  final EnumTypeState<AccountType> _state;
-  AccountType._internal(String name, int index) : _state = EnumTypeState(name, index);
+  final String _name;
+  final int _index;
 
-  static final AccountType unknown = AccountType._internal("unknown", 0); 
-  static final AccountType administrator = AccountType._internal("administrator", 1); 
-  static final AccountType customer = AccountType._internal("customer", 2); 
+  const AccountType._internal(this._name, this._index);
 
-  int get index => _state.currentValueIndex;
-  String get name => _state.name;
+  static const AccountType unknown = AccountType._internal("unknown", 0); 
+  static const AccountType administrator = AccountType._internal("administrator", 1); 
+  static const AccountType customer = AccountType._internal("customer", 2); 
+
+  int get index => _index;
+  String get name => _name;
 
   static AccountType? byIndex(int index) {
     try {
@@ -181,8 +183,8 @@ class AccountType extends NexemaEnumType {
     return _map[name];
   }
 
-  static final List<AccountType> values = [unknown, administrator, customer];
-  static final _map = <String, AccountType>{
+  static const List<AccountType> values = [unknown, administrator, customer];
+  static const _map = <String, AccountType>{
     "unknown": unknown,
     "administrator": administrator,
     "customer": customer
@@ -191,12 +193,12 @@ class AccountType extends NexemaEnumType {
   @override
   Uint8List encode() {
     var writer = getWriter(1);
-    writer.encodeUint8(_state.currentValueIndex);
+    writer.encodeUint8(_index);
     return writer.takeBytes();
   }
 
   @override
-  int get hashCode => _state.hashCode;
+  int get hashCode => _index;
   
   @override
   bool operator ==(Object other) {
@@ -204,11 +206,11 @@ class AccountType extends NexemaEnumType {
       return false;
     }
 
-    return other._state == _state;
+    return other._index == _index;
   }
 
   @override
-  String toString() => "AccountType(${_state.name}: ${_state.currentValueIndex})";
+  String toString() => "AccountType($_name: $_index)";
 }
 
 class AccountDetails extends NexemaType {

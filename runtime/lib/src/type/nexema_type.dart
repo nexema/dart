@@ -10,6 +10,8 @@ part 'nexema_state.dart';
 
 /// Base class for every Nexema generated type.
 abstract class BaseNexemaType {
+  const BaseNexemaType();
+
   Uint8List encode();
 }
 
@@ -18,5 +20,5 @@ abstract class NexemaType extends BaseNexemaType {
 }
 
 abstract class NexemaEnumType extends BaseNexemaType {
-
+  const NexemaEnumType();
 }
