@@ -83,7 +83,7 @@ class $reflectionClassName {
   String _writeFieldValueType(NexemaValueType valueType) {
     var typeArguments = <String>[];
     if(valueType is NexemaPrimitiveValueType) {
-      typeArguments.addAll(valueType.typeArguments.map((e) => _writeFieldValueType(valueType)));
+      typeArguments.addAll(valueType.arguments.map((e) => _writeFieldValueType(valueType)));
     }
 
     return '''
@@ -113,14 +113,14 @@ set ${field.dartName}($declaration value) {
     String decoder;
     if(valueType is NexemaPrimitiveValueType) {
       if(valueType.primitive == "list") {
-        decoder = '''\$core.List.generate(reader.beginArrayDecode(), (index) => ${_getDecoderFor(valueType.typeArguments.first)});''';
+        decoder = '''\$core.List.generate(reader.beginArrayDecode(), (index) => ${_getDecoderFor(valueType.arguments.first)});''';
       } else if(valueType.primitive == "map") {
-        decoder = '''\$nex.generateMap(reader.beginMapDecode(), () => ${_getDecoderFor(valueType.typeArguments.first)}, () => ${_getDecoderFor(valueType.typeArguments.last)})''';
+        decoder = '''\$nex.generateMap(reader.beginMapDecode(), () => ${_getDecoderFor(valueType.arguments.first)}, () => ${_getDecoderFor(valueType.arguments.last)})''';
       } else {
         decoder = '''reader.${kDecoderMapper[valueType.primitive]}()''';
       }
     } else if(valueType is NexemaTypeValueType) {
-      var reference = Generator.defaultGenerator.resolve(valueType.typeId);
+      var reference = Generator.defaultGenerator.resolve(valueType.objectId);
       if(reference.type.isEnum) {
         decoder = "${getDeclarationForReference(reference)}.byIndex(reader.decodeUint8()) ?? ${getEnumDefaultValueDeclaration(reference)}";
       } else {

@@ -12,22 +12,22 @@ abstract class TypeGenerator {
         sb.write('''
 writer.beginArray($argumentName.length);
 for(var element in $argumentName) {
-  ${getEncoderFor(valueType.typeArguments.first, 'element')}
+  ${getEncoderFor(valueType.arguments.first, 'element')}
 }
 ''');
       } else if(valueType.primitive == "map") {
         sb.write('''
 writer.beginMap($argumentName.length);
 for(var entry in $argumentName.entries) {
-  ${getEncoderFor(valueType.typeArguments.first, 'entry.key')}
-  ${getEncoderFor(valueType.typeArguments.last, 'entry.value')}
+  ${getEncoderFor(valueType.arguments.first, 'entry.key')}
+  ${getEncoderFor(valueType.arguments.last, 'entry.value')}
 }
 ''');
       } else {
         sb.write("writer.${kEncoderMapper[valueType.primitive]!}($argumentName);");
       }
     } else if(valueType is NexemaTypeValueType) {
-      if(Generator.defaultGenerator.resolve(valueType.typeId).type.modifier == "enum") {
+      if(Generator.defaultGenerator.resolve(valueType.objectId).type.modifier == "enum") {
         sb.write("writer.encodeUint8($argumentName.index);");
       } else {
         sb.write("writer.encodeBinary($argumentName.encode());");
@@ -53,14 +53,14 @@ if($argumentName == null) {
     String declaration;
     if(valueType is NexemaPrimitiveValueType) {
       if(valueType.primitive == "list") {
-        declaration = "List<${getTypeDeclaration(valueType.typeArguments.first)}>";
+        declaration = "List<${getTypeDeclaration(valueType.arguments.first)}>";
       } else if(valueType.primitive == "map") {
-        declaration = "Map<${getTypeDeclaration(valueType.typeArguments.first)}, ${getTypeDeclaration(valueType.typeArguments.last)}>";
+        declaration = "Map<${getTypeDeclaration(valueType.arguments.first)}, ${getTypeDeclaration(valueType.arguments.last)}>";
       } else {
         declaration = kPrimitiveMapper[valueType.primitive]!;
       }
     } else if(valueType is NexemaTypeValueType) {
-      var reference = Generator.defaultGenerator.resolve(valueType.typeId);
+      var reference = Generator.defaultGenerator.resolve(valueType.objectId);
       declaration = getDeclarationForReference(reference);
     } else {
       throw "Type $runtimeType unknown.";

@@ -5,106 +5,105 @@
 
 part of 'models.dart';
 
-class NexemaDefinitionMapper extends MapperBase<NexemaDefinition> {
+class NexemaSnapshotMapper extends MapperBase<NexemaSnapshot> {
   static MapperContainer container = MapperContainer(
-    mappers: {NexemaDefinitionMapper()},
+    mappers: {NexemaSnapshotMapper()},
   )..linkAll({NexemaFileMapper.container});
 
   @override
-  NexemaDefinitionMapperElement createElement(MapperContainer container) {
-    return NexemaDefinitionMapperElement._(this, container);
+  NexemaSnapshotMapperElement createElement(MapperContainer container) {
+    return NexemaSnapshotMapperElement._(this, container);
   }
 
   @override
-  String get id => 'NexemaDefinition';
+  String get id => 'NexemaSnapshot';
 
-  static final fromMap = container.fromMap<NexemaDefinition>;
-  static final fromJson = container.fromJson<NexemaDefinition>;
+  static final fromMap = container.fromMap<NexemaSnapshot>;
+  static final fromJson = container.fromJson<NexemaSnapshot>;
 }
 
-class NexemaDefinitionMapperElement
-    extends MapperElementBase<NexemaDefinition> {
-  NexemaDefinitionMapperElement._(super.mapper, super.container);
+class NexemaSnapshotMapperElement extends MapperElementBase<NexemaSnapshot> {
+  NexemaSnapshotMapperElement._(super.mapper, super.container);
 
   @override
   Function get decoder => decode;
-  NexemaDefinition decode(dynamic v) =>
+  NexemaSnapshot decode(dynamic v) =>
       checkedType(v, (Map<String, dynamic> map) => fromMap(map));
-  NexemaDefinition fromMap(Map<String, dynamic> map) => NexemaDefinition(
+  NexemaSnapshot fromMap(Map<String, dynamic> map) => NexemaSnapshot(
       version: container.$get(map, 'version'),
       hashcode: container.$get(map, 'hashcode'),
       files: container.$get(map, 'files'));
 
   @override
   Function get encoder => encode;
-  dynamic encode(NexemaDefinition v) => toMap(v);
-  Map<String, dynamic> toMap(NexemaDefinition n) => {
+  dynamic encode(NexemaSnapshot v) => toMap(v);
+  Map<String, dynamic> toMap(NexemaSnapshot n) => {
         'version': container.$enc(n.version, 'version'),
         'hashcode': container.$enc(n.hashcode, 'hashcode'),
         'files': container.$enc(n.files, 'files')
       };
 
   @override
-  String stringify(NexemaDefinition self) =>
-      'NexemaDefinition(version: ${container.asString(self.version)}, hashcode: ${container.asString(self.hashcode)}, files: ${container.asString(self.files)})';
+  String stringify(NexemaSnapshot self) =>
+      'NexemaSnapshot(version: ${container.asString(self.version)}, hashcode: ${container.asString(self.hashcode)}, files: ${container.asString(self.files)})';
   @override
-  int hash(NexemaDefinition self) =>
+  int hash(NexemaSnapshot self) =>
       container.hash(self.version) ^
       container.hash(self.hashcode) ^
       container.hash(self.files);
   @override
-  bool equals(NexemaDefinition self, NexemaDefinition other) =>
+  bool equals(NexemaSnapshot self, NexemaSnapshot other) =>
       container.isEqual(self.version, other.version) &&
       container.isEqual(self.hashcode, other.hashcode) &&
       container.isEqual(self.files, other.files);
 }
 
-mixin NexemaDefinitionMappable {
+mixin NexemaSnapshotMappable {
   String toJson() =>
-      NexemaDefinitionMapper.container.toJson(this as NexemaDefinition);
+      NexemaSnapshotMapper.container.toJson(this as NexemaSnapshot);
   Map<String, dynamic> toMap() =>
-      NexemaDefinitionMapper.container.toMap(this as NexemaDefinition);
-  NexemaDefinitionCopyWith<NexemaDefinition, NexemaDefinition, NexemaDefinition>
-      get copyWith => _NexemaDefinitionCopyWithImpl(
-          this as NexemaDefinition, $identity, $identity);
+      NexemaSnapshotMapper.container.toMap(this as NexemaSnapshot);
+  NexemaSnapshotCopyWith<NexemaSnapshot, NexemaSnapshot, NexemaSnapshot>
+      get copyWith => _NexemaSnapshotCopyWithImpl(
+          this as NexemaSnapshot, $identity, $identity);
   @override
-  String toString() => NexemaDefinitionMapper.container.asString(this);
+  String toString() => NexemaSnapshotMapper.container.asString(this);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (runtimeType == other.runtimeType &&
-          NexemaDefinitionMapper.container.isEqual(this, other));
+          NexemaSnapshotMapper.container.isEqual(this, other));
   @override
-  int get hashCode => NexemaDefinitionMapper.container.hash(this);
+  int get hashCode => NexemaSnapshotMapper.container.hash(this);
 }
 
-extension NexemaDefinitionValueCopy<$R, $Out extends NexemaDefinition>
-    on ObjectCopyWith<$R, NexemaDefinition, $Out> {
-  NexemaDefinitionCopyWith<$R, NexemaDefinition, $Out> get asNexemaDefinition =>
-      base.as((v, t, t2) => _NexemaDefinitionCopyWithImpl(v, t, t2));
+extension NexemaSnapshotValueCopy<$R, $Out extends NexemaSnapshot>
+    on ObjectCopyWith<$R, NexemaSnapshot, $Out> {
+  NexemaSnapshotCopyWith<$R, NexemaSnapshot, $Out> get asNexemaSnapshot =>
+      base.as((v, t, t2) => _NexemaSnapshotCopyWithImpl(v, t, t2));
 }
 
-typedef NexemaDefinitionCopyWithBound = NexemaDefinition;
+typedef NexemaSnapshotCopyWithBound = NexemaSnapshot;
 
-abstract class NexemaDefinitionCopyWith<$R, $In extends NexemaDefinition,
-    $Out extends NexemaDefinition> implements ObjectCopyWith<$R, $In, $Out> {
-  NexemaDefinitionCopyWith<$R2, $In, $Out2>
-      chain<$R2, $Out2 extends NexemaDefinition>(
-          Then<NexemaDefinition, $Out2> t, Then<$Out2, $R2> t2);
+abstract class NexemaSnapshotCopyWith<$R, $In extends NexemaSnapshot,
+    $Out extends NexemaSnapshot> implements ObjectCopyWith<$R, $In, $Out> {
+  NexemaSnapshotCopyWith<$R2, $In, $Out2>
+      chain<$R2, $Out2 extends NexemaSnapshot>(
+          Then<NexemaSnapshot, $Out2> t, Then<$Out2, $R2> t2);
   ListCopyWith<$R, NexemaFile, NexemaFileCopyWith<$R, NexemaFile, NexemaFile>>
       get files;
   $R call({int? version, int? hashcode, List<NexemaFile>? files});
 }
 
-class _NexemaDefinitionCopyWithImpl<$R, $Out extends NexemaDefinition>
-    extends CopyWithBase<$R, NexemaDefinition, $Out>
-    implements NexemaDefinitionCopyWith<$R, NexemaDefinition, $Out> {
-  _NexemaDefinitionCopyWithImpl(super.value, super.then, super.then2);
+class _NexemaSnapshotCopyWithImpl<$R, $Out extends NexemaSnapshot>
+    extends CopyWithBase<$R, NexemaSnapshot, $Out>
+    implements NexemaSnapshotCopyWith<$R, NexemaSnapshot, $Out> {
+  _NexemaSnapshotCopyWithImpl(super.value, super.then, super.then2);
   @override
-  NexemaDefinitionCopyWith<$R2, NexemaDefinition, $Out2>
-      chain<$R2, $Out2 extends NexemaDefinition>(
-              Then<NexemaDefinition, $Out2> t, Then<$Out2, $R2> t2) =>
-          _NexemaDefinitionCopyWithImpl($value, t, t2);
+  NexemaSnapshotCopyWith<$R2, NexemaSnapshot, $Out2>
+      chain<$R2, $Out2 extends NexemaSnapshot>(
+              Then<NexemaSnapshot, $Out2> t, Then<$Out2, $R2> t2) =>
+          _NexemaSnapshotCopyWithImpl($value, t, t2);
 
   @override
   ListCopyWith<$R, NexemaFile, NexemaFileCopyWith<$R, NexemaFile, NexemaFile>>
@@ -114,7 +113,7 @@ class _NexemaDefinitionCopyWithImpl<$R, $Out extends NexemaDefinition>
           (v) => call(files: v));
   @override
   $R call({int? version, int? hashcode, List<NexemaFile>? files}) =>
-      $then(NexemaDefinition(
+      $then(NexemaSnapshot(
           version: version ?? $value.version,
           hashcode: hashcode ?? $value.hashcode,
           files: files ?? $value.files));
@@ -145,25 +144,35 @@ class NexemaFileMapperElement extends MapperElementBase<NexemaFile> {
   NexemaFile decode(dynamic v) =>
       checkedType(v, (Map<String, dynamic> map) => fromMap(map));
   NexemaFile fromMap(Map<String, dynamic> map) => NexemaFile(
-      name: container.$get(map, 'name'), types: container.$get(map, 'types'));
+      fileName: container.$get(map, 'fileName'),
+      path: container.$get(map, 'path'),
+      packageName: container.$get(map, 'packageName'),
+      types: container.$get(map, 'types'));
 
   @override
   Function get encoder => encode;
   dynamic encode(NexemaFile v) => toMap(v);
   Map<String, dynamic> toMap(NexemaFile n) => {
-        'name': container.$enc(n.name, 'name'),
+        'fileName': container.$enc(n.fileName, 'fileName'),
+        'path': container.$enc(n.path, 'path'),
+        'packageName': container.$enc(n.packageName, 'packageName'),
         'types': container.$enc(n.types, 'types')
       };
 
   @override
   String stringify(NexemaFile self) =>
-      'NexemaFile(name: ${container.asString(self.name)}, types: ${container.asString(self.types)})';
+      'NexemaFile(fileName: ${container.asString(self.fileName)}, packageName: ${container.asString(self.packageName)}, path: ${container.asString(self.path)}, types: ${container.asString(self.types)})';
   @override
   int hash(NexemaFile self) =>
-      container.hash(self.name) ^ container.hash(self.types);
+      container.hash(self.fileName) ^
+      container.hash(self.packageName) ^
+      container.hash(self.path) ^
+      container.hash(self.types);
   @override
   bool equals(NexemaFile self, NexemaFile other) =>
-      container.isEqual(self.name, other.name) &&
+      container.isEqual(self.fileName, other.fileName) &&
+      container.isEqual(self.packageName, other.packageName) &&
+      container.isEqual(self.path, other.path) &&
       container.isEqual(self.types, other.types);
 }
 
@@ -201,7 +210,11 @@ abstract class NexemaFileCopyWith<$R, $In extends NexemaFile,
       NexemaTypeDefinition,
       NexemaTypeDefinitionCopyWith<$R, NexemaTypeDefinition,
           NexemaTypeDefinition>> get types;
-  $R call({String? name, List<NexemaTypeDefinition>? types});
+  $R call(
+      {String? fileName,
+      String? path,
+      String? packageName,
+      List<NexemaTypeDefinition>? types});
 }
 
 class _NexemaFileCopyWithImpl<$R, $Out extends NexemaFile>
@@ -224,8 +237,16 @@ class _NexemaFileCopyWithImpl<$R, $Out extends NexemaFile>
       (v, t) => v.copyWith.chain<$R, NexemaTypeDefinition>($identity, t),
       (v) => call(types: v));
   @override
-  $R call({String? name, List<NexemaTypeDefinition>? types}) => $then(
-      NexemaFile(name: name ?? $value.name, types: types ?? $value.types));
+  $R call(
+          {String? fileName,
+          String? path,
+          String? packageName,
+          List<NexemaTypeDefinition>? types}) =>
+      $then(NexemaFile(
+          fileName: fileName ?? $value.fileName,
+          path: path ?? $value.path,
+          packageName: packageName ?? $value.packageName,
+          types: types ?? $value.types));
 }
 
 class NexemaTypeDefinitionMapper extends MapperBase<NexemaTypeDefinition> {
@@ -259,7 +280,10 @@ class NexemaTypeDefinitionMapperElement
           name: container.$get(map, 'name'),
           modifier: container.$get(map, 'modifier'),
           documentation: container.$get(map, 'documentation'),
-          fields: container.$get(map, 'fields'));
+          baseType: container.$getOpt(map, 'baseType'),
+          fields: container.$get(map, 'fields'),
+          annotations: container.$get(map, 'annotations'),
+          defaults: container.$get(map, 'defaults'));
 
   @override
   Function get encoder => encode;
@@ -269,26 +293,35 @@ class NexemaTypeDefinitionMapperElement
         'name': container.$enc(n.name, 'name'),
         'modifier': container.$enc(n.modifier, 'modifier'),
         'documentation': container.$enc(n.documentation, 'documentation'),
-        'fields': container.$enc(n.fields, 'fields')
+        'baseType': container.$enc(n.baseType, 'baseType'),
+        'fields': container.$enc(n.fields, 'fields'),
+        'annotations': container.$enc(n.annotations, 'annotations'),
+        'defaults': container.$enc(n.defaults, 'defaults')
       };
 
   @override
   String stringify(NexemaTypeDefinition self) =>
-      'NexemaTypeDefinition(id: ${container.asString(self.id)}, name: ${container.asString(self.name)}, modifier: ${container.asString(self.modifier)}, documentation: ${container.asString(self.documentation)}, fields: ${container.asString(self.fields)})';
+      'NexemaTypeDefinition(id: ${container.asString(self.id)}, baseType: ${container.asString(self.baseType)}, name: ${container.asString(self.name)}, modifier: ${container.asString(self.modifier)}, documentation: ${container.asString(self.documentation)}, fields: ${container.asString(self.fields)}, annotations: ${container.asString(self.annotations)}, defaults: ${container.asString(self.defaults)})';
   @override
   int hash(NexemaTypeDefinition self) =>
       container.hash(self.id) ^
+      container.hash(self.baseType) ^
       container.hash(self.name) ^
       container.hash(self.modifier) ^
       container.hash(self.documentation) ^
-      container.hash(self.fields);
+      container.hash(self.fields) ^
+      container.hash(self.annotations) ^
+      container.hash(self.defaults);
   @override
   bool equals(NexemaTypeDefinition self, NexemaTypeDefinition other) =>
       container.isEqual(self.id, other.id) &&
+      container.isEqual(self.baseType, other.baseType) &&
       container.isEqual(self.name, other.name) &&
       container.isEqual(self.modifier, other.modifier) &&
       container.isEqual(self.documentation, other.documentation) &&
-      container.isEqual(self.fields, other.fields);
+      container.isEqual(self.fields, other.fields) &&
+      container.isEqual(self.annotations, other.annotations) &&
+      container.isEqual(self.defaults, other.defaults);
 }
 
 mixin NexemaTypeDefinitionMappable {
@@ -333,12 +366,19 @@ abstract class NexemaTypeDefinitionCopyWith<$R,
       NexemaTypeFieldDefinition,
       NexemaTypeFieldDefinitionCopyWith<$R, NexemaTypeFieldDefinition,
           NexemaTypeFieldDefinition>> get fields;
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>
+      get annotations;
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>
+      get defaults;
   $R call(
-      {String? id,
+      {int? id,
       String? name,
       String? modifier,
       List<String>? documentation,
-      List<NexemaTypeFieldDefinition>? fields});
+      int? baseType,
+      List<NexemaTypeFieldDefinition>? fields,
+      Map<String, dynamic>? annotations,
+      Map<String, dynamic>? defaults});
 }
 
 class _NexemaTypeDefinitionCopyWithImpl<$R, $Out extends NexemaTypeDefinition>
@@ -367,18 +407,34 @@ class _NexemaTypeDefinitionCopyWithImpl<$R, $Out extends NexemaTypeDefinition>
       (v, t) => v.copyWith.chain<$R, NexemaTypeFieldDefinition>($identity, t),
       (v) => call(fields: v));
   @override
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>
+      get annotations => MapCopyWith(
+          $value.annotations,
+          (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(annotations: v));
+  @override
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>
+      get defaults => MapCopyWith($value.defaults,
+          (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(defaults: v));
+  @override
   $R call(
-          {String? id,
+          {int? id,
           String? name,
           String? modifier,
           List<String>? documentation,
-          List<NexemaTypeFieldDefinition>? fields}) =>
+          Object? baseType = $none,
+          List<NexemaTypeFieldDefinition>? fields,
+          Map<String, dynamic>? annotations,
+          Map<String, dynamic>? defaults}) =>
       $then(NexemaTypeDefinition(
           id: id ?? $value.id,
           name: name ?? $value.name,
           modifier: modifier ?? $value.modifier,
           documentation: documentation ?? $value.documentation,
-          fields: fields ?? $value.fields));
+          baseType: or(baseType, $value.baseType),
+          fields: fields ?? $value.fields,
+          annotations: annotations ?? $value.annotations,
+          defaults: defaults ?? $value.defaults));
 }
 
 class NexemaTypeFieldDefinitionMapper
@@ -412,8 +468,8 @@ class NexemaTypeFieldDefinitionMapperElement
       NexemaTypeFieldDefinition(
           index: container.$get(map, 'index'),
           name: container.$get(map, 'name'),
-          metadata: container.$get(map, 'metadata'),
-          defaultValue: container.$getOpt(map, 'defaultValue'),
+          defaults: container.$get(map, 'defaults'),
+          annotations: container.$get(map, 'annotations'),
           type: container.$getOpt(map, 'type'));
 
   @override
@@ -422,28 +478,28 @@ class NexemaTypeFieldDefinitionMapperElement
   Map<String, dynamic> toMap(NexemaTypeFieldDefinition n) => {
         'index': container.$enc(n.index, 'index'),
         'name': container.$enc(n.name, 'name'),
-        'metadata': container.$enc(n.metadata, 'metadata'),
-        'defaultValue': container.$enc(n.defaultValue, 'defaultValue'),
+        'defaults': container.$enc(n.defaults, 'defaults'),
+        'annotations': container.$enc(n.annotations, 'annotations'),
         'type': container.$enc(n.type, 'type')
       };
 
   @override
   String stringify(NexemaTypeFieldDefinition self) =>
-      'NexemaTypeFieldDefinition(index: ${container.asString(self.index)}, name: ${container.asString(self.name)}, metadata: ${container.asString(self.metadata)}, defaultValue: ${container.asString(self.defaultValue)}, type: ${container.asString(self.type)})';
+      'NexemaTypeFieldDefinition(index: ${container.asString(self.index)}, name: ${container.asString(self.name)}, annotations: ${container.asString(self.annotations)}, defaults: ${container.asString(self.defaults)}, type: ${container.asString(self.type)})';
   @override
   int hash(NexemaTypeFieldDefinition self) =>
       container.hash(self.index) ^
       container.hash(self.name) ^
-      container.hash(self.metadata) ^
-      container.hash(self.defaultValue) ^
+      container.hash(self.annotations) ^
+      container.hash(self.defaults) ^
       container.hash(self.type);
   @override
   bool equals(
           NexemaTypeFieldDefinition self, NexemaTypeFieldDefinition other) =>
       container.isEqual(self.index, other.index) &&
       container.isEqual(self.name, other.name) &&
-      container.isEqual(self.metadata, other.metadata) &&
-      container.isEqual(self.defaultValue, other.defaultValue) &&
+      container.isEqual(self.annotations, other.annotations) &&
+      container.isEqual(self.defaults, other.defaults) &&
       container.isEqual(self.type, other.type);
 }
 
@@ -485,14 +541,16 @@ abstract class NexemaTypeFieldDefinitionCopyWith<
   NexemaTypeFieldDefinitionCopyWith<$R2, $In, $Out2>
       chain<$R2, $Out2 extends NexemaTypeFieldDefinition>(
           Then<NexemaTypeFieldDefinition, $Out2> t, Then<$Out2, $R2> t2);
-  MapCopyWith<$R, String, Object?, ObjectCopyWith<$R, Object?, Object?>?>
-      get metadata;
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>
+      get defaults;
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>
+      get annotations;
   NexemaValueTypeCopyWith<$R, NexemaValueType, NexemaValueType>? get type;
   $R call(
       {int? index,
       String? name,
-      Map<String, Object?>? metadata,
-      Object? defaultValue,
+      Map<String, dynamic>? defaults,
+      Map<String, dynamic>? annotations,
       NexemaValueType? type});
 }
 
@@ -509,9 +567,15 @@ class _NexemaTypeFieldDefinitionCopyWithImpl<$R,
           _NexemaTypeFieldDefinitionCopyWithImpl($value, t, t2);
 
   @override
-  MapCopyWith<$R, String, Object?, ObjectCopyWith<$R, Object?, Object?>?>
-      get metadata => MapCopyWith($value.metadata,
-          (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(metadata: v));
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>
+      get defaults => MapCopyWith($value.defaults,
+          (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(defaults: v));
+  @override
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>
+      get annotations => MapCopyWith(
+          $value.annotations,
+          (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(annotations: v));
   @override
   NexemaValueTypeCopyWith<$R, NexemaValueType, NexemaValueType>? get type =>
       $value.type?.copyWith.chain($identity, (v) => call(type: v));
@@ -519,14 +583,14 @@ class _NexemaTypeFieldDefinitionCopyWithImpl<$R,
   $R call(
           {int? index,
           String? name,
-          Map<String, Object?>? metadata,
-          Object? defaultValue = $none,
+          Map<String, dynamic>? defaults,
+          Map<String, dynamic>? annotations,
           Object? type = $none}) =>
       $then(NexemaTypeFieldDefinition(
           index: index ?? $value.index,
           name: name ?? $value.name,
-          metadata: metadata ?? $value.metadata,
-          defaultValue: or(defaultValue, $value.defaultValue),
+          defaults: defaults ?? $value.defaults,
+          annotations: annotations ?? $value.annotations,
           type: or(type, $value.type)));
 }
 
@@ -560,13 +624,13 @@ class NexemaValueTypeMapperElement extends MapperElementBase<NexemaValueType> {
   Function get decoder => decode;
   NexemaValueType decode(dynamic v) =>
       checkedType(v, (Map<String, dynamic> map) {
-        switch (map[r'$type']) {
-          case 'NexemaPrimitiveValueType':
-            return NexemaPrimitiveValueTypeMapper()
+        switch (map['kind']) {
+          case 'customType':
+            return NexemaTypeValueTypeMapper()
                 .createElement(container)
                 .decode(map);
-          case 'NexemaTypeValueType':
-            return NexemaTypeValueTypeMapper()
+          case 'primitiveValueType':
+            return NexemaPrimitiveValueTypeMapper()
                 .createElement(container)
                 .decode(map);
           default:
@@ -575,22 +639,19 @@ class NexemaValueTypeMapperElement extends MapperElementBase<NexemaValueType> {
       });
   NexemaValueType fromMap(Map<String, dynamic> map) =>
       throw MapperException.missingSubclass(
-          'NexemaValueType', r'$type', '${map[r'$type']}');
+          'NexemaValueType', 'kind', '${map['kind']}');
 
   @override
   Function get encoder => encode;
   dynamic encode(NexemaValueType v) => toMap(v);
-  Map<String, dynamic> toMap(NexemaValueType n) =>
-      {'nullable': container.$enc(n.nullable, 'nullable')};
+  Map<String, dynamic> toMap(NexemaValueType n) => {};
 
   @override
-  String stringify(NexemaValueType self) =>
-      'NexemaValueType(nullable: ${container.asString(self.nullable)})';
+  String stringify(NexemaValueType self) => 'NexemaValueType()';
   @override
-  int hash(NexemaValueType self) => container.hash(self.nullable);
+  int hash(NexemaValueType self) => 0;
   @override
-  bool equals(NexemaValueType self, NexemaValueType other) =>
-      container.isEqual(self.nullable, other.nullable);
+  bool equals(NexemaValueType self, NexemaValueType other) => true;
 }
 
 mixin NexemaValueTypeMappable {
@@ -607,7 +668,7 @@ abstract class NexemaValueTypeCopyWith<$R, $In extends NexemaValueType,
   NexemaValueTypeCopyWith<$R2, $In, $Out2>
       chain<$R2, $Out2 extends NexemaValueType>(
           Then<NexemaValueType, $Out2> t, Then<$Out2, $R2> t2);
-  $R call({bool? nullable});
+  $R call();
 }
 
 class NexemaPrimitiveValueTypeMapper
@@ -644,7 +705,7 @@ class NexemaPrimitiveValueTypeMapperElement
       NexemaPrimitiveValueType(
           nullable: container.$get(map, 'nullable'),
           primitive: container.$get(map, 'primitive'),
-          typeArguments: container.$get(map, 'typeArguments'));
+          arguments: container.$get(map, 'arguments'));
 
   @override
   Function get encoder => encode;
@@ -652,23 +713,23 @@ class NexemaPrimitiveValueTypeMapperElement
   Map<String, dynamic> toMap(NexemaPrimitiveValueType n) => {
         'nullable': container.$enc(n.nullable, 'nullable'),
         'primitive': container.$enc(n.primitive, 'primitive'),
-        'typeArguments': container.$enc(n.typeArguments, 'typeArguments'),
-        r'$type': 'NexemaPrimitiveValueType'
+        'arguments': container.$enc(n.arguments, 'arguments'),
+        'kind': 'primitiveValueType'
       };
 
   @override
   String stringify(NexemaPrimitiveValueType self) =>
-      'NexemaPrimitiveValueType(nullable: ${container.asString(self.nullable)}, primitive: ${container.asString(self.primitive)}, typeArguments: ${container.asString(self.typeArguments)})';
+      'NexemaPrimitiveValueType(primitive: ${container.asString(self.primitive)}, nullable: ${container.asString(self.nullable)}, arguments: ${container.asString(self.arguments)})';
   @override
   int hash(NexemaPrimitiveValueType self) =>
-      container.hash(self.nullable) ^
       container.hash(self.primitive) ^
-      container.hash(self.typeArguments);
+      container.hash(self.nullable) ^
+      container.hash(self.arguments);
   @override
   bool equals(NexemaPrimitiveValueType self, NexemaPrimitiveValueType other) =>
-      container.isEqual(self.nullable, other.nullable) &&
       container.isEqual(self.primitive, other.primitive) &&
-      container.isEqual(self.typeArguments, other.typeArguments);
+      container.isEqual(self.nullable, other.nullable) &&
+      container.isEqual(self.arguments, other.arguments);
 }
 
 mixin NexemaPrimitiveValueTypeMappable {
@@ -708,12 +769,10 @@ abstract class NexemaPrimitiveValueTypeCopyWith<$R,
           Then<NexemaPrimitiveValueType, $Out2> t, Then<$Out2, $R2> t2);
   ListCopyWith<$R, NexemaValueType,
           NexemaValueTypeCopyWith<$R, NexemaValueType, NexemaValueType>>
-      get typeArguments;
+      get arguments;
   @override
   $R call(
-      {bool? nullable,
-      String? primitive,
-      List<NexemaValueType>? typeArguments});
+      {bool? nullable, String? primitive, List<NexemaValueType>? arguments});
 }
 
 class _NexemaPrimitiveValueTypeCopyWithImpl<$R, $Out extends NexemaValueType>
@@ -730,19 +789,19 @@ class _NexemaPrimitiveValueTypeCopyWithImpl<$R, $Out extends NexemaValueType>
   @override
   ListCopyWith<$R, NexemaValueType,
           NexemaValueTypeCopyWith<$R, NexemaValueType, NexemaValueType>>
-      get typeArguments => ListCopyWith(
-          $value.typeArguments,
+      get arguments => ListCopyWith(
+          $value.arguments,
           (v, t) => v.copyWith.chain<$R, NexemaValueType>($identity, t),
-          (v) => call(typeArguments: v));
+          (v) => call(arguments: v));
   @override
   $R call(
           {bool? nullable,
           String? primitive,
-          List<NexemaValueType>? typeArguments}) =>
+          List<NexemaValueType>? arguments}) =>
       $then(NexemaPrimitiveValueType(
           nullable: nullable ?? $value.nullable,
           primitive: primitive ?? $value.primitive,
-          typeArguments: typeArguments ?? $value.typeArguments));
+          arguments: arguments ?? $value.arguments));
 }
 
 class NexemaTypeValueTypeMapper extends MapperBase<NexemaTypeValueType> {
@@ -774,33 +833,28 @@ class NexemaTypeValueTypeMapperElement
   NexemaTypeValueType decode(dynamic v) =>
       checkedType(v, (Map<String, dynamic> map) => fromMap(map));
   NexemaTypeValueType fromMap(Map<String, dynamic> map) => NexemaTypeValueType(
-      nullable: container.$get(map, 'nullable'),
-      typeId: container.$get(map, 'typeId'),
-      importAlias: container.$getOpt(map, 'importAlias'));
+      objectId: container.$get(map, 'objectId'),
+      nullable: container.$get(map, 'nullable'));
 
   @override
   Function get encoder => encode;
   dynamic encode(NexemaTypeValueType v) => toMap(v);
   Map<String, dynamic> toMap(NexemaTypeValueType n) => {
+        'objectId': container.$enc(n.objectId, 'objectId'),
         'nullable': container.$enc(n.nullable, 'nullable'),
-        'typeId': container.$enc(n.typeId, 'typeId'),
-        'importAlias': container.$enc(n.importAlias, 'importAlias'),
-        r'$type': 'NexemaTypeValueType'
+        'kind': 'customType'
       };
 
   @override
   String stringify(NexemaTypeValueType self) =>
-      'NexemaTypeValueType(nullable: ${container.asString(self.nullable)}, typeId: ${container.asString(self.typeId)}, importAlias: ${container.asString(self.importAlias)})';
+      'NexemaTypeValueType(objectId: ${container.asString(self.objectId)}, nullable: ${container.asString(self.nullable)})';
   @override
   int hash(NexemaTypeValueType self) =>
-      container.hash(self.nullable) ^
-      container.hash(self.typeId) ^
-      container.hash(self.importAlias);
+      container.hash(self.objectId) ^ container.hash(self.nullable);
   @override
   bool equals(NexemaTypeValueType self, NexemaTypeValueType other) =>
-      container.isEqual(self.nullable, other.nullable) &&
-      container.isEqual(self.typeId, other.typeId) &&
-      container.isEqual(self.importAlias, other.importAlias);
+      container.isEqual(self.objectId, other.objectId) &&
+      container.isEqual(self.nullable, other.nullable);
 }
 
 mixin NexemaTypeValueTypeMappable {
@@ -839,7 +893,7 @@ abstract class NexemaTypeValueTypeCopyWith<$R, $In extends NexemaTypeValueType,
       chain<$R2, $Out2 extends NexemaValueType>(
           Then<NexemaTypeValueType, $Out2> t, Then<$Out2, $R2> t2);
   @override
-  $R call({bool? nullable, String? typeId, String? importAlias});
+  $R call({int? objectId, bool? nullable});
 }
 
 class _NexemaTypeValueTypeCopyWithImpl<$R, $Out extends NexemaValueType>
@@ -853,9 +907,7 @@ class _NexemaTypeValueTypeCopyWithImpl<$R, $Out extends NexemaValueType>
           _NexemaTypeValueTypeCopyWithImpl($value, t, t2);
 
   @override
-  $R call({bool? nullable, String? typeId, Object? importAlias = $none}) =>
-      $then(NexemaTypeValueType(
-          nullable: nullable ?? $value.nullable,
-          typeId: typeId ?? $value.typeId,
-          importAlias: or(importAlias, $value.importAlias)));
+  $R call({int? objectId, bool? nullable}) => $then(NexemaTypeValueType(
+      objectId: objectId ?? $value.objectId,
+      nullable: nullable ?? $value.nullable));
 }

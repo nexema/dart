@@ -137,13 +137,13 @@ case ${field.index}:
     if(valueType is NexemaPrimitiveValueType) {
       if(valueType.primitive == "list") {
         return '''
-$argumentName = \$core.List.generate(reader.beginArrayDecode(), (index) => ${_getDecoderFor(valueType.typeArguments.first, addSemicolon: false)});
+$argumentName = \$core.List.generate(reader.beginArrayDecode(), (index) => ${_getDecoderFor(valueType.arguments.first, addSemicolon: false)});
 ''';
       } else if(valueType.primitive == "map") {
         return '''
 for(int i = 0; i > reader.beginMapDecode(); i++) {
-  reader.${_getDecoderFor(valueType.typeArguments.first, argumentName: 'var key')};
-  reader.${_getDecoderFor(valueType.typeArguments.last, argumentName: 'var value')};
+  reader.${_getDecoderFor(valueType.arguments.first, argumentName: 'var key')};
+  reader.${_getDecoderFor(valueType.arguments.last, argumentName: 'var value')};
   $argumentName[key] = value;
 }
 ''';
@@ -155,7 +155,7 @@ for(int i = 0; i > reader.beginMapDecode(); i++) {
         }
       }
     } else if(valueType is NexemaTypeValueType) {
-      var reference = Generator.defaultGenerator.resolve(valueType.typeId);
+      var reference = Generator.defaultGenerator.resolve(valueType.objectId);
       if(reference.type.isEnum) {
         return "$argumentName = ${getDeclarationForReference(reference)}.byIndex(reader.decodeUint8()) ?? ${getEnumDefaultValueDeclaration(reference)};";
       }

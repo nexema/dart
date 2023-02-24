@@ -26,7 +26,7 @@ Future<void> main(List<String> args) async {
   }
 
   // Parse definition
-  var definition = NexemaDefinition.fromJson(input);
+  var definition = NexemaSnapshot.fromJson(input);
 
   // verify arguments
   if(!arguments.wasParsed("output-path")) {

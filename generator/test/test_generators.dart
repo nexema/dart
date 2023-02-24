@@ -7,7 +7,10 @@ import 'test_utils.dart';
 
 void main() {
   final enumDef = NexemaTypeDefinition(
-    id: "enum1", 
+    id: 1, 
+    defaults: {},
+    annotations: {},
+    baseType: null,
     name: "EnumA", 
     modifier: "enum", 
     documentation: [], 
@@ -20,7 +23,10 @@ void main() {
   );
 
   final accountTypeEnumDef = NexemaTypeDefinition(
-    id: "accountTypeEnum1", 
+    defaults: {},
+    annotations: {},
+    baseType: null,
+    id: 2, 
     name: "AccountType", 
     modifier: "enum", 
     documentation: [], 
@@ -32,7 +38,10 @@ void main() {
   );
 
   final structDef = NexemaTypeDefinition(
-    id: "struct1", 
+    defaults: {},
+    annotations: {},
+    baseType: null,
+    id: 3, 
     name: "StructA", 
     modifier: "struct", 
     documentation: ["Documentation for StructA"], 
@@ -48,7 +57,10 @@ void main() {
   );
 
   final unionDef = NexemaTypeDefinition(
-    id: "union1", 
+    defaults: {},
+    annotations: {},
+    baseType: null,
+    id: 5, 
     name: "UnionB", 
     modifier: "union", 
     documentation: [], 
@@ -60,12 +72,12 @@ void main() {
   );
 
   Generator(
-    definition: NexemaDefinition(
+    definition: NexemaSnapshot(
       hashcode: 0,
       version: 0,
       files: [
-        NexemaFile(name: "common/file.nex", types: [enumDef, structDef, unionDef]),
-        NexemaFile(name: "identity.nex", types: [accountTypeEnumDef])
+        NexemaFile(fileName: "file.nex", packageName: "common", path: "common/file.nex", types: [enumDef, structDef, unionDef]),
+        NexemaFile(fileName: "identity.nex", packageName: "common", path: "common/file.nex", types: [accountTypeEnumDef])
       ]
     ),
     settings: GeneratorSettings(

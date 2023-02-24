@@ -20,14 +20,14 @@ class Generator {
   static late final Generator defaultGenerator;
 
   final GeneratorSettings settings;
-  final NexemaDefinition definition;
+  final NexemaSnapshot definition;
   final DartFormatter _formatter = DartFormatter(fixes: StyleFix.all);
-  final Map<String, TypeReference> _types = {};
+  final Map<int, TypeReference> _types = {};
   final Map<File, String> _generatedSourceCode = {};
   final Map<String, Null> _currentFileImports = {}; 
   
   Map<File, String> get generatedSourceCode => UnmodifiableMapView(_generatedSourceCode);
-  String get currentFilePath => p.join(settings.outputPath, _currentFile!.name);
+  String get currentFilePath => p.join(settings.outputPath, _currentFile!.fileName);
 
   NexemaFile? _currentFile;
 
@@ -51,8 +51,8 @@ class Generator {
       // format source code
       String fileSourceCode = "${_getFormattedImports()}\n${fileWriter.toString()}";
       try {
-        fileSourceCode = _formatter.format(fileSourceCode, uri: file.name);
-        _generatedSourceCode[File(p.join(settings.outputPath, "${file.name}.dart"))] = fileSourceCode;
+        fileSourceCode = _formatter.format(fileSourceCode, uri: file.fileName);
+        _generatedSourceCode[File(p.join(settings.outputPath, "${file.fileName}.dart"))] = fileSourceCode;
       } catch(err) {
         print(fileSourceCode);
         rethrow;
@@ -71,7 +71,7 @@ class Generator {
     }
   }
 
-  TypeReference resolve(String typeId) {
+  TypeReference resolve(int typeId) {
     try {
       var typeReference =  _types[typeId]!;
       if(currentFilePath != typeReference.path) {
@@ -94,8 +94,8 @@ class Generator {
       for(var type in file.types) {
         _types[type.id] = TypeReference(
           type: type, 
-          path: p.join(settings.outputPath, file.name),
-          importAlias: "\$${p.basenameWithoutExtension(file.name)}"
+          path: p.join(settings.outputPath, file.fileName),
+          importAlias: "\$${p.basenameWithoutExtension(file.fileName)}"
         ); 
       }
     }

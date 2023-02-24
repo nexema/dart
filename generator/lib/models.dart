@@ -12,35 +12,40 @@ class GeneratorSettings {
 }
 
 @MappableClass()
-class NexemaDefinition with NexemaDefinitionMappable {
+class NexemaSnapshot with NexemaSnapshotMappable {
   final int version, hashcode;
   final List<NexemaFile> files;
 
-  const NexemaDefinition({
+  const NexemaSnapshot({
     required this.version,
     required this.hashcode,
     required this.files
   });
 
-  static final fromJson = NexemaDefinitionMapper.fromJson;
+  static final fromJson = NexemaSnapshotMapper.fromJson;
 }
 
 @MappableClass()
 class NexemaFile with NexemaFileMappable {
-  final String name;
+  final String fileName, packageName, path;
   final List<NexemaTypeDefinition> types;
 
   const NexemaFile({
-    required this.name,
+    required this.fileName,
+    required this.path,
+    required this.packageName,
     required this.types
   });
 }
 
 @MappableClass()
 class NexemaTypeDefinition with NexemaTypeDefinitionMappable {
-  final String id, name, modifier;
+  final int id;
+  final int? baseType;
+  final String name, modifier;
   final List<String> documentation;
   final List<NexemaTypeFieldDefinition> fields;
+  final Map<String, dynamic> annotations, defaults;
 
   String get dartName => name.pascalCase;
   bool get isEnum => modifier == "enum";
@@ -50,7 +55,10 @@ class NexemaTypeDefinition with NexemaTypeDefinitionMappable {
     required this.name,
     required this.modifier,
     required this.documentation,
-    required this.fields
+    required this.baseType,
+    required this.fields,
+    required this.annotations,
+    required this.defaults
   });
 }
 
@@ -58,8 +66,8 @@ class NexemaTypeDefinition with NexemaTypeDefinitionMappable {
 class NexemaTypeFieldDefinition with NexemaTypeFieldDefinitionMappable {
   final int index;
   final String name;
-  final Map<String, Object?> metadata;
-  final Object? defaultValue;
+  final Map<String, dynamic> annotations;
+  final Map<String, dynamic> defaults;
   final NexemaValueType? type;
 
   String get dartName => name.camelCase;
@@ -67,39 +75,37 @@ class NexemaTypeFieldDefinition with NexemaTypeFieldDefinitionMappable {
   const NexemaTypeFieldDefinition({
     required this.index,
     required this.name,
-    required this.metadata,
-    required this.defaultValue,
+    required this.defaults,
+    required this.annotations,
     required this.type
   });
 }
 
-@MappableClass(discriminatorKey: r'$type')
+@MappableClass(discriminatorKey: 'kind')
 abstract class NexemaValueType with NexemaValueTypeMappable {
   final bool nullable;
 
   const NexemaValueType({required this.nullable});
 }
 
-@MappableClass(discriminatorValue: 'NexemaPrimitiveValueType')
+@MappableClass(discriminatorValue: 'primitiveValueType')
 class NexemaPrimitiveValueType extends NexemaValueType with NexemaPrimitiveValueTypeMappable {
   final String primitive;
-  final List<NexemaValueType> typeArguments;
+  final List<NexemaValueType> arguments;
 
   const NexemaPrimitiveValueType({
     required super.nullable,
     required this.primitive,
-    required this.typeArguments
+    required this.arguments
   });
 }
 
-@MappableClass(discriminatorValue: 'NexemaTypeValueType')
+@MappableClass(discriminatorValue: 'customType')
 class NexemaTypeValueType extends NexemaValueType with NexemaTypeValueTypeMappable {
-  final String typeId;
-  final String? importAlias;
+  final int objectId;
 
   const NexemaTypeValueType({
     required super.nullable,
-    required this.typeId,
-    required this.importAlias
+    required this.objectId,
   });
 }
