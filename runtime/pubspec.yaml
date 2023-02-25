@@ -1,6 +1,6 @@
 name: nexema
 description: Nexema's dart runtime library.
-version: 1.0.1
+version: 1.0.2
 repository: https://github.com/nexema/dart
 
 environment:
