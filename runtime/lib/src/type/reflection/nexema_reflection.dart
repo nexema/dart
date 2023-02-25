@@ -6,4 +6,17 @@ abstract class NexemaReflection<TType extends BaseNexemaType> {
   Object? evaluate(TType instance);
 
   const NexemaReflection();
+
+  /// Returns the [TypeInfo] of [value] if its a [BaseNexemaType]. Otherwise, returns null.
+  static TypeInfo? typeOf(Object? value) {
+    if(value == null) {
+      return null;
+    }
+
+    if(value is BaseNexemaType) {
+      return value._reflection$;
+    }
+
+    return null;
+  } 
 }

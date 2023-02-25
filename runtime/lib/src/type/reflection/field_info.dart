@@ -2,8 +2,6 @@ part of '../nexema_type.dart';
 
 /// FieldInfo provides information about a single field of any Nexema type.
 class FieldInfo<TType extends BaseNexemaType> extends NexemaReflection<TType> {
-  final StateGetter<StructTypeState<TType>, TType> _stateGetter;
-
   /// The name of the field as defined in .nex file.
   final String name;
 
@@ -19,7 +17,7 @@ class FieldInfo<TType extends BaseNexemaType> extends NexemaReflection<TType> {
   /// The list of key-value pairs annotation given to the field.
   final Map<String, dynamic> annotations;
 
-  const FieldInfo(this._stateGetter, {
+  const FieldInfo({
     required this.name, 
     required this.dartName, 
     required this.index, 
@@ -40,7 +38,17 @@ class FieldInfo<TType extends BaseNexemaType> extends NexemaReflection<TType> {
       
   @override
   Object? evaluate(TType instance) {
-    return _stateGetter(instance)._values[index];
+    final state = instance.$state_;
+    if(state is StructTypeState) {
+      return state._values[index];
+    } else if(state is UnionTypeState) {
+      if(state._currentField.index == index) {
+        return state._currentValue;
+      }
+
+      throw UnionNotSetError(dartName);
+    }
+    return null;
   }
 }
 

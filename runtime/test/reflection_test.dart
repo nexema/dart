@@ -21,9 +21,11 @@ void main() {
       expect(other.hashCode, user.hashCode);
       expect(other, equals(user));
 
-      expect(User.fields.firstName.evaluate(user), "Tomás");
-      expect(User.fields.lastName.evaluate(user), "Weigenast");
-      expect(User.fields.tags.evaluate(user), ["tomas", "weigenast"]);
+      final otherType = NexemaReflection.typeOf(other);
+      expect(otherType, isNotNull);
+      expect(otherType!.fields[0].evaluate(user), "Tomás");
+      expect(otherType.fields[1].evaluate(user), "Weigenast");
+      expect(otherType.fields[2].evaluate(user), ["tomas", "weigenast"]);
 
       user.lastName = "A";
       expect(user.lastName, equals("A"));
@@ -53,12 +55,12 @@ void main() {
 }
 
 class User extends NexemaType {
-  static final _UserFields fields = _UserFields();
-
   final StructTypeState<User> _state;
 
-  User._empty() : _state = StructTypeState([null, null, null, null]), super();
-  User._internal(Iterable<dynamic> values) : _state = StructTypeState(values.toList(growable: false)), super();
+  User._empty() : _state = StructTypeState([null, null, null, null]), super(_typeInfo);
+    
+  User._internal(Iterable<dynamic> values) 
+    : _state = StructTypeState(values.toList(growable: false)), super(_typeInfo);
 
   factory User({
     required String firstName,
@@ -144,17 +146,29 @@ class User extends NexemaType {
 
   @override
   String toString() => "User(firstName: $firstName, lastName: $lastName, tags: $tags, accountType: $accountType, accountDetails: $accountDetails)";
+  
+  static const _typeInfo = TypeInfo(
+    name: "User", 
+    modifier: TypeModifier.struct, 
+    fields: [
+      _UserFields.firstName,
+      _UserFields.lastName,
+      _UserFields.tags
+    ], 
+    packageName: "common",
+    annotations: {}
+  );
+  
+  @override
+  NexemaTypeState<User> get $state_ => _state;
 } 
 
 class _UserFields {
-  _UserFields();
+  const _UserFields();
 
-  // ignore: prefer_function_declarations_over_variables
-  static final StateGetter<StructTypeState<User>, User> _stateGetter = (user) => user._state;
-
-  final firstName = FieldInfo<User>(_stateGetter, name: "first_name", dartName: "firstName", index: 0, valueType: const FieldValueType(isNullable: false, kind: FieldValueKind.string, typeArguments: null), annotations: {});
-  final lastName = FieldInfo<User>(_stateGetter, name: "last_name", dartName: "lastName", index: 1, valueType: const FieldValueType(isNullable: false, kind: FieldValueKind.string, typeArguments: null), annotations: {});
-  final tags = FieldInfo<User>(_stateGetter, name: "tags", dartName: "tags", index: 2, valueType: const FieldValueType(typeArguments: [FieldValueType(kind: FieldValueKind.string, isNullable: false, typeArguments: null)], kind: FieldValueKind.list, isNullable: false), annotations: {});
+  static const firstName = FieldInfo<User>(name: "first_name", dartName: "firstName", index: 0, valueType: FieldValueType(isNullable: false, kind: FieldValueKind.string, typeArguments: null), annotations: {});
+  static const lastName = FieldInfo<User>(name: "last_name", dartName: "lastName", index: 1, valueType: FieldValueType(isNullable: false, kind: FieldValueKind.string, typeArguments: null), annotations: {});
+  static const tags = FieldInfo<User>(name: "tags", dartName: "tags", index: 2, valueType: FieldValueType(typeArguments: [FieldValueType(kind: FieldValueKind.string, isNullable: false, typeArguments: null)], kind: FieldValueKind.list, isNullable: false), annotations: {});
 }
 
 class AccountType extends NexemaEnumType {
@@ -162,11 +176,24 @@ class AccountType extends NexemaEnumType {
   final String _name;
   final int _index;
 
-  const AccountType._internal(this._name, this._index);
+  const AccountType._internal(this._name, this._index)
+    : super(_typeInfo);
 
   static const AccountType unknown = AccountType._internal("unknown", 0); 
   static const AccountType administrator = AccountType._internal("administrator", 1); 
   static const AccountType customer = AccountType._internal("customer", 2); 
+
+  static const _typeInfo = TypeInfo(
+    name: "AccountType", 
+    modifier: TypeModifier.enumerator, 
+    fields: [
+      FieldInfo(name: "unknown", dartName: "unknown", index: 0, valueType: null, annotations: {}),
+      FieldInfo(name: "administrator", dartName: "administrator", index: 1, valueType: null, annotations: {}),
+      FieldInfo(name: "customer", dartName: "customer", index: 2, valueType: null, annotations: {}),
+    ], 
+    packageName: "common",
+    annotations: {}
+  );
 
   int get index => _index;
   String get name => _name;
@@ -211,14 +238,31 @@ class AccountType extends NexemaEnumType {
 
   @override
   String toString() => "AccountType($_name: $_index)";
+  
+  @override
+  NexemaTypeState<AccountType> get $state_ => throw UnimplementedError("Enum does not have state.");
 }
 
 class AccountDetails extends NexemaType {
 
   final UnionTypeState<AccountDetails, AccountDetailsField> _state;
 
-  AccountDetails._empty() : _state = UnionTypeState(null, AccountDetailsField.notSet);
-  AccountDetails._(dynamic value, AccountDetailsField field) : _state = UnionTypeState(value, field);
+  AccountDetails._empty() 
+    : _state = UnionTypeState(null, AccountDetailsField.notSet),
+      super(_typeInfo);
+  AccountDetails._(dynamic value, AccountDetailsField field) 
+    : _state = UnionTypeState(value, field), super(_typeInfo);
+
+  static const _typeInfo = TypeInfo(
+    name: "AccounDetails", 
+    modifier: TypeModifier.struct, 
+    fields: [
+      FieldInfo(name: "name", dartName: "name", index: 0, valueType: FieldValueType(kind: FieldValueKind.string, isNullable: false, typeArguments: null), annotations: {}),
+      FieldInfo(name: "enabled", dartName: "enabled", index: 1, valueType: FieldValueType(kind: FieldValueKind.bool, isNullable: false, typeArguments: null), annotations: {}),
+    ], 
+    packageName: "common",
+    annotations: {}
+  );
 
   AccountDetailsField get whichField => _state.currentField;
   bool get hasValue => _state.currentField != AccountDetailsField.notSet;
@@ -323,6 +367,9 @@ class AccountDetails extends NexemaType {
 
     return other._state == _state;
   }
+  
+  @override
+  NexemaTypeState<AccountDetails> get $state_ => _state;
 }
 
 enum AccountDetailsField {
