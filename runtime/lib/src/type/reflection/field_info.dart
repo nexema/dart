@@ -14,9 +14,18 @@ class FieldInfo<TType extends BaseNexemaType> extends NexemaReflection<TType> {
   final int index;
 
   /// The value type of the field.
-  final FieldValueType valueType;
+  final FieldValueType? valueType;
 
-  const FieldInfo(this._stateGetter, {required this.name, required this.dartName, required this.index, required this.valueType});
+  /// The list of key-value pairs annotation given to the field.
+  final Map<String, dynamic> annotations;
+
+  const FieldInfo(this._stateGetter, {
+    required this.name, 
+    required this.dartName, 
+    required this.index, 
+    required this.valueType,
+    required this.annotations
+  });
 
   @override
   int get hashCode => Object.hash(name, dartName, index, valueType.hashCode);

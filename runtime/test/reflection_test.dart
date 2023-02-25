@@ -152,9 +152,9 @@ class _UserFields {
   // ignore: prefer_function_declarations_over_variables
   static final StateGetter<StructTypeState<User>, User> _stateGetter = (user) => user._state;
 
-  final firstName = FieldInfo<User>(_stateGetter, name: "first_name", dartName: "firstName", index: 0, valueType: const FieldValueType(isNullable: false, kind: FieldValueKind.string, typeArguments: null));
-  final lastName = FieldInfo<User>(_stateGetter, name: "last_name", dartName: "lastName", index: 1, valueType: const FieldValueType(isNullable: false, kind: FieldValueKind.string, typeArguments: null));
-  final tags = FieldInfo<User>(_stateGetter, name: "tags", dartName: "tags", index: 2, valueType: const FieldValueType(typeArguments: [FieldValueType(kind: FieldValueKind.string, isNullable: false, typeArguments: null)], kind: FieldValueKind.list, isNullable: false));
+  final firstName = FieldInfo<User>(_stateGetter, name: "first_name", dartName: "firstName", index: 0, valueType: const FieldValueType(isNullable: false, kind: FieldValueKind.string, typeArguments: null), annotations: {});
+  final lastName = FieldInfo<User>(_stateGetter, name: "last_name", dartName: "lastName", index: 1, valueType: const FieldValueType(isNullable: false, kind: FieldValueKind.string, typeArguments: null), annotations: {});
+  final tags = FieldInfo<User>(_stateGetter, name: "tags", dartName: "tags", index: 2, valueType: const FieldValueType(typeArguments: [FieldValueType(kind: FieldValueKind.string, isNullable: false, typeArguments: null)], kind: FieldValueKind.list, isNullable: false), annotations: {});
 }
 
 class AccountType extends NexemaEnumType {

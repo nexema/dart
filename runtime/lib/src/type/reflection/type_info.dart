@@ -14,11 +14,21 @@ class TypeInfo {
   /// The name of the package where the type is defined.
   final String packageName;
 
-  const TypeInfo({required this.name, required this.modifier, required this.fields, required this.packageName});
+  /// The list of key-value pairs annotation given to the type.
+  final Map<String, dynamic> annotations;
+
+  const TypeInfo({
+    required this.name, 
+    required this.modifier, 
+    required this.fields, 
+    required this.packageName,
+    required this.annotations
+  });
 }
 
 enum TypeModifier {
   struct,
   union,
-  enum$
+  base,
+  enumerator
 }
