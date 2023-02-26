@@ -16,6 +16,7 @@ dev_dependencies:
   freezed: ^2.2.0
   json_serializable: ^6.5.3
   dart_mappable_builder: ^2.0.2
+  observable: ^0.24.0
   
 dependencies:
   code_builder: ^4.3.0
@@ -23,5 +24,6 @@ dependencies:
   dart_style: ^2.2.4
   freezed_annotation: ^2.2.0
   json_annotation: ^4.7.0
+  meta: ^1.9.0
   path: ^1.8.2
   recase: ^4.1.0

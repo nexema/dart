@@ -1,4 +1,5 @@
 import 'package:nexema_generator/generator/enum/enum_generator.dart';
+import 'package:nexema_generator/models.dart';
 import 'package:test/test.dart';
 
 import 'test_utils.dart';
@@ -6,15 +7,30 @@ import 'test_utils.dart';
 void main() {
   group("Test EnumGenerator", () {
     test("Test generate enum code", () {
-      final input = getEnumType("EnumA", [
-        getEnumField(0, "unknown"),
-        getEnumField(1, "red"),
-        getEnumField(2, "green"),
-        getEnumField(3, "blue"),
-      ]);
+      final input = getEnumType("EnumA", 
+        [
+          getEnumField(0, "unknown"),
+          getEnumField(1, "red"),
+          getEnumField(2, "green"),
+          getEnumField(3, "blue"),
+        ], 
+        documentation: [
+          "First documentation"
+        ], 
+        annotations: {
+          "obsolete": true
+        }
+      );
 
-      final got = EnumGenerator.generateFor(input);
+      final got = EnumGenerator.generateFor(NexemaFile(
+        fileName: "a.nex", 
+        path: "root", 
+        packageName: "root", 
+        types: []
+      ), input);
       final want = r"""
+  /// First documentation
+  @$core.Deprecated('EnumA is obsolete and should not be used.')
   class EnumA extends $nex.NexemaEnumType {
     final $core.int _index;
     final $core.String _name;
@@ -25,8 +41,11 @@ void main() {
     const EnumA._internal(this._name, this._index);
 
     static const EnumA unknown = EnumA._internal('unknown', 0);
+
     static const EnumA red = EnumA._internal('red', 1);
+    
     static const EnumA green = EnumA._internal('green', 2);
+    
     static const EnumA blue = EnumA._internal('blue', 3);
 
     static EnumA? byIndex($core.int index) {

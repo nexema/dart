@@ -23,8 +23,8 @@ class Generator {
   final NexemaSnapshot definition;
   final DartFormatter _formatter = DartFormatter(fixes: StyleFix.all);
   final Map<int, TypeReference> _types = {};
-  final Map<File, String> _generatedSourceCode = {};
   final Map<String, Null> _currentFileImports = {}; 
+  final Map<File, String> _generatedSourceCode = {};
   
   Map<File, String> get generatedSourceCode => UnmodifiableMapView(_generatedSourceCode);
   String get currentFilePath => p.join(settings.outputPath, _currentFile!.fileName);
@@ -109,12 +109,4 @@ class Generator {
   String _getFormattedImports() {
     return _currentFileImports.keys.map((e) => "import $e;").join("\n");
   }
-}
-
-class TypeReference {
-  final NexemaTypeDefinition type;
-  final String path;
-  final String? importAlias;
-
-  TypeReference({required this.type, required this.path, required this.importAlias});
 }

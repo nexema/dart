@@ -67,7 +67,7 @@ class NexemaTypeFieldDefinition with NexemaTypeFieldDefinitionMappable {
   final int index;
   final String name;
   final Map<String, dynamic> annotations;
-  final Map<String, dynamic> defaults;
+  final List<String> documentation;
   final NexemaValueType? type;
 
   String get dartName => name.camelCase;
@@ -75,7 +75,7 @@ class NexemaTypeFieldDefinition with NexemaTypeFieldDefinitionMappable {
   const NexemaTypeFieldDefinition({
     required this.index,
     required this.name,
-    required this.defaults,
+    required this.documentation,
     required this.annotations,
     required this.type
   });

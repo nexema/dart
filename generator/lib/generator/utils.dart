@@ -1,3 +1,3 @@
-String mapNewlineJoin<T>(List<T> list, String Function(T item) mapper) {
-  return list.map(mapper).join("\n");
+String mapNewlineJoin<T>(List<T> list, String Function(T item) mapper, {String beforeNewline = ""}) {
+  return list.map(mapper).join("$beforeNewline\n");
 }

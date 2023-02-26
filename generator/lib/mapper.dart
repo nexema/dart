@@ -13,7 +13,9 @@ const kPrimitiveMapper = <String, String>{
   "int": "\$core.int",
   "uint": "\$core.BigInt",
   "float32": "\$core.double",
-  "float64": "\$core.double"
+  "float64": "\$core.double",
+  "list": "\$core.List",
+  "map": "\$core.Map",
 };
 
 const kEncoderMapper = <String, String>{

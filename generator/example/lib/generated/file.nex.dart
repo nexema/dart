@@ -62,7 +62,7 @@ class EnumA extends $nex.NexemaEnumType {
 
 /// Documentation for StructA
 class StructA extends $nex.NexemaType {
-  static final StructAFields fields = StructAFields._();
+  static final $StructAFields fields = $StructAFields._();
 
   final $nex.StructTypeState<StructA> _state;
 
@@ -311,8 +311,8 @@ class StructA extends $nex.NexemaType {
       "StructA(stringField: $stringField, uint8Field: $uint8Field, uint16Field: $uint16Field, uint32Field: $uint32Field, uint64Field: $uint64Field, int8Field: $int8Field, int16Field: $int16Field, int32Field: $int32Field, int64Field: $int64Field, binaryField: $binaryField, boolField: $boolField, intField: $intField, uintField: $uintField, float32Field: $float32Field, float64Field: $float64Field, enumField: $enumField, nullableEnum: $nullableEnum, accountType: $accountType)";
 }
 
-class StructAFields {
-  StructAFields._();
+class $StructAFields {
+  $StructAFields._();
 
   static final $nex.StateGetter<$nex.StructTypeState<StructA>, StructA>
       _stateGetter = _resolveState;
@@ -324,6 +324,7 @@ class StructAFields {
       name: "string_field",
       dartName: "stringField",
       index: 0,
+      annotations: {},
       valueType: const $nex.FieldValueType(
           isNullable: false,
           kind: $nex.FieldValueKind.string,

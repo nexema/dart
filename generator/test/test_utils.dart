@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:dart_style/dart_style.dart';
@@ -19,22 +18,35 @@ NexemaTypeDefinition getEnumType(String name, List<NexemaTypeFieldDefinition> fi
   );
 }
 
-NexemaTypeFieldDefinition getField(int index, String name, NexemaValueType valueType, {Map<String, dynamic>? metadata, Object? defaultValue}) 
+NexemaTypeDefinition getStructType(String name, List<NexemaTypeFieldDefinition> fields, {Map<String, dynamic>? defaults, int? id, List<String>? documentation, Map<String, dynamic>? annotations}) {
+  return NexemaTypeDefinition(
+    id: id ?? _random.nextInt(100),
+    name: name,
+    annotations: annotations ?? {},
+    baseType: null,
+    defaults: defaults ?? {},
+    documentation: documentation ?? [],
+    fields: fields,
+    modifier: "struct"
+  );
+}
+
+NexemaTypeFieldDefinition getField(int index, String name, NexemaValueType valueType, {Map<String, dynamic>? annotation, List<String>? documentation}) 
   => NexemaTypeFieldDefinition(
     index: index, 
     name: name, 
-    defaults: {},
-    annotations: {},
-    type: valueType
+    annotations: annotation ?? {},
+    type: valueType,
+    documentation: documentation ?? []
   );
 
-NexemaTypeFieldDefinition getEnumField(int index, String name) 
+NexemaTypeFieldDefinition getEnumField(int index, String name, {List<String>? documentation, Map<String, dynamic>? annotations}) 
   => NexemaTypeFieldDefinition(
     index: index, 
-    name: name, 
-    defaults: {},
-    annotations: {},
-    type: null
+    name: name,
+    annotations: annotations ?? {},
+    type: null,
+    documentation: documentation ?? []
   );
 
 NexemaValueType getPrimitiveValueType(String primitive, [bool nullable = false])
@@ -71,4 +83,25 @@ String formatDartCode(String input) {
   } catch(err) {
     fail("could not format dart code. Error: $err.\nInput: $input");
   }
+}
+
+void diff(String want, String got) {
+  List<String> expectedLines = want.split('\n');
+  List<String> gotLines = got.split('\n');
+
+  for(int i = 0; i < expectedLines.length; i++) {
+    try {
+      final gotLine = gotLines[i];
+      expect(expectedLines[i], equals(gotLine), reason: "failure at line: ${expectedLines[i]} (index: $i)");
+    } catch(_) {
+      print("-------- GOT ----------");
+      print(got);
+      fail("got does not contain line ${expectedLines[i]} (index: $i)");
+    }
+  }
+
+  if(gotLines.length > expectedLines.length) {
+    fail("got contains more lines than want. Lines got:\n${gotLines.sublist(gotLines.length - expectedLines.length).join("\n")}");
+  }
+
 }

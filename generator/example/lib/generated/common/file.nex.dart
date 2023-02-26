@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:nexema/nexema.dart' as $nex;
 import 'dart:typed_data' as $td;
 import 'dart:core' as $core;
@@ -89,8 +91,7 @@ class StructA extends $nex.NexemaType {
         ]),
         super();
   StructA._internal($core.Iterable<$core.dynamic> values)
-      : _state = $nex.StructTypeState(values.toList(growable: false)),
-        super();
+      : _state = $nex.StructTypeState(values.toList(growable: false));
 
   factory StructA(
       {required $core.String stringField,

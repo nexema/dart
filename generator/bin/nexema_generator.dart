@@ -3,7 +3,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:nexema_generator/generator.dart';
 import 'package:nexema_generator/models.dart';
 
 Future<void> main(List<String> args) async {
