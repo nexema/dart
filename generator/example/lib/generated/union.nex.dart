@@ -1,26 +1,7 @@
-import 'package:nexema_generator/generator/union/union_generator.dart';
-import 'package:nexema_generator/models.dart';
-import 'package:test/test.dart';
+import 'dart:core' as $core;
+import 'package:nexema/nexema.dart' as $nex;
+import 'dart:typed_data' as $td;
 
-import 'test_utils.dart';
-
-void main() {
-  group("Test UnionGenerator", () {
-    test("Union generation", () {
-      final file = NexemaFile(
-        fileName: "my_file.nex",
-        packageName: "root",
-        path: "root/my_file.nex",
-        types: []
-      );
-
-      final input = getUnionType("UnionB", [
-        getField(0, "string_field", getPrimitiveValueType("string")),
-        getField(1, "bool_field", getPrimitiveValueType("bool")),
-      ]);
-
-      String got = UnionGenerator.generateFor(file, input);
-      String want = r"""
 class UnionB extends $nex.NexemaType {
   final $nex.UnionTypeState<UnionB, UnionBField> _state;
 
@@ -161,16 +142,3 @@ class UnionB extends $nex.NexemaType {
 }
 
 enum UnionBField { notSet, stringField, boolField }
-""";
-
-      expect(formatDartCode(got), equals(formatDartCode(want)));
-      // try {
-      //   File("example/lib/generated/union.nex.dart")
-      //     ..create(recursive: true)
-      //     ..writeAsStringSync(formatDartCode(got));
-      // } catch(_) {
-      //   print(got);
-      // }
-    });
-  });
-}

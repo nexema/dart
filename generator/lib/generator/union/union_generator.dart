@@ -21,6 +21,8 @@ ${writeObsoleteAnnotation()}
 class ${type.dartName} extends $kNexAlias.NexemaType {
 final $kNexAlias.UnionTypeState<${type.dartName}, $_fieldsEnumName> _state;
 
+${writeStateGetter()}
+${writeTypeInfo()}
 ${_constructors()}
 ${_factories()}
 ${_whichFieldAndHasValue()}
@@ -42,10 +44,12 @@ ${_unionFieldsEnum()}
   String _constructors() {
     return """
 ${type.dartName}._internal($kCoreAlias.dynamic value, $_fieldsEnumName field)
-  : _state = $kNexAlias.UnionTypeState(value, field);
+  : _state = $kNexAlias.UnionTypeState(value, field),
+    super(_typeInfo);
 
 ${type.dartName}._empty() 
-  : _state = $kNexAlias.UnionTypeState(null, $_fieldsEnumName.notSet);
+  : _state = $kNexAlias.UnionTypeState(null, $_fieldsEnumName.notSet),
+    super(_typeInfo);
 
 factory ${type.dartName}({
   ${type.fields.map((e) => _factoryConstructorParameter(e)).join(", ")}
@@ -95,7 +99,7 @@ $kCoreBool get hasValue => _state.currentField != $_fieldsEnumName.notSet;
 
   String _factoryConstructorFieldBody(NexemaTypeFieldDefinition field) {
     return """if(${field.dartName} != null) {
-  return ${type.dartName}._internal(value, $_fieldsEnumName.${field.dartName});
+  return ${type.dartName}._internal(${field.dartName}, $_fieldsEnumName.${field.dartName});
 }
 """;
   }
@@ -162,7 +166,7 @@ void mergeFrom($kTdUint8List buffer) {
 
   String _toStringMethod() {
     return """$kOverrideAnnotation
-$kCoreString toString() => '${type.dartName}(\${whichField()}: \${_state.currentValue})';""";
+$kCoreString toString() => '${type.dartName}(\$whichField: \${_state.currentValue})';""";
   }
 
   String _unionFieldsEnum() {
