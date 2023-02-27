@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:nexema_generator/generator/generator.dart';
 import 'package:nexema_generator/models.dart';
 
 Future<void> main(List<String> args) async {
@@ -19,7 +20,7 @@ Future<void> main(List<String> args) async {
   // }
 
   // Parse definition
-  var definition = NexemaSnapshot.fromJson(input);
+  var snapshot = NexemaSnapshot.fromJson(input);
 
   // verify arguments
   if(args.isEmpty) {
@@ -29,13 +30,13 @@ Future<void> main(List<String> args) async {
 
   // Create generator and execute
   var generator = Generator(
-    definition: definition, 
+    snapshot: snapshot, 
     settings: GeneratorSettings(
       outputPath: args.first
     )
   );
 
-  generator.generate();
+  // generator.generate();
 }
 
 void _reportError(String msg) {
