@@ -31,6 +31,20 @@ NexemaTypeDefinition getStructType(String name, List<NexemaTypeFieldDefinition> 
   );
 }
 
+NexemaTypeDefinition getUnionType(String name, List<NexemaTypeFieldDefinition> fields, {Map<String, dynamic>? defaults, int? id, List<String>? documentation, Map<String, dynamic>? annotations}) {
+  return NexemaTypeDefinition(
+    id: id ?? _random.nextInt(100),
+    name: name,
+    annotations: annotations ?? {},
+    baseType: null,
+    defaults: defaults ?? {},
+    documentation: documentation ?? [],
+    fields: fields,
+    modifier: "union"
+  );
+}
+
+
 NexemaTypeFieldDefinition getField(int index, String name, NexemaValueType valueType, {Map<String, dynamic>? annotation, List<String>? documentation}) 
   => NexemaTypeFieldDefinition(
     index: index, 

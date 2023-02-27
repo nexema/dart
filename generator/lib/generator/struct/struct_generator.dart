@@ -1,7 +1,6 @@
-import 'package:nexema_generator/generator/base_type_generator.dart';
 import 'package:nexema_generator/generator/defaults.dart';
+import 'package:nexema_generator/generator/generic/base_type_generator.dart';
 import 'package:nexema_generator/generator/utils.dart';
-import 'package:nexema_generator/mapper.dart';
 import 'package:nexema_generator/models.dart';
 
 class StructGenerator extends BaseTypeGenerator {
@@ -26,7 +25,7 @@ ${mapNewlineJoin(type.fields, (item) => _getterAndSetter(item))}
 ${_encodeMethod()}
 ${_mergeFromMethod()}
 
-${_equalityMethods()}
+${equalityMethods()}
 ${_toStringMethod()}
 }
 """;
@@ -125,104 +124,12 @@ void mergeFrom($kTdUint8List buffer) {
 
   String _encodeField(NexemaTypeFieldDefinition field) {
     final valueType = field.type!;
-    return _getFieldEncoder(field.dartName, valueType);
+    return getFieldEncoder(field.dartName, valueType);
   }
 
   String _decodeField(NexemaTypeFieldDefinition field) {
     final valueType = field.type!;
-    return _getFieldDecoder(valueType);
-  }
-
-  String _getFieldDecoder(NexemaValueType valueType) {
-    if(valueType.nullable) {
-      return "reader.isNextNull() ? null : (${_getRawFieldDecoder(valueType)})";
-    } else {
-      return _getRawFieldDecoder(valueType);
-    }
-  }
-
-  String _getRawFieldDecoder(NexemaValueType valueType) {
-    if(valueType is NexemaPrimitiveValueType) {
-      if(valueType.primitive == kNexemaListPrimitive) {
-        final argumentType = valueType.arguments.first;
-        return "List.generate(reader.beginDecodeArray(), (_) => ${_getFieldDecoder(argumentType)})";
-      } else if(valueType.primitive == kNexemaMapPrimitive) {
-        final keyArgument = valueType.arguments.first;
-        final valueArgument = valueType.arguments.last;
-        return "{for(int i = 0; i < reader.beginDecodeMap(); i++) ${_getFieldDecoder(keyArgument)}: ${_getFieldDecoder(valueArgument)}}";
-      } else {
-        final decoder = kDecoderMapper[valueType.primitive];
-        return "reader.$decoder()";
-      }
-    } else {
-      final reference = resolveReference((valueType as NexemaTypeValueType).objectId);
-      final declaration = getDartDeclarationForReference(reference);
-      if(reference.type.isEnum) {
-        return "$declaration.byIndex(reader.decodeUint8()) ?? $declaration.${reference.type.fields.first.dartName}";
-      } else {
-        return "$declaration.decode(reader.decodeBinary())";
-      }
-    }
-  }
-
-  String _getFieldEncoder(String variableName, NexemaValueType valueType) {
-    if(valueType.nullable) {
-      return """if($variableName == null) {
-        writer.encodeNull();
-      } else {
-        ${_getFieldRawEncoder(variableName, valueType)}
-      }""";
-    } else {
-      return _getFieldRawEncoder(variableName, valueType);
-    }
-  }
-
-  String _getFieldRawEncoder(String variableName, NexemaValueType valueType) {
-    if(valueType is NexemaPrimitiveValueType) {
-      if(valueType.primitive == kNexemaListPrimitive) {
-        final argumentType = valueType.arguments.first;
-        return """writer.beginArray($variableName${valueType.nullable ? '!' : ''}.length);
-for(var value in $variableName) {
-  ${_getFieldEncoder('value', argumentType)}
-}""";
-      } else if(valueType.primitive == kNexemaMapPrimitive) {
-        final keyArgument = valueType.arguments.first;
-        final valueArgument = valueType.arguments.last;
-        
-        return """writer.beginMap($variableName${valueType.nullable ? '!' : ''}.length);
-for(var entry in $variableName.entries) {
-  ${_getFieldEncoder('entry.key', keyArgument)}
-  ${_getFieldEncoder('entry.value', valueArgument)}
-}""";
-      } else {
-        final encodeMethod = kEncoderMapper[valueType.primitive];
-        return "writer.$encodeMethod($variableName);";
-      }
-    } else {
-      final reference = resolveReference((valueType as NexemaTypeValueType).objectId);
-      if(reference.type.isEnum) {
-        return "writer.encodeUint8($variableName${valueType.nullable ? '!' : ''}.index);";
-      } else {
-        return "writer.encodeBinary($variableName${valueType.nullable ? '!' : ''}.encode());";
-      }
-    }
-  }
-
-  String _equalityMethods() {
-    return """
-$kOverrideAnnotation
-$kCoreInt get hashCode => _state.hashCode;
-
-
-$kOverrideAnnotation
-$kCoreBool operator ==($kCoreObject other) {
-  if(other is! ${type.dartName}) {
-    return false;
-  }
-
-  return other._state == _state;
-}
-""";
+    return getFieldDecoder(valueType);
   }
 
   String _toStringMethod() {
@@ -232,15 +139,5 @@ $kCoreBool operator ==($kCoreObject other) {
 
     return """$kOverrideAnnotation
 $kCoreString toString() => '${type.dartName}(${type.fields.map((e) => writeField(e)).join(", ")})';""";
-  }
-
-  String _toDebugStringMethod() {
-    String writeField(NexemaTypeFieldDefinition field) {
-      return "${field.dartName}: \$${field.dartName}";
-    }
-
-    return """
-$kCoreString toDebugString() => \"\"\"${type.dartName}(${type.fields.map((e) => writeField(e)).join(",\n\t")})\"\"\";
-""";
   }
 }

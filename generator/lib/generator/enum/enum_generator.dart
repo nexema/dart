@@ -1,5 +1,5 @@
-import 'package:nexema_generator/generator/base_type_generator.dart';
 import 'package:nexema_generator/generator/defaults.dart';
+import 'package:nexema_generator/generator/generic/base_type_generator.dart';
 import 'package:nexema_generator/generator/utils.dart';
 import 'package:nexema_generator/models.dart';
 
