@@ -4,6 +4,8 @@ import 'package:nexema_generator/generator/utils.dart';
 import 'package:nexema_generator/models.dart';
 
 class StructGenerator extends BaseTypeGenerator {
+  NexemaTypeDefinition? _baseType;
+
   StructGenerator({required super.type, required super.file});
 
   static String generateFor(NexemaFile file, NexemaTypeDefinition def) {
@@ -15,7 +17,7 @@ class StructGenerator extends BaseTypeGenerator {
     return """
 ${writeDocumentation(type.documentation)}
 ${writeObsoleteAnnotation()}
-class ${type.dartName} extends $kNexAlias.NexemaType {
+class ${type.dartName} extends ${_extends()} {
 final $kNexAlias.StructTypeState<${type.dartName}> _state;
 ${writeStateGetter()}
 
@@ -23,6 +25,7 @@ ${writeTypeInfo()}
 ${_constructors()}
 
 ${mapNewlineJoin(type.fields, (item) => _getterAndSetter(item))}
+${_baseImplementations()}
 
 ${_encodeMethod()}
 ${_mergeFromMethod()}
@@ -33,6 +36,16 @@ ${_toStringMethod()}
 """;
   }
 
+  String _extends() {
+    if(type.baseType == null) {
+      return "$kNexAlias.NexemaType";
+    } else {
+      final reference = resolveReference(type.baseType!);
+      _baseType = reference.type;
+      return getDartDeclarationForReference(reference);
+    }
+  }
+  
   String _constructors() {
     return """
 ${type.dartName}._internal($kCoreAlias.Iterable<$kCoreAlias.dynamic> values)
@@ -44,6 +57,7 @@ ${type.dartName}._empty()
   ]), super(_typeInfo);
 
 factory ${type.dartName}({
+  ${_baseType == null ? '' : "${_baseType!.fields.map((e) => _factoryConstructorParameter(e)).join(",")},"}
   ${type.fields.map((e) => _factoryConstructorParameter(e)).join(", ")}
 }) {
   return ${type.dartName}._internal([
@@ -92,21 +106,33 @@ factory ${type.dartName}.decode($kTdUint8List buffer) {
     return output;
   }
 
-  String _getterAndSetter(NexemaTypeFieldDefinition field) {
+  String _getterAndSetter(NexemaTypeFieldDefinition field, [bool override = false]) {
     final dartType = getValueTypeDeclaration(field.type!);
 
     return """${writeDocumentation(field.documentation)}
+${override ? kOverrideAnnotation : ''}
 $dartType get ${field.dartName} => _state.get(${field.index}) as $dartType;
+
+${override ? kOverrideAnnotation : ''}
 set ${field.dartName}($dartType value) {
   _state.set(${field.index}, value);
 }
 """;
   }
 
+  String _baseImplementations() {
+    if(_baseType == null) {
+      return "";
+    }
+
+    return _baseType!.fields.map((e) => _getterAndSetter(e, true)).join("\n");
+  }
+
   String _encodeMethod() {
     return """$kOverrideAnnotation
 $kTdUint8List encode() {
   final writer = $kNexAlias.getWriter();
+  ${_baseType == null ? '' : _baseType!.fields.map((field) => _encodeField(field)).join("\n")}
   ${type.fields.map((field) => _encodeField(field)).join("\n")}
   return writer.takeBytes();
 }
@@ -118,6 +144,7 @@ $kTdUint8List encode() {
 void mergeFrom($kTdUint8List buffer) {
   final reader = $kNexAlias.getReader(buffer);
   _state.setAll([
+    ${_baseType == null ? '' : "${mapNewlineJoin(_baseType!.fields, ((field) => _decodeField(field)), beforeNewline: ',')},"}
     ${mapNewlineJoin(type.fields, (field) => _decodeField(field), beforeNewline: ',')}
   ]);
 }

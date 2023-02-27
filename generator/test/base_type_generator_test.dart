@@ -29,7 +29,7 @@ void main() {
       String got = BaseGenerator.generateFor(file, input);
       String want = r"""
 abstract class BaseA extends $nex.NexemaType {
-  BaseA._internal(super.reflection$);
+  BaseA(super.reflection$);
 
   $core.String get stringField;
   set stringField($core.String value);

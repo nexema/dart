@@ -24,7 +24,7 @@ abstract class ${type.dartName} extends $kNexAlias.NexemaType {
   }
 
   String _constructor() {
-    return "${type.dartName}._internal(super.reflection\$);";
+    return "${type.dartName}(super.reflection\$);";
   }
 
   String _getterAndSetter(NexemaTypeFieldDefinition field) {

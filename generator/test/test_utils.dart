@@ -44,7 +44,6 @@ NexemaTypeDefinition getBaseType(String name, List<NexemaTypeFieldDefinition> fi
   );
 }
 
-
 NexemaTypeDefinition getUnionType(String name, List<NexemaTypeFieldDefinition> fields, {Map<String, dynamic>? defaults, int? id, List<String>? documentation, Map<String, dynamic>? annotations}) {
   return NexemaTypeDefinition(
     id: id ?? _random.nextInt(100),
