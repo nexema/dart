@@ -36,7 +36,9 @@ Future<void> main(List<String> args) async {
     )
   );
 
-  // generator.generate();
+  final result = generator.run();
+  stdout.writeln(result.toJson());
+  stdout.flush();
 }
 
 void _reportError(String msg) {

@@ -5,6 +5,215 @@
 
 part of 'models.dart';
 
+class PluginResultMapper extends MapperBase<PluginResult> {
+  static MapperContainer container = MapperContainer(
+    mappers: {PluginResultMapper()},
+  )..linkAll({GeneratedFileMapper.container});
+
+  @override
+  PluginResultMapperElement createElement(MapperContainer container) {
+    return PluginResultMapperElement._(this, container);
+  }
+
+  @override
+  String get id => 'PluginResult';
+
+  static final fromMap = container.fromMap<PluginResult>;
+  static final fromJson = container.fromJson<PluginResult>;
+}
+
+class PluginResultMapperElement extends MapperElementBase<PluginResult> {
+  PluginResultMapperElement._(super.mapper, super.container);
+
+  @override
+  Function get decoder => decode;
+  PluginResult decode(dynamic v) =>
+      checkedType(v, (Map<String, dynamic> map) => fromMap(map));
+  PluginResult fromMap(Map<String, dynamic> map) => PluginResult(
+      exitCode: container.$get(map, 'exitCode'),
+      files: container.$get(map, 'files'));
+
+  @override
+  Function get encoder => encode;
+  dynamic encode(PluginResult v) => toMap(v);
+  Map<String, dynamic> toMap(PluginResult p) => {
+        'exitCode': container.$enc(p.exitCode, 'exitCode'),
+        'files': container.$enc(p.files, 'files')
+      };
+
+  @override
+  String stringify(PluginResult self) =>
+      'PluginResult(exitCode: ${container.asString(self.exitCode)}, files: ${container.asString(self.files)})';
+  @override
+  int hash(PluginResult self) =>
+      container.hash(self.exitCode) ^ container.hash(self.files);
+  @override
+  bool equals(PluginResult self, PluginResult other) =>
+      container.isEqual(self.exitCode, other.exitCode) &&
+      container.isEqual(self.files, other.files);
+}
+
+mixin PluginResultMappable {
+  String toJson() => PluginResultMapper.container.toJson(this as PluginResult);
+  Map<String, dynamic> toMap() =>
+      PluginResultMapper.container.toMap(this as PluginResult);
+  PluginResultCopyWith<PluginResult, PluginResult, PluginResult> get copyWith =>
+      _PluginResultCopyWithImpl(this as PluginResult, $identity, $identity);
+  @override
+  String toString() => PluginResultMapper.container.asString(this);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (runtimeType == other.runtimeType &&
+          PluginResultMapper.container.isEqual(this, other));
+  @override
+  int get hashCode => PluginResultMapper.container.hash(this);
+}
+
+extension PluginResultValueCopy<$R, $Out extends PluginResult>
+    on ObjectCopyWith<$R, PluginResult, $Out> {
+  PluginResultCopyWith<$R, PluginResult, $Out> get asPluginResult =>
+      base.as((v, t, t2) => _PluginResultCopyWithImpl(v, t, t2));
+}
+
+typedef PluginResultCopyWithBound = PluginResult;
+
+abstract class PluginResultCopyWith<$R, $In extends PluginResult,
+    $Out extends PluginResult> implements ObjectCopyWith<$R, $In, $Out> {
+  PluginResultCopyWith<$R2, $In, $Out2> chain<$R2, $Out2 extends PluginResult>(
+      Then<PluginResult, $Out2> t, Then<$Out2, $R2> t2);
+  ListCopyWith<$R, GeneratedFile,
+      GeneratedFileCopyWith<$R, GeneratedFile, GeneratedFile>> get files;
+  $R call({int? exitCode, List<GeneratedFile>? files});
+}
+
+class _PluginResultCopyWithImpl<$R, $Out extends PluginResult>
+    extends CopyWithBase<$R, PluginResult, $Out>
+    implements PluginResultCopyWith<$R, PluginResult, $Out> {
+  _PluginResultCopyWithImpl(super.value, super.then, super.then2);
+  @override
+  PluginResultCopyWith<$R2, PluginResult, $Out2>
+      chain<$R2, $Out2 extends PluginResult>(
+              Then<PluginResult, $Out2> t, Then<$Out2, $R2> t2) =>
+          _PluginResultCopyWithImpl($value, t, t2);
+
+  @override
+  ListCopyWith<$R, GeneratedFile,
+          GeneratedFileCopyWith<$R, GeneratedFile, GeneratedFile>>
+      get files => ListCopyWith(
+          $value.files,
+          (v, t) => v.copyWith.chain<$R, GeneratedFile>($identity, t),
+          (v) => call(files: v));
+  @override
+  $R call({int? exitCode, List<GeneratedFile>? files}) => $then(PluginResult(
+      exitCode: exitCode ?? $value.exitCode, files: files ?? $value.files));
+}
+
+class GeneratedFileMapper extends MapperBase<GeneratedFile> {
+  static MapperContainer container = MapperContainer(
+    mappers: {GeneratedFileMapper()},
+  );
+
+  @override
+  GeneratedFileMapperElement createElement(MapperContainer container) {
+    return GeneratedFileMapperElement._(this, container);
+  }
+
+  @override
+  String get id => 'GeneratedFile';
+
+  static final fromMap = container.fromMap<GeneratedFile>;
+  static final fromJson = container.fromJson<GeneratedFile>;
+}
+
+class GeneratedFileMapperElement extends MapperElementBase<GeneratedFile> {
+  GeneratedFileMapperElement._(super.mapper, super.container);
+
+  @override
+  Function get decoder => decode;
+  GeneratedFile decode(dynamic v) =>
+      checkedType(v, (Map<String, dynamic> map) => fromMap(map));
+  GeneratedFile fromMap(Map<String, dynamic> map) => GeneratedFile(
+      id: container.$get(map, 'id'),
+      name: container.$get(map, 'name'),
+      contents: container.$get(map, 'contents'));
+
+  @override
+  Function get encoder => encode;
+  dynamic encode(GeneratedFile v) => toMap(v);
+  Map<String, dynamic> toMap(GeneratedFile g) => {
+        'id': container.$enc(g.id, 'id'),
+        'name': container.$enc(g.name, 'name'),
+        'contents': container.$enc(g.contents, 'contents')
+      };
+
+  @override
+  String stringify(GeneratedFile self) =>
+      'GeneratedFile(id: ${container.asString(self.id)}, name: ${container.asString(self.name)}, contents: ${container.asString(self.contents)})';
+  @override
+  int hash(GeneratedFile self) =>
+      container.hash(self.id) ^
+      container.hash(self.name) ^
+      container.hash(self.contents);
+  @override
+  bool equals(GeneratedFile self, GeneratedFile other) =>
+      container.isEqual(self.id, other.id) &&
+      container.isEqual(self.name, other.name) &&
+      container.isEqual(self.contents, other.contents);
+}
+
+mixin GeneratedFileMappable {
+  String toJson() =>
+      GeneratedFileMapper.container.toJson(this as GeneratedFile);
+  Map<String, dynamic> toMap() =>
+      GeneratedFileMapper.container.toMap(this as GeneratedFile);
+  GeneratedFileCopyWith<GeneratedFile, GeneratedFile, GeneratedFile>
+      get copyWith => _GeneratedFileCopyWithImpl(
+          this as GeneratedFile, $identity, $identity);
+  @override
+  String toString() => GeneratedFileMapper.container.asString(this);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (runtimeType == other.runtimeType &&
+          GeneratedFileMapper.container.isEqual(this, other));
+  @override
+  int get hashCode => GeneratedFileMapper.container.hash(this);
+}
+
+extension GeneratedFileValueCopy<$R, $Out extends GeneratedFile>
+    on ObjectCopyWith<$R, GeneratedFile, $Out> {
+  GeneratedFileCopyWith<$R, GeneratedFile, $Out> get asGeneratedFile =>
+      base.as((v, t, t2) => _GeneratedFileCopyWithImpl(v, t, t2));
+}
+
+typedef GeneratedFileCopyWithBound = GeneratedFile;
+
+abstract class GeneratedFileCopyWith<$R, $In extends GeneratedFile,
+    $Out extends GeneratedFile> implements ObjectCopyWith<$R, $In, $Out> {
+  GeneratedFileCopyWith<$R2, $In, $Out2>
+      chain<$R2, $Out2 extends GeneratedFile>(
+          Then<GeneratedFile, $Out2> t, Then<$Out2, $R2> t2);
+  $R call({int? id, String? name, String? contents});
+}
+
+class _GeneratedFileCopyWithImpl<$R, $Out extends GeneratedFile>
+    extends CopyWithBase<$R, GeneratedFile, $Out>
+    implements GeneratedFileCopyWith<$R, GeneratedFile, $Out> {
+  _GeneratedFileCopyWithImpl(super.value, super.then, super.then2);
+  @override
+  GeneratedFileCopyWith<$R2, GeneratedFile, $Out2>
+      chain<$R2, $Out2 extends GeneratedFile>(
+              Then<GeneratedFile, $Out2> t, Then<$Out2, $R2> t2) =>
+          _GeneratedFileCopyWithImpl($value, t, t2);
+
+  @override
+  $R call({int? id, String? name, String? contents}) => $then(GeneratedFile(
+      id: id ?? $value.id,
+      name: name ?? $value.name,
+      contents: contents ?? $value.contents));
+}
+
 class NexemaSnapshotMapper extends MapperBase<NexemaSnapshot> {
   static MapperContainer container = MapperContainer(
     mappers: {NexemaSnapshotMapper()},
@@ -144,6 +353,7 @@ class NexemaFileMapperElement extends MapperElementBase<NexemaFile> {
   NexemaFile decode(dynamic v) =>
       checkedType(v, (Map<String, dynamic> map) => fromMap(map));
   NexemaFile fromMap(Map<String, dynamic> map) => NexemaFile(
+      id: container.$get(map, 'id'),
       fileName: container.$get(map, 'fileName'),
       path: container.$get(map, 'path'),
       packageName: container.$get(map, 'packageName'),
@@ -153,6 +363,7 @@ class NexemaFileMapperElement extends MapperElementBase<NexemaFile> {
   Function get encoder => encode;
   dynamic encode(NexemaFile v) => toMap(v);
   Map<String, dynamic> toMap(NexemaFile n) => {
+        'id': container.$enc(n.id, 'id'),
         'fileName': container.$enc(n.fileName, 'fileName'),
         'path': container.$enc(n.path, 'path'),
         'packageName': container.$enc(n.packageName, 'packageName'),
@@ -161,19 +372,21 @@ class NexemaFileMapperElement extends MapperElementBase<NexemaFile> {
 
   @override
   String stringify(NexemaFile self) =>
-      'NexemaFile(fileName: ${container.asString(self.fileName)}, packageName: ${container.asString(self.packageName)}, path: ${container.asString(self.path)}, types: ${container.asString(self.types)})';
+      'NexemaFile(fileName: ${container.asString(self.fileName)}, packageName: ${container.asString(self.packageName)}, path: ${container.asString(self.path)}, types: ${container.asString(self.types)}, id: ${container.asString(self.id)})';
   @override
   int hash(NexemaFile self) =>
       container.hash(self.fileName) ^
       container.hash(self.packageName) ^
       container.hash(self.path) ^
-      container.hash(self.types);
+      container.hash(self.types) ^
+      container.hash(self.id);
   @override
   bool equals(NexemaFile self, NexemaFile other) =>
       container.isEqual(self.fileName, other.fileName) &&
       container.isEqual(self.packageName, other.packageName) &&
       container.isEqual(self.path, other.path) &&
-      container.isEqual(self.types, other.types);
+      container.isEqual(self.types, other.types) &&
+      container.isEqual(self.id, other.id);
 }
 
 mixin NexemaFileMappable {
@@ -211,7 +424,8 @@ abstract class NexemaFileCopyWith<$R, $In extends NexemaFile,
       NexemaTypeDefinitionCopyWith<$R, NexemaTypeDefinition,
           NexemaTypeDefinition>> get types;
   $R call(
-      {String? fileName,
+      {int? id,
+      String? fileName,
       String? path,
       String? packageName,
       List<NexemaTypeDefinition>? types});
@@ -238,11 +452,13 @@ class _NexemaFileCopyWithImpl<$R, $Out extends NexemaFile>
       (v) => call(types: v));
   @override
   $R call(
-          {String? fileName,
+          {int? id,
+          String? fileName,
           String? path,
           String? packageName,
           List<NexemaTypeDefinition>? types}) =>
       $then(NexemaFile(
+          id: id ?? $value.id,
           fileName: fileName ?? $value.fileName,
           path: path ?? $value.path,
           packageName: packageName ?? $value.packageName,

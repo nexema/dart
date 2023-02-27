@@ -23,6 +23,7 @@ void main() {
       );
 
       final got = EnumGenerator.generateFor(NexemaFile(
+        id: 1,
         fileName: "a.nex", 
         path: "root", 
         packageName: "root", 

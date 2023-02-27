@@ -9,6 +9,7 @@ void main() {
   group("Test StructGenerator", () {
     test("Struct with primitives", () {
       final file = NexemaFile(
+        id: 1,
         fileName: "my_file.nex",
         packageName: "root",
         path: "root/my_file.nex",
@@ -399,6 +400,7 @@ class StructA extends $nex.NexemaType {
   
     test("Struct with list, maps and nullable", () {
       final file = NexemaFile(
+        id: 1,
         fileName: "my_file.nex",
         packageName: "root",
         path: "root/my_file.nex",
@@ -811,6 +813,7 @@ class StructA extends $nex.NexemaType {
       ]);
 
       final file = NexemaFile(
+        id: 1,
         fileName: "my_file.nex",
         packageName: "root",
         path: "root/my_file.nex",
@@ -977,6 +980,7 @@ class StructA extends $nex.NexemaType {
 
       final file = NexemaFile(
         fileName: "my_file.nex",
+        id: 1,
         packageName: "root",
         path: "root/my_file.nex",
         types: [

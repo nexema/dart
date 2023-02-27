@@ -8,6 +8,7 @@ void main() {
   group("Test UnionGenerator", () {
     test("Union generation", () {
       final file = NexemaFile(
+        id: 1,
         fileName: "my_file.nex",
         packageName: "root",
         path: "root/my_file.nex",
