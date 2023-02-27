@@ -59,7 +59,7 @@ class Generator {
 
         files[file.id] = GeneratedFile(
           id: file.id, 
-          name: path.join(file.path, "${file.fileName}.dart"), 
+          name: "${file.fileName}.dart", 
           contents: _formatter.format(sb.toString())
         );
       }
