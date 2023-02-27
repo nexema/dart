@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:nexema_generator/generator/defaults.dart';
 import 'package:nexema_generator/generator/generator.dart';
 import 'package:nexema_generator/generator/struct/struct_generator.dart';
 import 'package:nexema_generator/models.dart';
@@ -969,6 +972,184 @@ class StructA extends $nex.NexemaType {
 """;
       expect(formatDartCode(got), equals(formatDartCode(want)));
     });
-    
+
+    test("Struct with base type", () {
+      final input = getStructType("StructA", [
+        getField(0, "string_field", getPrimitiveValueType("string")),
+      ], baseTypeId: 5);
+
+      final file = NexemaFile(
+        fileName: "my_file.nex",
+        packageName: "root",
+        path: "root/my_file.nex",
+        types: [
+          getBaseType("BaseA", [
+            getField(0, "varint_field", getPrimitiveValueType("int")),
+            getField(1, "uvarint_field", getPrimitiveValueType("uint")),
+          ], id: 5)
+        ]
+      )..types.add(input);
+
+      Generator(
+        snapshot: NexemaSnapshot(version: 0, hashcode: 0, files: [file]),
+        settings: GeneratorSettings(outputPath: "")
+      );
+
+      String got = StructGenerator.generateFor(file, input);
+      String want = r"""
+class StructA extends $nex.NexemaType {
+  final $nex.StructTypeState<StructA> _state;
+  @$core.override
+  $nex.NexemaTypeState<StructA> get $state_ => _state;
+
+  static const _typeInfo = $nex.TypeInfo(
+      name: 'StructA',
+      modifier: $nex.TypeModifier.struct,
+      packageName: 'root',
+      annotations: {},
+      fields: [
+        $nex.FieldInfo<StructA>(
+            name: 'struct_field',
+            dartName: 'structField',
+            index: 0,
+            valueType: $nex.FieldValueType(
+                kind: $nex.FieldValueKind.type,
+                isNullable: false,
+                typeArguments: []),
+            annotations: {}),
+        $nex.FieldInfo<StructA>(
+            name: 'struct_null_field',
+            dartName: 'structNullField',
+            index: 1,
+            valueType: $nex.FieldValueType(
+                kind: $nex.FieldValueKind.type,
+                isNullable: true,
+                typeArguments: []),
+            annotations: {}),
+        $nex.FieldInfo<StructA>(
+            name: 'enum_field',
+            dartName: 'enumField',
+            index: 2,
+            valueType: $nex.FieldValueType(
+                kind: $nex.FieldValueKind.type,
+                isNullable: false,
+                typeArguments: []),
+            annotations: {}),
+        $nex.FieldInfo<StructA>(
+            name: 'enum_null_field',
+            dartName: 'enumNullField',
+            index: 3,
+            valueType: $nex.FieldValueType(
+                kind: $nex.FieldValueKind.type,
+                isNullable: true,
+                typeArguments: []),
+            annotations: {})
+      ]);
+
+  StructA._internal($core.Iterable<$core.dynamic> values)
+      : _state = $nex.StructTypeState(values.toList(growable: false)),
+        super(_typeInfo);
+
+  StructA._empty()
+      : _state = $nex.StructTypeState([null, null, null, null]),
+        super(_typeInfo);
+
+  factory StructA(
+      {required StructB structField,
+      StructB? structNullField,
+      required EnumA enumField,
+      EnumA? enumNullField}) {
+    return StructA._internal(
+        [structField, structNullField, enumField, enumNullField]);
+  }
+
+  factory StructA.decode($td.Uint8List buffer) {
+    var instance = StructA._empty();
+    instance.mergeFrom(buffer);
+    return instance;
+  }
+
+  StructB get structField => _state.get(0) as StructB;
+  set structField(StructB value) {
+    _state.set(0, value);
+  }
+
+  StructB? get structNullField => _state.get(1) as StructB?;
+  set structNullField(StructB? value) {
+    _state.set(1, value);
+  }
+
+  EnumA get enumField => _state.get(2) as EnumA;
+  set enumField(EnumA value) {
+    _state.set(2, value);
+  }
+
+  EnumA? get enumNullField => _state.get(3) as EnumA?;
+  set enumNullField(EnumA? value) {
+    _state.set(3, value);
+  }
+
+  @$core.override
+  $td.Uint8List encode() {
+    final writer = $nex.getWriter();
+    writer.encodeBinary(structField.encode());
+    if (structNullField == null) {
+      writer.encodeNull();
+    } else {
+      writer.encodeBinary(structNullField!.encode());
+    }
+    writer.encodeUint8(enumField.index);
+    if (enumNullField == null) {
+      writer.encodeNull();
+    } else {
+      writer.encodeUint8(enumNullField!.index);
+    }
+    return writer.takeBytes();
+  }
+
+  @$core.override
+  void mergeFrom($td.Uint8List buffer) {
+    final reader = $nex.getReader(buffer);
+    _state.setAll([
+      StructB.decode(reader.decodeBinary()),
+      reader.isNextNull() ? null : (StructB.decode(reader.decodeBinary())),
+      EnumA.byIndex(reader.decodeUint8()) ?? EnumA.unknown,
+      reader.isNextNull()
+          ? null
+          : (EnumA.byIndex(reader.decodeUint8()) ?? EnumA.unknown)
+    ]);
+  }
+
+  @$core.override
+  $core.int get hashCode => _state.hashCode;
+
+  @$core.override
+  $core.bool operator ==($core.Object other) {
+    if (other is! StructA) {
+      return false;
+    }
+
+    return other._state == _state;
+  }
+
+  @$core.override
+  $core.String toString() =>
+      'StructA(structField: $structField, structNullField: $structNullField, enumField: $enumField, enumNullField: $enumNullField)';
+}
+""";
+      // expect(formatDartCode(got), equals(formatDartCode(want)));
+      try {
+        File("example/lib/generated/struct.nex.dart")
+          ..create(recursive: true)
+          ..writeAsStringSync("""
+import 'dart:core' as $kCoreAlias;
+import 'package:nexema/nexema.dart' as $kNexAlias;
+import 'dart:typed_data' as $kTypedDataAlias;
+
+${formatDartCode(got)}""");
+      } catch(_) {
+        print(got);
+      }
+    });
   });
 }

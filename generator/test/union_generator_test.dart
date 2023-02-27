@@ -164,13 +164,6 @@ enum UnionBField { notSet, stringField, boolField }
 """;
 
       expect(formatDartCode(got), equals(formatDartCode(want)));
-      // try {
-      //   File("example/lib/generated/union.nex.dart")
-      //     ..create(recursive: true)
-      //     ..writeAsStringSync(formatDartCode(got));
-      // } catch(_) {
-      //   print(got);
-      // }
     });
   });
 }

@@ -18,7 +18,20 @@ NexemaTypeDefinition getEnumType(String name, List<NexemaTypeFieldDefinition> fi
   );
 }
 
-NexemaTypeDefinition getStructType(String name, List<NexemaTypeFieldDefinition> fields, {Map<String, dynamic>? defaults, int? id, List<String>? documentation, Map<String, dynamic>? annotations}) {
+NexemaTypeDefinition getStructType(String name, List<NexemaTypeFieldDefinition> fields, {int? baseTypeId, Map<String, dynamic>? defaults, int? id, List<String>? documentation, Map<String, dynamic>? annotations}) {
+  return NexemaTypeDefinition(
+    id: id ?? _random.nextInt(100),
+    name: name,
+    annotations: annotations ?? {},
+    baseType: baseTypeId,
+    defaults: defaults ?? {},
+    documentation: documentation ?? [],
+    fields: fields,
+    modifier: "struct"
+  );
+}
+
+NexemaTypeDefinition getBaseType(String name, List<NexemaTypeFieldDefinition> fields, {Map<String, dynamic>? defaults, int? id, List<String>? documentation, Map<String, dynamic>? annotations}) {
   return NexemaTypeDefinition(
     id: id ?? _random.nextInt(100),
     name: name,
@@ -27,9 +40,10 @@ NexemaTypeDefinition getStructType(String name, List<NexemaTypeFieldDefinition> 
     defaults: defaults ?? {},
     documentation: documentation ?? [],
     fields: fields,
-    modifier: "struct"
+    modifier: "base"
   );
 }
+
 
 NexemaTypeDefinition getUnionType(String name, List<NexemaTypeFieldDefinition> fields, {Map<String, dynamic>? defaults, int? id, List<String>? documentation, Map<String, dynamic>? annotations}) {
   return NexemaTypeDefinition(
@@ -43,7 +57,6 @@ NexemaTypeDefinition getUnionType(String name, List<NexemaTypeFieldDefinition> f
     modifier: "union"
   );
 }
-
 
 NexemaTypeFieldDefinition getField(int index, String name, NexemaValueType valueType, {Map<String, dynamic>? annotation, List<String>? documentation}) 
   => NexemaTypeFieldDefinition(
