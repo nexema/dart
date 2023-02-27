@@ -19,10 +19,13 @@ class ${type.dartName} extends $kNexAlias.NexemaEnumType {
   final $kCoreInt _index;
   final $kCoreString _name;
 
+  ${_writerStateGetter()}
+  ${writeTypeInfo()}
+
   $kCoreInt get index => _index;
   $kCoreString get name => _name;
 
-  const ${type.dartName}._internal(this._name, this._index);
+  const ${type.dartName}._internal(this._name, this._index) : super(_typeInfo);
 
   ${mapNewlineJoin(type.fields, _staticDeclaration)}
 
@@ -115,5 +118,10 @@ $kCoreString toString() => _name;
     return """
 $kCoreString toDebugString() => "${type.dartName}(\$_name: \$_index)";
 """;
+  }
+
+  String _writerStateGetter() {
+    return """$kOverrideAnnotation
+$kNexAlias.NexemaTypeState<${type.dartName}> get \$state_ => throw $kCoreAlias.UnsupportedError('Enum types does not have state.');""";
   }
 }

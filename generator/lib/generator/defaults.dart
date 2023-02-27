@@ -19,6 +19,9 @@ const kNexAlias = r"$nex";
 /// $core
 const kCoreAlias = r"$core";
 
+/// $core.List
+const kCoreList = r"$core.List";
+
 /// @$core.override
 const kOverrideAnnotation = r"@$core.override";
 

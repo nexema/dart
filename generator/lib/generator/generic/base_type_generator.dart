@@ -82,6 +82,12 @@ abstract class BaseTypeGenerator {
   }
 
   @protected
+  String writeStateGetter() {
+    return """$kOverrideAnnotation
+$kNexAlias.NexemaTypeState<${type.dartName}> get \$state_ => _state;""";
+  }
+
+  @protected
   TypeReference resolveReference(int objectId)
     => Generator.defaultGenerator.resolveFor(file, objectId);
 
@@ -98,11 +104,11 @@ abstract class BaseTypeGenerator {
     if(valueType is NexemaPrimitiveValueType) {
       if(valueType.primitive == kNexemaListPrimitive) {
         final argumentType = valueType.arguments.first;
-        return "List.generate(reader.beginDecodeArray(), (_) => ${getFieldDecoder(argumentType)})";
+        return "$kCoreList.generate(reader.beginDecodeArray(), (_) => ${getFieldDecoder(argumentType)})";
       } else if(valueType.primitive == kNexemaMapPrimitive) {
         final keyArgument = valueType.arguments.first;
         final valueArgument = valueType.arguments.last;
-        return "{for(int i = 0; i < reader.beginDecodeMap(); i++) ${getFieldDecoder(keyArgument)}: ${getFieldDecoder(valueArgument)}}";
+        return "{for($kCoreInt i = 0; i < reader.beginDecodeMap(); i++) ${getFieldDecoder(keyArgument)}: ${getFieldDecoder(valueArgument)}}";
       } else {
         final decoder = kDecoderMapper[valueType.primitive];
         return "reader.$decoder()";
@@ -119,31 +125,34 @@ abstract class BaseTypeGenerator {
   }
 
   @protected
-  String getFieldEncoder(String variableName, NexemaValueType valueType) {
+  String getFieldEncoder(String variableName, NexemaValueType valueType, {bool appendExclamationMark = true}) {
     if(valueType.nullable) {
       return """if($variableName == null) {
         writer.encodeNull();
       } else {
-        ${_getFieldRawEncoder(variableName, valueType)}
+        ${_getFieldRawEncoder(variableName, valueType, appendExclamationMark: appendExclamationMark)}
       }""";
     } else {
-      return _getFieldRawEncoder(variableName, valueType);
+      return _getFieldRawEncoder(variableName, valueType, appendExclamationMark: false);
     }
   }
 
-  String _getFieldRawEncoder(String variableName, NexemaValueType valueType) {
+  String _getFieldRawEncoder(String variableName, NexemaValueType valueType, {bool appendExclamationMark = true}) {
+    if(appendExclamationMark && valueType.nullable) {
+      variableName = "$variableName!";
+    }
     if(valueType is NexemaPrimitiveValueType) {
       if(valueType.primitive == kNexemaListPrimitive) {
         final argumentType = valueType.arguments.first;
-        return """writer.beginArray($variableName${valueType.nullable ? '!' : ''}.length);
+        return """writer.beginArray($variableName.length);
 for(var value in $variableName) {
-  ${getFieldEncoder('value', argumentType)}
+  ${getFieldEncoder('value', argumentType, appendExclamationMark: false)}
 }""";
       } else if(valueType.primitive == kNexemaMapPrimitive) {
         final keyArgument = valueType.arguments.first;
         final valueArgument = valueType.arguments.last;
         
-        return """writer.beginMap($variableName${valueType.nullable ? '!' : ''}.length);
+        return """writer.beginMap($variableName.length);
 for(var entry in $variableName.entries) {
   ${getFieldEncoder('entry.key', keyArgument)}
   ${getFieldEncoder('entry.value', valueArgument)}
@@ -155,9 +164,9 @@ for(var entry in $variableName.entries) {
     } else {
       final reference = resolveReference((valueType as NexemaTypeValueType).objectId);
       if(reference.type.isEnum) {
-        return "writer.encodeUint8($variableName${valueType.nullable ? '!' : ''}.index);";
+        return "writer.encodeUint8($variableName.index);";
       } else {
-        return "writer.encodeBinary($variableName${valueType.nullable ? '!' : ''}.encode());";
+        return "writer.encodeBinary($variableName.encode());";
       }
     }
   }
@@ -180,4 +189,73 @@ $kCoreBool operator ==($kCoreObject other) {
 """;
   }
 
+  @protected
+  String writeTypeInfo() {
+    return """
+static const _typeInfo = $kNexAlias.TypeInfo(
+  name: '${type.name}', 
+  modifier: ${_getTypeModifier()}, 
+  packageName: '${file.packageName}', 
+  annotations: ${_writeMap(type.annotations)},
+  fields: [${type.fields.map((e) => _fieldInfo(e)).join(",")}]
+);
+""";
+  }
+
+  String _getTypeModifier() {
+    switch(type.modifier) {
+      case "struct": return "$kNexAlias.TypeModifier.struct";
+      case "enum": return "$kNexAlias.TypeModifier.enumerator";
+      case "base": return "$kNexAlias.TypeModifier.base";
+      case "union": return "$kNexAlias.TypeModifier.union";
+    }
+
+    throw "Unknown type modifier ${type.modifier}";
+  }
+
+  String _writeMap(Map<String, dynamic> map) {
+    return """{
+  ${map.entries.map((e) => "'${e.key}': ${e.value}").join(",")}
+}""";
+  }
+
+  String _fieldInfo(NexemaTypeFieldDefinition field) {
+    return """
+$kNexAlias.FieldInfo<${type.name}>(
+  name: '${field.name}', 
+  dartName: '${field.dartName}', 
+  index: ${field.index}, 
+  valueType: ${_fieldValueType(field.type)},
+  annotations: ${_writeMap(field.annotations)})
+""";
+  }
+
+  String _fieldValueType(NexemaValueType? type) {
+    if(type == null) {
+      return "null";
+    }
+
+    return """
+$kNexAlias.FieldValueType(
+  kind: ${_getValueKind(type)}, 
+  isNullable: ${type.nullable}, 
+  typeArguments: ${_getTypeArguments(type)}
+)""";
+  }
+
+  String _getValueKind(NexemaValueType type) {
+    if(type is NexemaPrimitiveValueType) {
+      return "$kNexAlias.FieldValueKind.${type.primitive}";
+    } else {
+      return "$kNexAlias.FieldValueKind.type";
+    }
+  }
+
+  String _getTypeArguments(NexemaValueType type) {
+    if(type is NexemaPrimitiveValueType) {
+      return "[${type.arguments.map((e) => _fieldValueType(e)).join(",")}]";
+    }
+
+    return "[]";
+  }
 }

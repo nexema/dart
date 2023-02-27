@@ -1,34 +1,7 @@
-import 'package:nexema_generator/generator/enum/enum_generator.dart';
-import 'package:nexema_generator/models.dart';
-import 'package:test/test.dart';
+import 'dart:core' as $core;
+import 'package:nexema/nexema.dart' as $nex;
+import 'dart:typed_data' as $td;
 
-import 'test_utils.dart';
-
-void main() {
-  group("Test EnumGenerator", () {
-    test("Test generate enum code", () {
-      final input = getEnumType("EnumA", 
-        [
-          getEnumField(0, "unknown"),
-          getEnumField(1, "red"),
-          getEnumField(2, "green"),
-          getEnumField(3, "blue"),
-        ], 
-        documentation: [
-          "First documentation"
-        ], 
-        annotations: {
-          "obsolete": true
-        }
-      );
-
-      final got = EnumGenerator.generateFor(NexemaFile(
-        fileName: "a.nex", 
-        path: "root", 
-        packageName: "root", 
-        types: []
-      ), input);
-      final want = r"""
 /// First documentation
 @$core.Deprecated('EnumA is obsolete and should not be used.')
 class EnumA extends $nex.NexemaEnumType {
@@ -128,8 +101,4 @@ class EnumA extends $nex.NexemaEnumType {
   $core.String toString() => _name;
 
   $core.String toDebugString() => "EnumA($_name: $_index)";
-}""";
-      expect(formatDartCode(got), equals(formatDartCode(want)));
-    });
-  });
 }

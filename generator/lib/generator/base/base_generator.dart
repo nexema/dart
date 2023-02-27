@@ -3,11 +3,11 @@ import 'package:nexema_generator/generator/generic/base_type_generator.dart';
 import 'package:nexema_generator/generator/utils.dart';
 import 'package:nexema_generator/models.dart';
 
-class StructGenerator extends BaseTypeGenerator {
-  StructGenerator({required super.type, required super.file});
+class BaseGenerator extends BaseTypeGenerator {
+  BaseGenerator({required super.type, required super.file});
 
   static String generateFor(NexemaFile file, NexemaTypeDefinition def) {
-    return StructGenerator(type: def, file: file).generate();
+    return BaseGenerator(type: def, file: file).generate();
   }
 
   @override
@@ -15,20 +15,8 @@ class StructGenerator extends BaseTypeGenerator {
     return """
 ${writeDocumentation(type.documentation)}
 ${writeObsoleteAnnotation()}
-class ${type.dartName} extends $kNexAlias.NexemaType {
-final $kNexAlias.StructTypeState<${type.dartName}> _state;
-${writeStateGetter()}
+abstract class ${type.dartName} extends $kNexAlias.NexemaType {
 
-${writeTypeInfo()}
-${_constructors()}
-
-${mapNewlineJoin(type.fields, (item) => _getterAndSetter(item))}
-
-${_encodeMethod()}
-${_mergeFromMethod()}
-
-${equalityMethods()}
-${_toStringMethod()}
 }
 """;
   }
@@ -36,12 +24,12 @@ ${_toStringMethod()}
   String _constructors() {
     return """
 ${type.dartName}._internal($kCoreAlias.Iterable<$kCoreAlias.dynamic> values)
-  : _state = $kNexAlias.StructTypeState(values.toList(growable: false)), super(_typeInfo);
+  : _state = $kNexAlias.StructTypeState(values.toList(growable: false));
 
 ${type.dartName}._empty()
   : _state = $kNexAlias.StructTypeState([
     ${type.fields.map((e) => 'null').join(", ")}
-  ]), super(_typeInfo);
+  ]);
 
 factory ${type.dartName}({
   ${type.fields.map((e) => _factoryConstructorParameter(e)).join(", ")}
