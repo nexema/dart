@@ -1,3 +1,4 @@
+// coverage:ignore-file
 class UnknownFieldError extends Error {
   final int fieldIndex;
 

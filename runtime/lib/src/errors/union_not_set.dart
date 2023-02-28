@@ -1,11 +1,12 @@
 // ignore_for_file: prefer_initializing_formals
+// coverage:ignore-file
 
 class UnionNotSetError extends Error {
-  final int? fieldIndex;
+  final String? fieldName;
   
-  UnionNotSetError(int fieldIndex) : fieldIndex = fieldIndex;
-  UnionNotSetError.notSet() : fieldIndex = null;
+  UnionNotSetError(String fieldName) : fieldName = fieldName;
+  UnionNotSetError.notSet() : fieldName = null;
 
   @override
-  String toString() => fieldIndex == null ? "Union does not have any value." : "Union is not $fieldIndex at this time.";
+  String toString() => fieldName == null ? "Union does not have any value." : "Union is not $fieldName at this time.";
 }

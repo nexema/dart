@@ -1,136 +1,146 @@
 // ignore_for_file: invalid_annotation_target
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:dart_mappable/dart_mappable.dart';
+import 'package:recase/recase.dart';
 
-part 'models.freezed.dart';
-part 'models.g.dart';
+part 'models.mapper.dart';
 
-@freezed
-class GenerateInput with _$GenerateInput{
-  const factory GenerateInput({
-    @JsonKey(name: 'root') required String rootFolder,
-    required String outputPath,
-    required Map<String, Object?> options,
-    @JsonKey(name: 'packages') required DeclarationNode rootPackage
-  }) = _GenerateInput;
+class GeneratorSettings {
+  final String outputPath;
 
-  factory GenerateInput.fromJson(Map<String, dynamic> json) => _$GenerateInputFromJson(json);
+  GeneratorSettings({required this.outputPath});
 }
 
-@freezed
-class DeclarationNode with _$DeclarationNode{
-  const factory DeclarationNode({
-    required String name,
-    @JsonKey(fromJson: _entityDeclarationFromJson, toJson: _entityDeclarationToJson) required EntityDeclaration value,
-    required List<DeclarationNode> children
-  }) = _DeclarationNode;
+@MappableClass()
+class PluginResult with PluginResultMappable {
+  final int exitCode;
+  final List<GeneratedFile> files;
+  
+  const PluginResult({
+    required this.exitCode,
+    required this.files
+  });
 
-  factory DeclarationNode.fromJson(Map<String, dynamic> json) => _$DeclarationNodeFromJson(json);
+  static final fromJson = PluginResultMapper.fromJson;
 }
 
-abstract class EntityDeclaration {
-  String get name;
-  String get path;
+@MappableClass()
+class GeneratedFile with GeneratedFileMappable {
+  final int id;
+  final String name, contents;
+  
+  const GeneratedFile({
+    required this.id,
+    required this.name,
+    required this.contents
+  });
 
-  dynamic toJson();
+  static final fromJson = GeneratedFileMapper.fromJson;
 }
 
-dynamic _entityDeclarationToJson(EntityDeclaration declaration) => declaration.toJson();
-EntityDeclaration _entityDeclarationFromJson(Map<String, dynamic> json) {
-  if(json.containsKey("fileName")) {
-    return FileDeclaration.fromJson(json) as EntityDeclaration;
-  } else {
-    return PackageDeclaration.fromJson(json) as EntityDeclaration;
-  }
+/*
+	Id       uint64 `json:"id"`       // The id of the generated file
+	Name     string `json:"name"`     // The name of the file
+	Contents string `json:"contents"` // The contents of the file
+*/
+
+@MappableClass()
+class NexemaSnapshot with NexemaSnapshotMappable {
+  final int version, hashcode;
+  final List<NexemaFile> files;
+
+  const NexemaSnapshot({
+    required this.version,
+    required this.hashcode,
+    required this.files
+  });
+
+  static final fromJson = NexemaSnapshotMapper.fromJson;
 }
 
-@freezed
-class PackageDeclaration with _$PackageDeclaration{
+@MappableClass()
+class NexemaFile with NexemaFileMappable {
+  final String fileName, packageName, path;
+  final List<NexemaTypeDefinition> types;
+  final int id;
 
-  @Implements<EntityDeclaration>()
-  const factory PackageDeclaration({
-    @JsonKey(name: "packageName") required String name,
-    required String path
-  }) = _PackageDeclaration;
-
-  factory PackageDeclaration.fromJson(Map<String, dynamic> json) => _$PackageDeclarationFromJson(json);
+  const NexemaFile({
+    required this.id,
+    required this.fileName,
+    required this.path,
+    required this.packageName,
+    required this.types
+  });
 }
 
-@freezed
-class FileDeclaration with _$FileDeclaration{
-  @Implements<EntityDeclaration>()
-  const factory FileDeclaration({
-    @JsonKey(name: "fileName") required String name,
-    required String path,
-    required String id,
-    @JsonKey(defaultValue: <SchemaTypeDefinition>[]) required List<SchemaTypeDefinition> types,
-    @JsonKey(defaultValue: <String>[]) required List<String> imports
-  }) = _FileDeclaration;
+@MappableClass()
+class NexemaTypeDefinition with NexemaTypeDefinitionMappable {
+  final int id;
+  final int? baseType;
+  final String name, modifier;
+  final List<String> documentation;
+  final List<NexemaTypeFieldDefinition> fields;
+  final Map<String, dynamic> annotations, defaults;
 
-  factory FileDeclaration.fromJson(Map<String, dynamic> json) => _$FileDeclarationFromJson(json);
+  String get dartName => name.pascalCase;
+  bool get isEnum => modifier == "enum";
+
+  const NexemaTypeDefinition({
+    required this.id,
+    required this.name,
+    required this.modifier,
+    required this.documentation,
+    required this.baseType,
+    required this.fields,
+    required this.annotations,
+    required this.defaults
+  });
 }
 
-@freezed
-class SchemaTypeDefinition with _$SchemaTypeDefinition{
-  const factory SchemaTypeDefinition({
-    required String id,
-    required String name,
-    required SchemaTypeModifier modifier,
-    required List<TypeFieldDefinition> fields
-  }) = _TypeDefinition;
+@MappableClass()
+class NexemaTypeFieldDefinition with NexemaTypeFieldDefinitionMappable {
+  final int index;
+  final String name;
+  final Map<String, dynamic> annotations;
+  final List<String> documentation;
+  final NexemaValueType? type;
 
-  factory SchemaTypeDefinition.fromJson(Map<String, dynamic> json) => _$SchemaTypeDefinitionFromJson(json);
+  String get dartName => name.camelCase;
+
+  const NexemaTypeFieldDefinition({
+    required this.index,
+    required this.name,
+    required this.documentation,
+    required this.annotations,
+    required this.type
+  });
 }
 
-@freezed
-class TypeFieldDefinition with _$TypeFieldDefinition{
-  factory TypeFieldDefinition({
-    required String name,
-    required int index,
-    required Object? defaultValue,
-    required Map<String, Object?>? metadata,
-    required SchemaFieldType? type
-  }) = _TypeFieldDefinition;
+@MappableClass(discriminatorKey: 'kind')
+abstract class NexemaValueType with NexemaValueTypeMappable {
+  final bool nullable;
 
-  factory TypeFieldDefinition.fromJson(Map<String, dynamic> json) => _$TypeFieldDefinitionFromJson(json);
+  const NexemaValueType({required this.nullable});
 }
 
-@freezed
-class SchemaFieldType with _$SchemaFieldType{
-  const factory SchemaFieldType({
-    required FieldPrimitive primitive,
-    required String? typeName,
-    required bool nullable,
-    required String importId,
-    @JsonKey(defaultValue: <SchemaFieldType>[]) required List<SchemaFieldType> typeArguments
-  }) = _FieldType;
+@MappableClass(discriminatorValue: 'primitiveValueType')
+class NexemaPrimitiveValueType extends NexemaValueType with NexemaPrimitiveValueTypeMappable {
+  final String primitive;
+  final List<NexemaValueType> arguments;
 
-  factory SchemaFieldType.fromJson(Map<String, dynamic> json) => _$SchemaFieldTypeFromJson(json);
+  const NexemaPrimitiveValueType({
+    required super.nullable,
+    required this.primitive,
+    required this.arguments
+  });
 }
 
-@JsonEnum()
-enum SchemaTypeModifier {
-  @JsonValue("struct") struct, 
-  @JsonValue("enum") $enum, 
-  @JsonValue("union") union
-}
+@MappableClass(discriminatorValue: 'customType')
+class NexemaTypeValueType extends NexemaValueType with NexemaTypeValueTypeMappable {
+  final int objectId;
 
-@JsonEnum()
-enum FieldPrimitive {
-  boolean,
-  string,
-  uint8,
-  uint16,
-  uint32,
-  uint64,
-  int8,
-  int16,
-  int32,
-  int64,
-  float32,
-  float64,
-  binary,
-  list,
-  map,
-  custom
+  const NexemaTypeValueType({
+    required super.nullable,
+    required this.objectId,
+  });
 }
