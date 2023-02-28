@@ -41,6 +41,24 @@ class FooStruct extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.type,
                 isNullable: false,
                 typeArguments: []),
+            annotations: {}),
+        $nex.FieldInfo<FooStruct>(
+            name: 'datetime_field',
+            dartName: 'datetimeField',
+            index: 4,
+            valueType: $nex.FieldValueType(
+                kind: $nex.FieldValueKind.time,
+                isNullable: false,
+                typeArguments: []),
+            annotations: {}),
+        $nex.FieldInfo<FooStruct>(
+            name: 'duration_field',
+            dartName: 'durationField',
+            index: 5,
+            valueType: $nex.FieldValueType(
+                kind: $nex.FieldValueKind.duration,
+                isNullable: false,
+                typeArguments: []),
             annotations: {})
       ]);
 
@@ -49,14 +67,22 @@ class FooStruct extends $nex.NexemaType {
         super(_typeInfo);
 
   FooStruct._empty()
-      : _state = $nex.StructTypeState([null, null, null]),
+      : _state = $nex.StructTypeState([null, null, null, null, null]),
         super(_typeInfo);
 
   factory FooStruct(
       {required $core.String stringField,
       required $baz.BazEnum bazEnumField,
-      required $ted.TedStruct tedUnionField}) {
-    return FooStruct._internal([stringField, bazEnumField, tedUnionField]);
+      required $ted.TedStruct tedUnionField,
+      required $core.DateTime datetimeField,
+      required $core.Duration durationField}) {
+    return FooStruct._internal([
+      stringField,
+      bazEnumField,
+      tedUnionField,
+      datetimeField,
+      durationField
+    ]);
   }
 
   factory FooStruct.decode($td.Uint8List buffer) {
@@ -83,6 +109,18 @@ class FooStruct extends $nex.NexemaType {
     _state.set(3, value);
   }
 
+  $core.DateTime get datetimeField => _state.get(4) as $core.DateTime;
+
+  set datetimeField($core.DateTime value) {
+    _state.set(4, value);
+  }
+
+  $core.Duration get durationField => _state.get(5) as $core.Duration;
+
+  set durationField($core.Duration value) {
+    _state.set(5, value);
+  }
+
   @$core.override
   $td.Uint8List encode() {
     final writer = $nex.getWriter();
@@ -90,6 +128,8 @@ class FooStruct extends $nex.NexemaType {
     writer.encodeString(stringField);
     writer.encodeUint8(bazEnumField.index);
     writer.encodeBinary(tedUnionField.encode());
+    writer.encodeTimestamp(datetimeField);
+    writer.encodeDuration(durationField);
     return writer.takeBytes();
   }
 
@@ -99,7 +139,9 @@ class FooStruct extends $nex.NexemaType {
     _state.setAll([
       reader.decodeString(),
       $baz.BazEnum.byIndex(reader.decodeUint8()) ?? $baz.BazEnum.unknown,
-      $ted.TedStruct.decode(reader.decodeBinary())
+      $ted.TedStruct.decode(reader.decodeBinary()),
+      reader.decodeTimestamp(),
+      reader.decodeDuration()
     ]);
   }
 
@@ -117,7 +159,7 @@ class FooStruct extends $nex.NexemaType {
 
   @$core.override
   $core.String toString() =>
-      'FooStruct(stringField: $stringField, bazEnumField: $bazEnumField, tedUnionField: $tedUnionField)';
+      'FooStruct(stringField: $stringField, bazEnumField: $bazEnumField, tedUnionField: $tedUnionField, datetimeField: $datetimeField, durationField: $durationField)';
 }
 
 class FooUnion extends $nex.NexemaType {

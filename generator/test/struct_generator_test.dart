@@ -998,7 +998,7 @@ class StructA extends $nex.NexemaType {
 
       String got = StructGenerator.generateFor(file, input);
       String want = r"""
-class StructA extends BaseA {
+class StructA extends $my_file.BaseA {
   final $nex.StructTypeState<StructA> _state;
   @$core.override
   $nex.NexemaTypeState<StructA> get $state_ => _state;

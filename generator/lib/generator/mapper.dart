@@ -16,6 +16,8 @@ const kPrimitiveMapper = <String, String>{
   "float64": "\$core.double",
   "list": "\$core.List",
   "map": "\$core.Map",
+  "time": "\$core.DateTime",
+  "duration": "\$core.Duration",
 };
 
 const kEncoderMapper = <String, String>{
@@ -33,7 +35,9 @@ const kEncoderMapper = <String, String>{
   "int": "encodeVarint",
   "uint": "encodeUvarint",
   "float32": "encodeFloat32",
-  "float64": "encodeFloat64"
+  "float64": "encodeFloat64",
+  "time": "encodeTimestamp",
+  "duration": "encodeDuration"
 };
 
 const kDecoderMapper = <String, String>{
@@ -51,5 +55,7 @@ const kDecoderMapper = <String, String>{
   "int": "decodeVarint",
   "uint": "decodeUvarint",
   "float32": "decodeFloat32",
-  "float64": "decodeFloat64"
+  "float64": "decodeFloat64",
+  "time": "decodeTimestamp",
+  "duration": "decodeDuration"
 };
