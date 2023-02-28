@@ -92,6 +92,8 @@ enum FieldValueKind {
   float32,
   float64,
   binary,
+  time,
+  duration,
   list,
   map,
   type
