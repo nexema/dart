@@ -47,7 +47,7 @@ class FooStruct extends $nex.NexemaType {
             dartName: 'datetimeField',
             index: 4,
             valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.time,
+                kind: $nex.FieldValueKind.timestamp,
                 isNullable: false,
                 typeArguments: []),
             annotations: {}),
