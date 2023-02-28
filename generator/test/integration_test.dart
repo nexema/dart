@@ -39,7 +39,7 @@ void main() {
               getField(1, "string_field", getPrimitiveValueType("string")),
               getField(2, "baz_enum_field", getTypeValueType(4)),
               getField(3, "ted_union_field", getTypeValueType(6)),
-              getField(4, "datetime_field", getPrimitiveValueType("time")),
+              getField(4, "datetime_field", getPrimitiveValueType("timestamp")),
               getField(5, "duration_field", getPrimitiveValueType("duration")),
             ], id: 1),
             getUnionType("FooUnion", [

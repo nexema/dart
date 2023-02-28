@@ -56,6 +56,6 @@ const kDecoderMapper = <String, String>{
   "uint": "decodeUvarint",
   "float32": "decodeFloat32",
   "float64": "decodeFloat64",
-  "time": "decodeTimestamp",
+  "timestamp": "decodeTimestamp",
   "duration": "decodeDuration"
 };
