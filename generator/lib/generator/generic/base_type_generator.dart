@@ -3,7 +3,7 @@ import 'package:nexema_generator/generator/defaults.dart';
 import 'package:nexema_generator/generator/generator.dart';
 import 'package:nexema_generator/generator/type_reference.dart';
 import 'package:nexema_generator/generator/utils.dart';
-import 'package:nexema_generator/mapper.dart';
+import 'package:nexema_generator/generator/mapper.dart';
 import 'package:nexema_generator/models.dart';
 
 abstract class BaseTypeGenerator {
@@ -15,7 +15,7 @@ abstract class BaseTypeGenerator {
   String generate();
 
   /// Returns the Dart declaration for [valueType]. 
-  /// Declaration is like $core.int or MyType?
+  /// Declaration is like "$core.int" or "MyType?"
   @protected
   String getValueTypeDeclaration(NexemaValueType valueType) {
     if(valueType is NexemaPrimitiveValueType) {

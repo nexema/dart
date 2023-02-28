@@ -57,10 +57,14 @@ class Generator {
           }
         }
 
+        String sourceCode = sb.toString();
+        sourceCode = "${_currentFileImports.keys.map((e) => "import $e;").join("\n")}\n$sourceCode";
+        _resetImports();
+
         files[file.id] = GeneratedFile(
           id: file.id, 
           name: "${file.fileName}.dart", 
-          contents: _formatter.format(sb.toString())
+          contents: _formatter.format(sourceCode)
         );
       }
     } catch(err) {
@@ -82,9 +86,9 @@ class Generator {
     }
   }
 
-  /// gets the absolute path to [path] from [currentFilePath]
+  /// gets the absolute path to [p] from [file.path]
   String _resolveImportFor(NexemaFile file, String p) {
-    String relative = path.relative(p, from: path.dirname(file.path));
+    String relative = path.relative(p, from: path.dirname(path.join(settings.outputPath, file.path, file.fileName)));
     return relative;
   }
 
@@ -93,7 +97,7 @@ class Generator {
       for(var type in file.types) {
         _types[type.id] = TypeReference(
           type: type, 
-          path: path.join(settings.outputPath, file.fileName),
+          path: path.join(settings.outputPath, file.path, file.fileName),
           importAlias: "\$${path.basenameWithoutExtension(file.fileName).snakeCase}"
         ); 
       }
