@@ -14,7 +14,7 @@ extension CoretypesNexemabReaderExtension on NexemabReader {
 }
 
 extension CoretypesNexemabWriterExtension on NexemabWriter {
-  NexemabWriter encodeDateTime(DateTime timestamp) {
+  NexemabWriter decodeTimestamp(DateTime timestamp) {
     int microsecondsSinceEpoch = timestamp.microsecondsSinceEpoch;
     int seconds = (microsecondsSinceEpoch / Duration.microsecondsPerSecond).floor();
     int nanos = (microsecondsSinceEpoch % Duration.microsecondsPerSecond) * 1000;
