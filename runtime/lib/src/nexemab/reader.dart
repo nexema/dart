@@ -153,7 +153,9 @@ class NexemabReader {
 
   Uint8List decodeBinary() {
     var buflen = decodeVarint();
-    return Uint8List.view(_buffer.buffer, _offset, buflen); // avoid copies
+    final buffer = Uint8List.view(_buffer.buffer, _offset, buflen); // avoid copies
+    _offset += buflen;
+    return buffer;
   }
 
 }
