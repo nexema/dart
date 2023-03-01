@@ -12,7 +12,12 @@ class NexemabReader {
 
   bool isNextNull() {
     var byte = _bufferView.getUint8(_offset); // do not advance
-    return byte == _kNull;
+    if(byte == _kNull) {
+      _offset++;
+      return true;
+    }
+
+    return false;
   }
 
   bool decodeBool() {

@@ -187,6 +187,12 @@ void main() {
       });
     });
     
+    test("isNextNull advances only if null", () {
+      final reader = NexemabReader(Uint8List.fromList([0xc0, 0x01, 0x00])); // null, true, false
+      expect(reader.isNextNull(), isTrue);
+      expect(reader.decodeBool(), isTrue);
+      expect(reader.decodeBool(), isFalse);
+    });
   });
 }
 
