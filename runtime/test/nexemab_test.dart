@@ -72,6 +72,8 @@ void main() {
         TestCase("encodeUint32 throws out of bounds negative", (writer) => writer.encodeUint32(Numbers.uint32MinValue-1), [], FormatError("uint32 value must be greater than or equals to 0.")),
         TestCase("encodeUint64 throws out of bounds", (writer) => writer.encodeUint64(Numbers.uint64MaxValue+BigInt.one), [], FormatError("uint64 value must be less than or equals to ${Numbers.uint64MaxValue}.")),
         TestCase("encodeUint64 throws out of bounds negative", (writer) => writer.encodeUint64(-BigInt.one), [], FormatError("uint64 value must be greater than or equals to 0.")),
+        TestCase("encodeTimestamp('2023/3/2 15:32')", (writer) => writer.encodeTimestamp(DateTime(2023, 3, 2, 15, 32)), [192, 174, 135, 192, 12, 0]),
+        TestCase("encodeDuration(225252342ns)", (writer) => writer.encodeDuration(const Duration(microseconds: 225252)), [192, 202, 232, 214, 1]),
       ]);
       testcases.run((testcase) { 
         NexemabWriter writer = NexemabWriter();
@@ -115,7 +117,7 @@ void main() {
         TestCase("uvarint(maxint64) with extra bytes", [[0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f, ..."adasd".codeUnits], (NexemabReader decoder) => decoder.decodeUvarint()], Numbers.int64MaxValueBigInt),
         TestCase("uvarint(1504) with extra bytes", [[224, 11, 2, ..."adasd".codeUnits], (NexemabReader decoder) => decoder.decodeUvarint()], BigInt.from(1504)),
         TestCase("uvarint(overflow) should overflow", [[255, 255, 255, 255, 255, 255, 255, 255, 255, 127], (NexemabReader decoder) => decoder.decodeUvarint()], null, FormatError("uvarint overflow")),
-        TestCase("uvarint(overflow) should overflow", [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 127], (NexemabReader decoder) => decoder.decodeUvarint()], null, FormatError("uvarint overflow")),
+        TestCase("uvarint(overflow) should overflow 2", [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 127], (NexemabReader decoder) => decoder.decodeUvarint()], null, FormatError("uvarint overflow")),
         TestCase("varint(1)", [[2], (NexemabReader decoder) => decoder.decodeVarint()], 1),
         TestCase("varint(267)", [[150, 4], (NexemabReader decoder) => decoder.decodeVarint()], 267),
         TestCase("varint(392)", [[144, 6], (NexemabReader decoder) => decoder.decodeVarint()], 392),
@@ -123,7 +125,6 @@ void main() {
         TestCase("varint(maxuint32)", [[0xfe, 0xff, 0xff, 0xff, 0x1f], (NexemabReader decoder) => decoder.decodeVarint()], Numbers.uint32MaxValue),
         TestCase("varint(maxint32)", [[0xfe, 0xff, 0xff, 0xff, 0xf], (NexemabReader decoder) => decoder.decodeVarint()], Numbers.int32MaxValue),
         TestCase("varint(maxint64)", [[0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x1], (NexemabReader decoder) => decoder.decodeVarint()], Numbers.int64MaxValue),
-        TestCase("varint(maxint64) with extra bytes", [[0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x1, 0x5, ..."hello".codeUnits], (NexemabReader decoder) => decoder.decodeVarint()], Numbers.int64MaxValue),
         TestCase("varint(maxint64) with extra bytes", [[0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x1, 0x5, ..."hello".codeUnits], (NexemabReader decoder) => decoder.decodeVarint()], Numbers.int64MaxValue),
         TestCase("string(hello world)", [[0x16, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64], (NexemabReader decoder) => decoder.decodeString()], "hello world"),
         TestCase("string(<ŇTź՗YƙHc)", [[0x1e, 0x3c, 0xc2, 0x95, 0xc5, 0x87, 0x54, 0xc5, 0xba, 0xd5, 0x97, 0x59, 0xc6, 0x99, 0x48, 0x63], (NexemabReader decoder) => decoder.decodeString()], "<ŇTź՗YƙHc"),
@@ -151,6 +152,8 @@ void main() {
         TestCase("float64(max)", [[0x7f, 0xef, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff], (NexemabReader decoder) => decoder.decodeFloat64()], Numbers.float64MaxValue),
         TestCase("float64(min)", [[0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1], (NexemabReader decoder) => decoder.decodeFloat64()], Numbers.float64MinValue),
         TestCase("binary", [[0xe, 0x19, 0x14, 0x17, 0xb, 0x17, 0xb, 0x4d], (NexemabReader decoder) => decoder.decodeBinary()], Uint8List.fromList([25, 20, 23, 11, 23, 11, 77])),
+        TestCase("timestamp", [[192, 174, 135, 192, 12, 0], (NexemabReader decoder) => decoder.decodeTimestamp()], DateTime(2023, 3, 2, 15, 32)),
+        TestCase("duration", [[19192, 202, 232, 214, 1], (NexemabReader decoder) => decoder.decodeDuration()], const Duration(microseconds: 225252)),
         TestCase("list(string)", [
           [0xdc, 0xa, 0x8, 0x68, 0x6f, 0x6c, 0x61, 0xa, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0xe, 0x74, 0x65, 0x72, 0x63, 0x65, 0x72, 0x6f, 0xa, 0x74, 0x68, 0x69, 0x72, 0x64, 0x6, 0x62, 0x79, 0x65], 
           (NexemabReader decoder) => List<String>.generate(decoder.beginDecodeArray(), (index) => decoder.decodeString())], 
