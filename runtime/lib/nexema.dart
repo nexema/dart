@@ -14,5 +14,3 @@ export 'package:nexema/src/errors/format.dart';
 export 'package:nexema/src/utils/equality.dart';
 
 export 'package:nexema/src/type/nexema_type.dart';
-export 'package:nexema/src/coretypes/nexemab_extension.dart';
-export 'package:nexema/src/coretypes/time.dart';

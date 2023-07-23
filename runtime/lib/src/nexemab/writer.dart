@@ -2,9 +2,10 @@ part of 'nexemab.dart';
 
 /// Binary serialization for Nexema.
 class NexemabWriter {
-  
   /// Create a new NexemabWriter with a initial bufferSize.
-  NexemabWriter([int bufferSize = 128]) : assert(bufferSize > 0), _bufferSize = bufferSize {
+  NexemabWriter([int bufferSize = 128])
+      : assert(bufferSize > 0),
+        _bufferSize = bufferSize {
     _createChunk(_bufferSize);
   }
 
@@ -50,7 +51,7 @@ class NexemabWriter {
 
   /// Ensure checks if the current buffer has enough space to hold n bytes
   void _ensure(int n) {
-    if(_currentChunk.length - _offset < n) {
+    if (_currentChunk.length - _offset < n) {
       _nextChunk();
     }
   }
@@ -68,24 +69,24 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeUint8(int v) {
-    if(v > Numbers.uint8MaxValue) {
+    if (v > Numbers.uint8MaxValue) {
       throw FormatError("uint8 value must be less than or equals to ${Numbers.uint8MaxValue}.");
-    } else if(v < Numbers.uint8MinValue) {
+    } else if (v < Numbers.uint8MinValue) {
       throw FormatError("uint8 value must be greater than or equals to 0.");
     }
-    
+
     _ensure(1);
     _currentChunkView.setUint8(_offset++, v);
     return this;
   }
 
   NexemabWriter encodeUint16(int v) {
-    if(v > Numbers.uint16MaxValue) {
+    if (v > Numbers.uint16MaxValue) {
       throw FormatError("uint16 value must be less than or equals to ${Numbers.uint16MaxValue}.");
-    } else if(v < 0) {
+    } else if (v < 0) {
       throw FormatError("uint16 value must be greater than or equals to 0.");
     }
-    
+
     _ensure(2);
     _currentChunkView.setUint16(_offset, v);
     _offset += 2;
@@ -93,12 +94,12 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeUint32(int v) {
-    if(v > Numbers.uint32MaxValue) {
+    if (v > Numbers.uint32MaxValue) {
       throw FormatError("uint32 value must be less than or equals to ${Numbers.uint32MaxValue}.");
-    } else if(v < 0) {
+    } else if (v < 0) {
       throw FormatError("uint32 value must be greater than or equals to 0.");
     }
-    
+
     _ensure(4);
     _currentChunkView.setUint32(_offset, v);
     _offset += 4;
@@ -106,11 +107,11 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeUvarint(BigInt v) {
-    if(v < BigInt.zero) {
+    if (v < BigInt.zero) {
       throw FormatError("uvarint value must be greater than or equals to 0.");
     }
 
-    while(v >= _kUvarintMin){
+    while (v >= _kUvarintMin) {
       _ensure(1);
       _currentChunkView.setUint8(_offset++, (v.toUnsigned(8) | _kUvarintMin).toInt());
       v >>= 7;
@@ -122,33 +123,33 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeVarint(int v) {
-    var ux =  BigInt.from(v) << 1;
-    if(v < 0){
-      ux = ux^ux;
+    var ux = BigInt.from(v) << 1;
+    if (v < 0) {
+      ux = ux ^ ux;
     }
 
     return encodeUvarint(ux);
   }
 
   NexemabWriter encodeInt8(int v) {
-    if(v < Numbers.int8MinValue) {
+    if (v < Numbers.int8MinValue) {
       throw FormatError("int8 value must be greater than or equals to ${Numbers.int8MinValue}.");
-    } else if(v > Numbers.int8MaxValue) {
+    } else if (v > Numbers.int8MaxValue) {
       throw FormatError("int8 value must be less than or equals to ${Numbers.int8MaxValue}.");
     }
-    
+
     _ensure(1);
     _currentChunkView.setInt8(_offset++, v);
     return this;
   }
 
   NexemabWriter encodeInt16(int v) {
-    if(v < Numbers.int16MinValue) {
+    if (v < Numbers.int16MinValue) {
       throw FormatError("int16 value must be greater than or equals to ${Numbers.int16MinValue}.");
-    } else if(v > Numbers.int16MaxValue) {
+    } else if (v > Numbers.int16MaxValue) {
       throw FormatError("int16 value must be less than or equals to ${Numbers.int16MaxValue}.");
     }
-    
+
     _ensure(2);
     _currentChunkView.setInt16(_offset, v);
     _offset += 2;
@@ -156,12 +157,12 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeInt32(int v) {
-    if(v < Numbers.int32MinValue) {
+    if (v < Numbers.int32MinValue) {
       throw FormatError("int32 value must be greater than or equals to ${Numbers.int32MinValue}.");
-    } else if(v > Numbers.int32MaxValue) {
+    } else if (v > Numbers.int32MaxValue) {
       throw FormatError("int32 value must be less than or equals to ${Numbers.int32MaxValue}.");
     }
-    
+
     _ensure(4);
     _currentChunkView.setInt32(_offset, v);
     _offset += 4;
@@ -169,9 +170,9 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeUint64(BigInt v) {
-    if(v < BigInt.zero) {
+    if (v < BigInt.zero) {
       throw FormatError("uint64 value must be greater than or equals to 0.");
-    } else if(v > Numbers.uint64MaxValue) {
+    } else if (v > Numbers.uint64MaxValue) {
       throw FormatError("uint64 value must be less than or equals to ${Numbers.uint64MaxValue}.");
     }
 
@@ -189,10 +190,12 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeInt64AsBigInt(BigInt v) {
-    if(v < Numbers.int64MinValueBigInt) {
-      throw FormatError("int64 value must be greater than or equals to ${Numbers.int64MinValueBigInt}.");
-    } else if(v > Numbers.int64MaxValueBigInt) {
-      throw FormatError("int64 value must be less than or equals to ${Numbers.int64MaxValueBigInt}.");
+    if (v < Numbers.int64MinValueBigInt) {
+      throw FormatError(
+          "int64 value must be greater than or equals to ${Numbers.int64MinValueBigInt}.");
+    } else if (v > Numbers.int64MaxValueBigInt) {
+      throw FormatError(
+          "int64 value must be less than or equals to ${Numbers.int64MaxValueBigInt}.");
     }
 
     _ensure(8);
@@ -209,7 +212,6 @@ class NexemabWriter {
   }
 
   NexemabWriter encodeInt64(int v) {
-   // no overflow check is needed since dart automatically handles this
     _ensure(8);
     _currentChunkView.setInt64(_offset, v);
     _offset += 8;
@@ -256,6 +258,14 @@ class NexemabWriter {
     _ensure(1);
     _currentChunkView.setUint8(_offset++, _kMapBegin);
     return encodeVarint(length);
+  }
+
+  NexemabWriter encodeTimestamp(DateTime v) {
+    return encodeVarint(v.microsecondsSinceEpoch * 1000);
+  }
+
+  NexemabWriter encodeDuration(Duration v) {
+    return encodeVarint(v.inMicroseconds * 1000);
   }
 
   Uint8List takeBytes() {

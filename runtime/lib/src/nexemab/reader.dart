@@ -6,13 +6,13 @@ class NexemabReader {
   final ByteData _bufferView;
   int _offset = 0;
 
-  NexemabReader(Uint8List buffer) 
-    : _buffer = buffer,
-      _bufferView = ByteData.view(buffer.buffer, buffer.offsetInBytes);
+  NexemabReader(Uint8List buffer)
+      : _buffer = buffer,
+        _bufferView = ByteData.view(buffer.buffer, buffer.offsetInBytes);
 
   bool isNextNull() {
     var byte = _bufferView.getUint8(_offset); // do not advance
-    if(byte == _kNull) {
+    if (byte == _kNull) {
       _offset++;
       return true;
     }
@@ -30,23 +30,23 @@ class NexemabReader {
 
     var b = 0;
     var i = 0;
-    while(true) {
+    while (true) {
       b = _bufferView.getUint8(_offset++);
 
-      if(i == _kMaxVarintLen) {
+      if (i == _kMaxVarintLen) {
         throw FormatError("uvarint overflow");
       }
 
-      if(b < _kUvarintMinInt) {
-        if(i == _kMaxVarintLen-1 && b>1) {
+      if (b < _kUvarintMinInt) {
+        if (i == _kMaxVarintLen - 1 && b > 1) {
           throw FormatError("uvarint overflow");
         }
 
-        return x | BigInt.from(b) <<s;
+        return x | BigInt.from(b) << s;
       }
 
       x |= BigInt.from(b & 0x7f) << s;
-      s+=7;
+      s += 7;
       i++;
     }
   }
@@ -54,7 +54,7 @@ class NexemabReader {
   int decodeVarint() {
     var ux = decodeUvarint();
     var x = ux >> 1;
-    if(ux & BigInt.zero != BigInt.zero) {
+    if (ux & BigInt.zero != BigInt.zero) {
       x = x ^ x;
     }
 
@@ -67,46 +67,46 @@ class NexemabReader {
 
   int decodeUint16() {
     int number = _bufferView.getUint16(_offset);
-    _offset+=2;
+    _offset += 2;
     return number;
   }
 
   int decodeUint32() {
     int number = _bufferView.getUint32(_offset);
-    _offset+=4;
+    _offset += 4;
     return number;
   }
 
   BigInt decodeUint64() {
-    return (BigInt.from(_buffer[_offset++]) << 56) | 
-      (BigInt.from(_buffer[_offset++]) << 48) | 
-      (BigInt.from(_buffer[_offset++]) << 40) |
-      (BigInt.from(_buffer[_offset++]) << 32) |
-      (BigInt.from(_buffer[_offset++]) << 24) |
-      (BigInt.from(_buffer[_offset++]) << 16) |
-      (BigInt.from(_buffer[_offset++]) << 8) |
-      BigInt.from(_buffer[_offset++]);
+    return (BigInt.from(_buffer[_offset++]) << 56) |
+        (BigInt.from(_buffer[_offset++]) << 48) |
+        (BigInt.from(_buffer[_offset++]) << 40) |
+        (BigInt.from(_buffer[_offset++]) << 32) |
+        (BigInt.from(_buffer[_offset++]) << 24) |
+        (BigInt.from(_buffer[_offset++]) << 16) |
+        (BigInt.from(_buffer[_offset++]) << 8) |
+        BigInt.from(_buffer[_offset++]);
   }
-  
+
   int decodeInt8() {
     return _bufferView.getInt8(_offset++);
   }
 
   int decodeInt16() {
     int number = _bufferView.getInt16(_offset);
-    _offset+=2;
+    _offset += 2;
     return number;
   }
 
   int decodeInt32() {
     int number = _bufferView.getInt32(_offset);
-    _offset+=4;
+    _offset += 4;
     return number;
   }
 
   int decodeInt64() {
     int number = _bufferView.getInt64(_offset);
-    _offset+=8;
+    _offset += 8;
     return number;
   }
 
@@ -116,27 +116,35 @@ class NexemabReader {
 
   double decodeFloat32() {
     double number = _bufferView.getFloat32(_offset);
-    _offset+=4;
+    _offset += 4;
     return number;
   }
 
   double decodeFloat64() {
     double number = _bufferView.getFloat64(_offset);
-    _offset+=8;
+    _offset += 8;
     return number;
   }
 
   String decodeString() {
     var strlen = decodeVarint();
     var buffer = Uint8List.view(_buffer.buffer, _offset, strlen);
-    _offset+=strlen;
+    _offset += strlen;
     return _kUtfCodec.decode(buffer);
+  }
+
+  DateTime decodeTimestamp() {
+    return DateTime.fromMicrosecondsSinceEpoch(decodeVarint() ~/ 1000);
+  }
+
+  Duration decodeDuration() {
+    return Duration(microseconds: decodeVarint() ~/ 1000);
   }
 
   int beginDecodeArray() {
     // read array identifier
     int code = _bufferView.getUint8(_offset++);
-    if(code != _kArrayBegin) {
+    if (code != _kArrayBegin) {
       throw FormatError("not an array.");
     }
     return decodeVarint();
@@ -145,7 +153,7 @@ class NexemabReader {
   int beginDecodeMap() {
     // read array identifier
     int code = _bufferView.getUint8(_offset++);
-    if(code != _kMapBegin) {
+    if (code != _kMapBegin) {
       throw FormatError("not a map.");
     }
     return decodeVarint();
@@ -157,5 +165,4 @@ class NexemabReader {
     _offset += buflen;
     return buffer;
   }
-
 }
