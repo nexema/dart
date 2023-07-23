@@ -38,12 +38,6 @@ class GeneratedFile with GeneratedFileMappable {
   static final fromJson = GeneratedFileMapper.fromJson;
 }
 
-/*
-	Id       uint64 `json:"id"`       // The id of the generated file
-	Name     string `json:"name"`     // The name of the file
-	Contents string `json:"contents"` // The contents of the file
-*/
-
 @MappableClass()
 class NexemaSnapshot with NexemaSnapshotMappable {
   final int version, hashcode;

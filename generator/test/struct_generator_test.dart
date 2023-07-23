@@ -9,12 +9,11 @@ void main() {
   group("Test StructGenerator", () {
     test("Struct with primitives", () {
       final file = NexemaFile(
-        id: 1,
-        fileName: "my_file.nex",
-        packageName: "root",
-        path: "root/my_file.nex",
-        types: []
-      );
+          id: 1,
+          fileName: "my_file.nex",
+          packageName: "root",
+          path: "root/my_file.nex",
+          types: []);
 
       final input = getStructType("StructA", [
         getField(0, "string_field", getPrimitiveValueType("string")),
@@ -397,26 +396,45 @@ class StructA extends $nex.NexemaType {
 
       expect(formatDartCode(got), equals(formatDartCode(want)));
     }, skip: true);
-  
+
     test("Struct with list, maps and nullable", () {
       final file = NexemaFile(
-        id: 1,
-        fileName: "my_file.nex",
-        packageName: "root",
-        path: "root/my_file.nex",
-        types: []
-      );
+          id: 1,
+          fileName: "my_file.nex",
+          packageName: "root",
+          path: "root/my_file.nex",
+          types: []);
 
       final input = getStructType("StructA", [
         getField(0, "string_field", getPrimitiveValueType("string", true)),
-        getField(1, "list_field", getListValueType(getPrimitiveValueType("string"))),
-        getField(2, "list_value_null_field", getListValueType(getPrimitiveValueType("string", true))),
-        getField(3, "list_null_field", getListValueType(getPrimitiveValueType("string"), true)),
-        getField(4, "list_both_null_field", getListValueType(getPrimitiveValueType("string", true), true)),
-        getField(5, "map_field", getMapValueType(getPrimitiveValueType("string"), getPrimitiveValueType("bool"))),
-        getField(6, "map_value_null_field", getMapValueType(getPrimitiveValueType("string"), getPrimitiveValueType("bool", true))),
-        getField(7, "map_null_field", getMapValueType(getPrimitiveValueType("string"), getPrimitiveValueType("bool"), true)),
-        getField(8, "map_both_null_field", getMapValueType(getPrimitiveValueType("string"), getPrimitiveValueType("bool", true), true)),
+        getField(
+            1, "list_field", getListValueType(getPrimitiveValueType("string"))),
+        getField(2, "list_value_null_field",
+            getListValueType(getPrimitiveValueType("string", true))),
+        getField(3, "list_null_field",
+            getListValueType(getPrimitiveValueType("string"), true)),
+        getField(4, "list_both_null_field",
+            getListValueType(getPrimitiveValueType("string", true), true)),
+        getField(
+            5,
+            "map_field",
+            getMapValueType(getPrimitiveValueType("string"),
+                getPrimitiveValueType("bool"))),
+        getField(
+            6,
+            "map_value_null_field",
+            getMapValueType(getPrimitiveValueType("string"),
+                getPrimitiveValueType("bool", true))),
+        getField(
+            7,
+            "map_null_field",
+            getMapValueType(getPrimitiveValueType("string"),
+                getPrimitiveValueType("bool"), true)),
+        getField(
+            8,
+            "map_both_null_field",
+            getMapValueType(getPrimitiveValueType("string"),
+                getPrimitiveValueType("bool", true), true)),
       ]);
 
       String got = StructGenerator.generateFor(file, input);
@@ -803,7 +821,7 @@ class StructA extends $nex.NexemaType {
 
       expect(formatDartCode(got), equals(formatDartCode(want)));
     }, skip: true);
-  
+
     test("Struct with other types", () {
       final input = getStructType("StructA", [
         getField(0, "struct_field", getTypeValueType(5)),
@@ -813,20 +831,19 @@ class StructA extends $nex.NexemaType {
       ]);
 
       final file = NexemaFile(
-        id: 1,
-        fileName: "my_file.nex",
-        packageName: "root",
-        path: "root/my_file.nex",
-        types: [
-          getStructType("StructB", [], id: 5),
-          getEnumType("EnumA", [getEnumField(0, "unknown")], id: 6)
-        ]
-      )..types.add(input);
+          id: 1,
+          fileName: "my_file.nex",
+          packageName: "root",
+          path: "root/my_file.nex",
+          types: [
+            getStructType("StructB", [], id: 5),
+            getEnumType("EnumA", [getEnumField(0, "unknown")], id: 6)
+          ])
+        ..types.add(input);
 
       Generator(
-        snapshot: NexemaSnapshot(version: 0, hashcode: 0, files: [file]),
-        settings: GeneratorSettings(outputPath: "")
-      );
+          snapshot: NexemaSnapshot(version: 0, hashcode: 0, files: [file]),
+          settings: GeneratorSettings(outputPath: ""));
 
       String got = StructGenerator.generateFor(file, input);
       String want = r"""
@@ -974,27 +991,33 @@ class StructA extends $nex.NexemaType {
     }, skip: true);
 
     test("Struct with base type", () {
-      final input = getStructType("StructA", [
-        getField(0, "string_field", getPrimitiveValueType("string")),
-      ], baseTypeId: 5);
+      final input = getStructType(
+          "StructA",
+          [
+            getField(0, "string_field", getPrimitiveValueType("string")),
+          ],
+          baseTypeId: 5);
 
       final file = NexemaFile(
-        fileName: "my_file.nex",
-        id: 1,
-        packageName: "root",
-        path: "root/my_file.nex",
-        types: [
-          getBaseType("BaseA", [
-            getField(0, "varint_field", getPrimitiveValueType("int", true)),
-            getField(1, "uvarint_field", getPrimitiveValueType("uint")),
-          ], id: 5)
-        ]
-      )..types.add(input);
+          fileName: "my_file.nex",
+          id: 1,
+          packageName: "root",
+          path: "root/my_file.nex",
+          types: [
+            getBaseType(
+                "BaseA",
+                [
+                  getField(
+                      0, "varint_field", getPrimitiveValueType("int", true)),
+                  getField(1, "uvarint_field", getPrimitiveValueType("uint")),
+                ],
+                id: 5)
+          ])
+        ..types.add(input);
 
       Generator(
-        snapshot: NexemaSnapshot(version: 0, hashcode: 0, files: [file]),
-        settings: GeneratorSettings(outputPath: "")
-      );
+          snapshot: NexemaSnapshot(version: 0, hashcode: 0, files: [file]),
+          settings: GeneratorSettings(outputPath: ""));
 
       String got = StructGenerator.generateFor(file, input);
       String want = r"""
