@@ -1,48 +1,64 @@
-import 'dart:typed_data';
-
-part 'spec.dart';
+part of 'nexemaj.dart';
 
 /// Nexemaj is the JSON serialization lib for Nexema.
 class NexemajWriter {
-  final _chunks = <_Chunk>[];
+  final _chunksBuilder = BytesBuilder(copy: false);
 
-  int _chunkSize;
-  int _offset;
   Uint8List _currentChunk;
 
-  NexemajWriter([int initialSize = 1024])
-    : assert(initialSize > 0),
-      _chunkSize = initialSize,
-      _offset = 0,
-      _currentChunk = Uint8List(initialSize);
+  int _bufferSize;
+  int _offset;
 
-  void _ensure(int bytes) {
-    if(_currentChunk.length - _offset < bytes) {
-      var chunkView = Uint8List.view(_currentChunk.buffer, 0, _offset);
-      _chunks.add(_Chunk(chunkView, _offset));
-      _chunkSize *= 2;
-      _currentChunk = Uint8List(_chunkSize);
+  NexemajWriter([int initialSize = 1024])
+      : assert(initialSize > 0),
+        _bufferSize = initialSize,
+        _offset = 0,
+        _currentChunk = Uint8List(initialSize);
+
+  @pragma('vm:prefer-inline')
+  void _nextChunk() {
+    _writeCurrentChunk();
+    _bufferSize = _bufferSize *= 2;
+    _createChunk(_bufferSize);
+  }
+
+  @pragma('vm:prefer-inline')
+  void _createChunk(int size) {
+    _currentChunk = Uint8List(size);
+    _offset = 0;
+  }
+
+  @pragma('vm:prefer-inline')
+  void _writeCurrentChunk() {
+    _chunksBuilder.add(Uint8List.view(
+      _currentChunk.buffer,
+      _currentChunk.offsetInBytes,
+      _offset,
+    ));
+  }
+
+  @pragma('vm:prefer-inline')
+  void _ensure(int n) {
+    if (_currentChunk.length - _offset < n) {
+      _nextChunk();
     }
   }
 
   /// Only method used to write bytes. This is faster than using ByteData
+  @pragma('vm:prefer-inline')
   void _writeByte(int byte) {
     _ensure(1);
     _currentChunk[_offset++] = byte;
-  }  
-
-  void _writeBytes(List<int> bytes, int length) {
-    _ensure(length);
-    _currentChunk.setAll(_offset, bytes);
-    _offset += length;
   }
 
+  @pragma('vm:prefer-inline')
   void writeLbrace() {
     _writeByte(_kTokenLbrace);
   }
 
+  @pragma('vm:prefer-inline')
   void writeRbrace() {
-     if (_currentChunk[_offset - 1] == _kTokenComma) {
+    if (_currentChunk[_offset - 1] == _kTokenComma) {
       _currentChunk[_offset - 1] = _kTokenRbrace;
       _writeByte(_kTokenComma);
     } else {
@@ -52,60 +68,84 @@ class NexemajWriter {
     }
   }
 
+  @pragma('vm:prefer-inline')
   void writeComma() {
     _writeByte(_kTokenComma);
   }
-  
+
   void _writeString(String value) {
     _ensure(value.length * 3 + 3);
     var offset = _offset;
-    var chars = value.codeUnits;
+    final chars = value.codeUnits;
 
     _currentChunk[offset++] = _kTokenDoubleQuote;
     for (int i = 0; i < value.length; i++) {
-      var char = chars[i];
-      if (char < _kOneByteChar && char != _kTokenDoubleQuote && char != _kTokenBackslash) {
-        _currentChunk[offset++] = char;
-      } else if (char == _kTokenDoubleQuote || char == _kTokenBackslash) {
-        _currentChunk[offset++] = _kTokenBackslash;
-        _currentChunk[offset++] = char;
-      } else if ((char & _kSurrogateMask) == _kLeadSurrogateMin) {
-        final nextChar = chars[++i];
-        final rune = 0x10000 + ((char & _kSurrogateValueMask) << 10) | (nextChar & _kSurrogateValueMask);
-        _currentChunk[offset++] = 0xF0 | (rune >> 18);
-        _currentChunk[offset++] = _kMaxByte | ((rune >> 12) & 0x3f);
-        _currentChunk[offset++] = _kMaxByte | ((rune >> 6) & 0x3f);
-        _currentChunk[offset++] = _kMaxByte | (rune & 0x3f);
-      } else if (char <= _kTwoBytesLimit) {
-        _currentChunk[offset++] = 0xC0 | (char >> 6);
-        _currentChunk[offset++] = _kMaxByte | (char & 0x3f);
-      } else {
-        _currentChunk[offset++] = 0xE0 | (char >> 12);
-        _currentChunk[offset++] = _kMaxByte | ((char >> 6) & 0x3f);
-        _currentChunk[offset++] = _kMaxByte | (char & 0x3f);
+      final char = chars[i];
+      switch (char) {
+        case _kTokenDoubleQuote:
+        case _kTokenBackslash:
+        case _kTokenBackspace:
+        case _kTokenNewline:
+        case _kTokenCarriageReturn:
+        case _kTokenTab:
+          _currentChunk[offset++] = _kTokenBackslash;
+          _currentChunk[offset++] = char;
+          break;
+
+        case < _kOneByteChar:
+          _currentChunk[offset++] = char;
+          break;
+
+        case < _kTwoBytesLimit:
+          _currentChunk[offset++] = 0xC0 | (char >> 6);
+          _currentChunk[offset++] = _kMaxByte | (char & 0x3f);
+          break;
+
+        default:
+          final surrogateMask = char & _kSurrogateMask;
+          if (surrogateMask == _kLeadSurrogateMin) {
+            final nextChar = chars[++i];
+            final rune =
+                0x10000 + ((char & _kSurrogateValueMask) << 10) | (nextChar & _kSurrogateValueMask);
+            _currentChunk[offset++] = 0xF0 | (rune >> 18);
+            _currentChunk[offset++] = _kMaxByte | ((rune >> 12) & 0x3f);
+            _currentChunk[offset++] = _kMaxByte | ((rune >> 6) & 0x3f);
+            _currentChunk[offset++] = _kMaxByte | (rune & 0x3f);
+          } else {
+            _currentChunk[offset++] = 0xE0 | (char >> 12);
+            _currentChunk[offset++] = _kMaxByte | ((char >> 6) & 0x3f);
+            _currentChunk[offset++] = _kMaxByte | (char & 0x3f);
+          }
+          break;
       }
     }
-
     _currentChunk[offset++] = _kTokenDoubleQuote;
-
     _offset = offset;
   }
 
+  @pragma('vm:prefer-inline')
   void _writeSimpleString(String value) {
-    var codeUnits = value.codeUnits;
-    _writeBytes(codeUnits, codeUnits.length);
+    final length = value.length;
+    _ensure(length);
+    for (int i = 0; i < length; i++) {
+      final char = value.codeUnitAt(i);
+      _currentChunk[_offset++] = char;
+    }
   }
 
+  @pragma('vm:prefer-inline')
   void writeString(String value) {
     _writeString(value);
     _writeByte(_kTokenComma);
   }
 
+  @pragma('vm:prefer-inline')
   void writeBool(bool value) {
     _writeSimpleString(value ? _kTrueString : _kFalseString);
     _writeByte(_kTokenComma);
   }
 
+  @pragma('vm:prefer-inline')
   void writeNumber(num value) {
     String strvalue = value.toString();
     _writeSimpleString(strvalue);
@@ -124,15 +164,23 @@ class NexemajWriter {
     _writeByte(_kTokenComma);
   }
 
+  @pragma('vm:prefer-inline')
   void writeKey(String key) {
-    _writeString(key);
-    _writeByte(_kTokenColon);
+    _ensure(key.length + 3);
+    _currentChunk[_offset++] = _kTokenDoubleQuote;
+    for (int i = 0; i < key.length; i++) {
+      _currentChunk[_offset++] = key.codeUnitAt(i);
+    }
+    _currentChunk[_offset++] = _kTokenDoubleQuote;
+    _currentChunk[_offset++] = _kTokenColon;
   }
 
+  @pragma('vm:prefer-inline')
   void writeLbrack() {
     _writeByte(_kTokenLbrack);
   }
 
+  @pragma('vm:prefer-inline')
   void writeRbrack() {
     if (_currentChunk[_offset - 1] == _kTokenComma) {
       _currentChunk[_offset - 1] = _kTokenRbrack;
@@ -149,22 +197,18 @@ class NexemajWriter {
       _offset--;
     }
 
-    var size = _chunks.fold<int>(0, (a, b) => a+b.length) + _offset;
-    var result = Uint8List(size);
-    var offset = 0;
-    for (var chunk in _chunks) {
-      result.setRange(offset, offset + chunk.length, chunk.buffer);
-      offset += chunk.length;
+    Uint8List bytes;
+    if (_chunksBuilder.isEmpty) {
+      bytes = Uint8List.view(
+        _currentChunk.buffer,
+        _currentChunk.offsetInBytes,
+        _offset,
+      );
+    } else {
+      _writeCurrentChunk();
+      bytes = _chunksBuilder.takeBytes();
     }
 
-    result.setRange(offset, offset + _offset, _currentChunk);
-    return result;
+    return bytes;
   }
-}
-
-class _Chunk {
-  final Uint8List buffer;
-  final int length;
-
-  _Chunk(this.buffer, this.length);
 }

@@ -10,6 +10,7 @@ class NexemabReader {
       : _buffer = buffer,
         _bufferView = ByteData.view(buffer.buffer, buffer.offsetInBytes);
 
+  @pragma('vm:prefer-inline')
   bool isNextNull() {
     var byte = _bufferView.getUint8(_offset); // do not advance
     if (byte == _kNull) {
@@ -20,6 +21,7 @@ class NexemabReader {
     return false;
   }
 
+  @pragma('vm:prefer-inline')
   bool decodeBool() {
     return _bufferView.getUint8(_offset++) == _kBoolTrue;
   }
@@ -51,6 +53,7 @@ class NexemabReader {
     }
   }
 
+  @pragma('vm:prefer-inline')
   int decodeVarint() {
     var ux = decodeUvarint();
     var x = ux >> 1;
@@ -61,22 +64,26 @@ class NexemabReader {
     return x.toInt();
   }
 
+  @pragma('vm:prefer-inline')
   int decodeUint8() {
     return _bufferView.getUint8(_offset++);
   }
 
+  @pragma('vm:prefer-inline')
   int decodeUint16() {
     int number = _bufferView.getUint16(_offset);
     _offset += 2;
     return number;
   }
 
+  @pragma('vm:prefer-inline')
   int decodeUint32() {
     int number = _bufferView.getUint32(_offset);
     _offset += 4;
     return number;
   }
 
+  @pragma('vm:prefer-inline')
   BigInt decodeUint64() {
     return (BigInt.from(_buffer[_offset++]) << 56) |
         (BigInt.from(_buffer[_offset++]) << 48) |
@@ -88,22 +95,26 @@ class NexemabReader {
         BigInt.from(_buffer[_offset++]);
   }
 
+  @pragma('vm:prefer-inline')
   int decodeInt8() {
     return _bufferView.getInt8(_offset++);
   }
 
+  @pragma('vm:prefer-inline')
   int decodeInt16() {
     int number = _bufferView.getInt16(_offset);
     _offset += 2;
     return number;
   }
 
+  @pragma('vm:prefer-inline')
   int decodeInt32() {
     int number = _bufferView.getInt32(_offset);
     _offset += 4;
     return number;
   }
 
+  @pragma('vm:prefer-inline')
   int decodeInt64() {
     int number = _bufferView.getInt64(_offset);
     _offset += 8;
@@ -114,18 +125,21 @@ class NexemabReader {
     return decodeUint64().toSigned(64);
   }
 
+  @pragma('vm:prefer-inline')
   double decodeFloat32() {
     double number = _bufferView.getFloat32(_offset);
     _offset += 4;
     return number;
   }
 
+  @pragma('vm:prefer-inline')
   double decodeFloat64() {
     double number = _bufferView.getFloat64(_offset);
     _offset += 8;
     return number;
   }
 
+  @pragma('vm:prefer-inline')
   String decodeString() {
     var strlen = decodeVarint();
     var buffer = Uint8List.view(_buffer.buffer, _offset, strlen);
@@ -133,10 +147,12 @@ class NexemabReader {
     return _kUtfCodec.decode(buffer);
   }
 
+  @pragma('vm:prefer-inline')
   DateTime decodeTimestamp() {
     return DateTime.fromMicrosecondsSinceEpoch(decodeVarint() ~/ 1000);
   }
 
+  @pragma('vm:prefer-inline')
   Duration decodeDuration() {
     return Duration(microseconds: decodeVarint() ~/ 1000);
   }
@@ -159,6 +175,7 @@ class NexemabReader {
     return decodeVarint();
   }
 
+  @pragma('vm:prefer-inline')
   Uint8List decodeBinary() {
     var buflen = decodeVarint();
     final buffer = Uint8List.view(_buffer.buffer, _offset, buflen); // avoid copies

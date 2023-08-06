@@ -17,32 +17,31 @@ class FieldInfo<TType extends BaseNexemaType> extends NexemaReflection<TType> {
   /// The list of key-value pairs annotation given to the field.
   final Map<String, dynamic> annotations;
 
-  const FieldInfo({
-    required this.name, 
-    required this.dartName, 
-    required this.index, 
-    required this.valueType,
-    required this.annotations
-  });
+  const FieldInfo(
+      {required this.name,
+      required this.dartName,
+      required this.index,
+      required this.valueType,
+      required this.annotations});
 
   @override
   int get hashCode => Object.hash(name, dartName, index, valueType.hashCode);
-  
+
   @override
-  bool operator ==(Object other) 
-    => other is FieldInfo ? 
-      other.name == name 
-      && other.dartName == dartName 
-      && other.index == index 
-      && other.valueType == valueType : false;
-      
+  bool operator ==(Object other) => other is FieldInfo
+      ? other.name == name &&
+          other.dartName == dartName &&
+          other.index == index &&
+          other.valueType == valueType
+      : false;
+
   @override
   Object? evaluate(TType instance) {
     final state = instance.$state_;
-    if(state is StructTypeState) {
+    if (state is StructTypeState) {
       return state._values[index];
-    } else if(state is UnionTypeState) {
-      if(state._currentField.index == index) {
+    } else if (state is UnionTypeState) {
+      if (state._currentField.index == index) {
         return state._currentValue;
       }
 
@@ -67,13 +66,13 @@ class FieldValueType {
 
   @override
   int get hashCode => Object.hash(kind, isNullable, typeArguments);
-  
+
   @override
-  bool operator ==(Object other) 
-    => other is FieldValueType ? 
-      other.kind == kind
-      && other.isNullable == isNullable
-      && kDeepCollectionEquality.equals(other.typeArguments, typeArguments) : false;
+  bool operator ==(Object other) => other is FieldValueType
+      ? other.kind == kind &&
+          other.isNullable == isNullable &&
+          kDeepCollectionEquality.equals(other.typeArguments, typeArguments)
+      : false;
 }
 
 enum FieldValueKind {

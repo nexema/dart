@@ -15,18 +15,21 @@ class NexemabWriter {
   int _bufferSize;
   int _offset = 0;
 
+  @pragma('vm:prefer-inline')
   void _createChunk(int size) {
     _currentChunk = Uint8List(size);
     _currentChunkView = ByteData.view(_currentChunk.buffer, _currentChunk.offsetInBytes);
     _offset = 0;
   }
 
+  @pragma('vm:prefer-inline')
   void _nextChunk() {
     _writeCurrentChunk();
     _bufferSize = _bufferSize *= 2;
     _createChunk(_bufferSize);
   }
 
+  @pragma('vm:prefer-inline')
   void _writeCurrentChunk() {
     _chunksBuilder.add(Uint8List.view(
       _currentChunk.buffer,
@@ -35,6 +38,7 @@ class NexemabWriter {
     ));
   }
 
+  @pragma('vm:prefer-inline')
   void _writeRawBytes(List<int> bytes, int length) {
     // need a new buffer
     if (_currentChunk.length - _offset < length) {
@@ -50,24 +54,28 @@ class NexemabWriter {
   }
 
   /// Ensure checks if the current buffer has enough space to hold n bytes
+  @pragma('vm:prefer-inline')
   void _ensure(int n) {
     if (_currentChunk.length - _offset < n) {
       _nextChunk();
     }
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeNull() {
     _ensure(1);
     _currentChunkView.setUint8(_offset++, _kNull);
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeBool(bool v) {
     _ensure(1);
     _currentChunkView.setUint8(_offset++, v ? _kBoolTrue : _kBoolFalse);
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeUint8(int v) {
     if (v > Numbers.uint8MaxValue) {
       throw FormatError("uint8 value must be less than or equals to ${Numbers.uint8MaxValue}.");
@@ -80,6 +88,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeUint16(int v) {
     if (v > Numbers.uint16MaxValue) {
       throw FormatError("uint16 value must be less than or equals to ${Numbers.uint16MaxValue}.");
@@ -93,6 +102,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeUint32(int v) {
     if (v > Numbers.uint32MaxValue) {
       throw FormatError("uint32 value must be less than or equals to ${Numbers.uint32MaxValue}.");
@@ -106,6 +116,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeUvarint(BigInt v) {
     if (v < BigInt.zero) {
       throw FormatError("uvarint value must be greater than or equals to 0.");
@@ -122,6 +133,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeVarint(int v) {
     var ux = BigInt.from(v) << 1;
     if (v < 0) {
@@ -131,6 +143,7 @@ class NexemabWriter {
     return encodeUvarint(ux);
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeInt8(int v) {
     if (v < Numbers.int8MinValue) {
       throw FormatError("int8 value must be greater than or equals to ${Numbers.int8MinValue}.");
@@ -143,6 +156,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeInt16(int v) {
     if (v < Numbers.int16MinValue) {
       throw FormatError("int16 value must be greater than or equals to ${Numbers.int16MinValue}.");
@@ -156,6 +170,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeInt32(int v) {
     if (v < Numbers.int32MinValue) {
       throw FormatError("int32 value must be greater than or equals to ${Numbers.int32MinValue}.");
@@ -169,6 +184,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeUint64(BigInt v) {
     if (v < BigInt.zero) {
       throw FormatError("uint64 value must be greater than or equals to 0.");
@@ -211,6 +227,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeInt64(int v) {
     _ensure(8);
     _currentChunkView.setInt64(_offset, v);
@@ -219,6 +236,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeFloat32(double v) {
     _ensure(4);
     _currentChunkView.setFloat32(_offset, v);
@@ -226,6 +244,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeFloat64(double v) {
     _ensure(8);
     _currentChunkView.setFloat64(_offset, v);
@@ -233,6 +252,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeString(String v) {
     var stringBuffer = _kUtfCodec.encode(v);
     var bufferLength = stringBuffer.length;
@@ -241,6 +261,7 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeBinary(Uint8List buffer) {
     var length = buffer.length;
     encodeVarint(length);
@@ -248,26 +269,31 @@ class NexemabWriter {
     return this;
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter beginArray(int length) {
     _ensure(1);
     _currentChunkView.setUint8(_offset++, _kArrayBegin);
     return encodeVarint(length);
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter beginMap(int length) {
     _ensure(1);
     _currentChunkView.setUint8(_offset++, _kMapBegin);
     return encodeVarint(length);
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeTimestamp(DateTime v) {
     return encodeVarint(v.microsecondsSinceEpoch * 1000);
   }
 
+  @pragma('vm:prefer-inline')
   NexemabWriter encodeDuration(Duration v) {
     return encodeVarint(v.inMicroseconds * 1000);
   }
 
+  @pragma('vm:prefer-inline')
   Uint8List takeBytes() {
     Uint8List bytes;
     if (_chunksBuilder.isEmpty) {
