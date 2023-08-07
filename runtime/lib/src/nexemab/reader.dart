@@ -142,7 +142,7 @@ class NexemabReader {
   @pragma('vm:prefer-inline')
   String decodeString() {
     var strlen = decodeVarint();
-    var buffer = Uint8List.view(_buffer.buffer, _offset, strlen);
+    var buffer = Uint8List.view(_buffer.buffer, _buffer.offsetInBytes + _offset, strlen);
     _offset += strlen;
     return _kUtfCodec.decode(buffer);
   }
@@ -178,7 +178,8 @@ class NexemabReader {
   @pragma('vm:prefer-inline')
   Uint8List decodeBinary() {
     var buflen = decodeVarint();
-    final buffer = Uint8List.view(_buffer.buffer, _offset, buflen); // avoid copies
+    final buffer =
+        Uint8List.view(_buffer.buffer, _buffer.offsetInBytes + _offset, buflen); // avoid copies
     _offset += buflen;
     return buffer;
   }
