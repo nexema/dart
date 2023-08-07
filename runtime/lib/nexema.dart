@@ -12,5 +12,6 @@ export 'package:nexema/src/errors/value_null.dart';
 export 'package:nexema/src/errors/format.dart';
 
 export 'package:nexema/src/utils/equality.dart';
+export 'package:nexema/src/utils/map.dart';
 
 export 'package:nexema/src/type/nexema_type.dart';
