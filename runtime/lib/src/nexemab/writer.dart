@@ -306,7 +306,6 @@ class NexemabWriter {
       _writeCurrentChunk();
       bytes = _chunksBuilder.takeBytes();
     }
-    print("took bytes: $bytes");
     return bytes;
   }
 }
