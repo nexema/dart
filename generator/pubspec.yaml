@@ -1,10 +1,10 @@
 name: nexema_generator
 description: Command line app used to generate Dart code from .nex files
-version: 1.0.0
-repository: https://github.com/nexema/tool
+version: 0.1.0
+repository: https://github.com/nexema/dart
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: ">=2.18.0 <3.0.0"
 
 executables:
   nexema_generator:
@@ -13,17 +13,13 @@ dev_dependencies:
   build_runner: ^2.3.2
   lints: ^2.0.0
   test: ^1.16.0
-  freezed: ^2.2.0
-  json_serializable: ^6.5.3
-  dart_mappable_builder: ^2.0.2
+  dart_mappable_builder: ^3.1.2
   observable: ^0.24.0
-  
+
 dependencies:
   code_builder: ^4.3.0
-  dart_mappable: ^2.0.3
+  dart_mappable: ^3.1.2
   dart_style: ^2.2.4
-  freezed_annotation: ^2.2.0
-  json_annotation: ^4.7.0
   meta: ^1.9.0
   path: ^1.8.2
   recase: ^4.1.0
