@@ -445,392 +445,376 @@ class StructA extends $nex.NexemaType {
       String got = StructGenerator.generateFor(file, input);
       String want = r"""
 class StructA extends $nex.NexemaType {
-  final $nex.StructTypeState<StructA> _state;
-  @$core.override
-  $nex.NexemaTypeState<StructA> get $state_ => _state;
+final $nex.StructTypeState<StructA> _state;
+@$core.override
+$nex.NexemaTypeState<StructA> get $state_ => _state;
 
-  static const _typeInfo = $nex.TypeInfo(
-      name: 'StructA',
-      modifier: $nex.TypeModifier.struct,
-      packageName: 'root',
-      annotations: const {},
-      fields: [
-        $nex.FieldInfo<StructA>(
-            name: 'string_field',
-            dartName: 'stringField',
-            index: 0,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.string,
-                isNullable: true,
-                typeArguments: []),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'list_field',
-            dartName: 'listField',
-            index: 1,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.list,
-                isNullable: false,
-                typeArguments: [
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.string,
-                      isNullable: false,
-                      typeArguments: [])
-                ]),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'list_value_null_field',
-            dartName: 'listValueNullField',
-            index: 2,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.list,
-                isNullable: false,
-                typeArguments: [
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.string,
-                      isNullable: true,
-                      typeArguments: [])
-                ]),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'list_null_field',
-            dartName: 'listNullField',
-            index: 3,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.list,
-                isNullable: true,
-                typeArguments: [
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.string,
-                      isNullable: false,
-                      typeArguments: [])
-                ]),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'list_both_null_field',
-            dartName: 'listBothNullField',
-            index: 4,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.list,
-                isNullable: true,
-                typeArguments: [
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.string,
-                      isNullable: true,
-                      typeArguments: [])
-                ]),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'map_field',
-            dartName: 'mapField',
-            index: 5,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.map,
-                isNullable: false,
-                typeArguments: [
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.string,
-                      isNullable: false,
-                      typeArguments: []),
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.bool,
-                      isNullable: false,
-                      typeArguments: [])
-                ]),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'map_value_null_field',
-            dartName: 'mapValueNullField',
-            index: 6,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.map,
-                isNullable: false,
-                typeArguments: [
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.string,
-                      isNullable: false,
-                      typeArguments: []),
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.bool,
-                      isNullable: true,
-                      typeArguments: [])
-                ]),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'map_null_field',
-            dartName: 'mapNullField',
-            index: 7,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.map,
-                isNullable: true,
-                typeArguments: [
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.string,
-                      isNullable: false,
-                      typeArguments: []),
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.bool,
-                      isNullable: false,
-                      typeArguments: [])
-                ]),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'map_both_null_field',
-            dartName: 'mapBothNullField',
-            index: 8,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.map,
-                isNullable: true,
-                typeArguments: [
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.string,
-                      isNullable: false,
-                      typeArguments: []),
-                  $nex.FieldValueType(
-                      kind: $nex.FieldValueKind.bool,
-                      isNullable: true,
-                      typeArguments: [])
-                ]),
-            annotations: const {})
-      ]);
+static const _typeInfo = $nex.TypeInfo(
+  name: 'StructA', 
+  modifier: $nex.TypeModifier.struct, 
+  packageName: 'root', 
+  annotations: const {},
+  fields: [$nex.FieldInfo<StructA>(
+  name: 'string_field', 
+  dartName: 'stringField', 
+  index: 0, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.string, 
+  isNullable: true, 
+  typeArguments: []
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'list_field', 
+  dartName: 'listField', 
+  index: 1, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.list, 
+  isNullable: false, 
+  typeArguments: [$nex.FieldValueType(
+  kind: $nex.FieldValueKind.string, 
+  isNullable: false, 
+  typeArguments: []
+)]
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'list_value_null_field', 
+  dartName: 'listValueNullField', 
+  index: 2, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.list, 
+  isNullable: false, 
+  typeArguments: [$nex.FieldValueType(
+  kind: $nex.FieldValueKind.string, 
+  isNullable: true, 
+  typeArguments: []
+)]
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'list_null_field', 
+  dartName: 'listNullField', 
+  index: 3, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.list, 
+  isNullable: true, 
+  typeArguments: [$nex.FieldValueType(
+  kind: $nex.FieldValueKind.string, 
+  isNullable: false, 
+  typeArguments: []
+)]
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'list_both_null_field', 
+  dartName: 'listBothNullField', 
+  index: 4, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.list, 
+  isNullable: true, 
+  typeArguments: [$nex.FieldValueType(
+  kind: $nex.FieldValueKind.string, 
+  isNullable: true, 
+  typeArguments: []
+)]
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'map_field', 
+  dartName: 'mapField', 
+  index: 5, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.map, 
+  isNullable: false, 
+  typeArguments: [$nex.FieldValueType(
+  kind: $nex.FieldValueKind.string, 
+  isNullable: false, 
+  typeArguments: []
+),$nex.FieldValueType(
+  kind: $nex.FieldValueKind.bool, 
+  isNullable: false, 
+  typeArguments: []
+)]
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'map_value_null_field', 
+  dartName: 'mapValueNullField', 
+  index: 6, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.map, 
+  isNullable: false, 
+  typeArguments: [$nex.FieldValueType(
+  kind: $nex.FieldValueKind.string, 
+  isNullable: false, 
+  typeArguments: []
+),$nex.FieldValueType(
+  kind: $nex.FieldValueKind.bool, 
+  isNullable: true, 
+  typeArguments: []
+)]
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'map_null_field', 
+  dartName: 'mapNullField', 
+  index: 7, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.map, 
+  isNullable: true, 
+  typeArguments: [$nex.FieldValueType(
+  kind: $nex.FieldValueKind.string, 
+  isNullable: false, 
+  typeArguments: []
+),$nex.FieldValueType(
+  kind: $nex.FieldValueKind.bool, 
+  isNullable: false, 
+  typeArguments: []
+)]
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'map_both_null_field', 
+  dartName: 'mapBothNullField', 
+  index: 8, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.map, 
+  isNullable: true, 
+  typeArguments: [$nex.FieldValueType(
+  kind: $nex.FieldValueKind.string, 
+  isNullable: false, 
+  typeArguments: []
+),$nex.FieldValueType(
+  kind: $nex.FieldValueKind.bool, 
+  isNullable: true, 
+  typeArguments: []
+)]
+),
+  annotations: const {})
+]
+);
 
-  StructA._internal($core.Iterable<$core.dynamic> values)
-      : _state = $nex.StructTypeState(values.toList(growable: false)),
-        super(_typeInfo);
+StructA._internal($core.Iterable<$core.dynamic> values)
+  : _state = $nex.StructTypeState(values.toList(growable: false)), super(_typeInfo);
 
-  StructA._empty()
-      : _state = $nex.StructTypeState(
-            [null, null, null, null, null, null, null, null, null]),
-        super(_typeInfo);
+StructA._empty()
+  : _state = $nex.StructTypeState([
+    null, null, null, null, null, null, null, null, null
+  ]), super(_typeInfo);
 
-  factory StructA(
-      {$core.String? stringField,
-      required $core.List<$core.String> listField,
-      required $core.List<$core.String?> listValueNullField,
-      $core.List<$core.String>? listNullField,
-      $core.List<$core.String?>? listBothNullField,
-      required $core.Map<$core.String, $core.bool> mapField,
-      required $core.Map<$core.String, $core.bool?> mapValueNullField,
-      $core.Map<$core.String, $core.bool>? mapNullField,
-      $core.Map<$core.String, $core.bool?>? mapBothNullField}) {
-    return StructA._internal([
-      stringField,
-      listField,
-      listValueNullField,
-      listNullField,
-      listBothNullField,
-      mapField,
-      mapValueNullField,
-      mapNullField,
-      mapBothNullField
-    ]);
-  }
-
-  factory StructA.decode($td.Uint8List buffer) {
-    var instance = StructA._empty();
-    instance.mergeFrom(buffer);
-    return instance;
-  }
-
-  $core.String? get stringField => _state.get(0) as $core.String?;
+factory StructA({
   
-  set stringField($core.String? value) {
-    _state.set(0, value);
-  }
+  $core.String? stringField, required $core.List<$core.String> listField, required $core.List<$core.String?> listValueNullField, $core.List<$core.String>? listNullField, $core.List<$core.String?>? listBothNullField, required $core.Map<$core.String,$core.bool> mapField, required $core.Map<$core.String,$core.bool?> mapValueNullField, $core.Map<$core.String,$core.bool>? mapNullField, $core.Map<$core.String,$core.bool?>? mapBothNullField
+}) {
+  return StructA._internal([
+    stringField,listField,listValueNullField,listNullField,listBothNullField,mapField,mapValueNullField,mapNullField,mapBothNullField
+  ]);
+}
 
-  $core.List<$core.String> get listField =>
-      _state.get(1) as $core.List<$core.String>;
+factory StructA.decode($td.Uint8List buffer) {
+  var instance = StructA._empty();
+  instance.mergeFrom(buffer);
+  return instance;
+}
 
-  set listField($core.List<$core.String> value) {
-    _state.set(1, value);
-  }
 
-  $core.List<$core.String?> get listValueNullField =>
-      _state.get(2) as $core.List<$core.String?>;
 
-  set listValueNullField($core.List<$core.String?> value) {
-    _state.set(2, value);
-  }
 
-  $core.List<$core.String>? get listNullField =>
-      _state.get(3) as $core.List<$core.String>?;
+$core.String? get stringField => _state.get(0) as $core.String?;
 
-  set listNullField($core.List<$core.String>? value) {
-    _state.set(3, value);
-  }
 
-  $core.List<$core.String?>? get listBothNullField =>
-      _state.get(4) as $core.List<$core.String?>?;
+set stringField($core.String? value) {
+  _state.set(0, value);
+}
 
-  set listBothNullField($core.List<$core.String?>? value) {
-    _state.set(4, value);
-  }
 
-  $core.Map<$core.String, $core.bool> get mapField =>
-      _state.get(5) as $core.Map<$core.String, $core.bool>;
 
-  set mapField($core.Map<$core.String, $core.bool> value) {
-    _state.set(5, value);
-  }
+$core.List<$core.String> get listField => _state.get(1) as $core.List<$core.String>;
 
-  $core.Map<$core.String, $core.bool?> get mapValueNullField =>
-      _state.get(6) as $core.Map<$core.String, $core.bool?>;
 
-  set mapValueNullField($core.Map<$core.String, $core.bool?> value) {
-    _state.set(6, value);
-  }
+set listField($core.List<$core.String> value) {
+  _state.set(1, value);
+}
 
-  $core.Map<$core.String, $core.bool>? get mapNullField =>
-      _state.get(7) as $core.Map<$core.String, $core.bool>?;
 
-  set mapNullField($core.Map<$core.String, $core.bool>? value) {
-    _state.set(7, value);
-  }
 
-  $core.Map<$core.String, $core.bool?>? get mapBothNullField =>
-      _state.get(8) as $core.Map<$core.String, $core.bool?>?;
+$core.List<$core.String?> get listValueNullField => _state.get(2) as $core.List<$core.String?>;
 
-  set mapBothNullField($core.Map<$core.String, $core.bool?>? value) {
-    _state.set(8, value);
-  }
 
-  @$core.override
-  $td.Uint8List encode() {
-    final writer = $nex.getWriter();
+set listValueNullField($core.List<$core.String?> value) {
+  _state.set(2, value);
+}
 
-    if (stringField == null) {
-      writer.encodeNull();
-    } else {
-      writer.encodeString(stringField!);
-    }
-    writer.beginArray(listField.length);
-    for (var value in listField) {
-      writer.encodeString(value);
-    }
-    writer.beginArray(listValueNullField.length);
-    for (var value in listValueNullField) {
-      if (value == null) {
+
+
+$core.List<$core.String>? get listNullField => _state.get(3) as $core.List<$core.String>?;
+
+
+set listNullField($core.List<$core.String>? value) {
+  _state.set(3, value);
+}
+
+
+
+$core.List<$core.String?>? get listBothNullField => _state.get(4) as $core.List<$core.String?>?;
+
+
+set listBothNullField($core.List<$core.String?>? value) {
+  _state.set(4, value);
+}
+
+
+
+$core.Map<$core.String,$core.bool> get mapField => _state.get(5) as $core.Map<$core.String,$core.bool>;
+
+
+set mapField($core.Map<$core.String,$core.bool> value) {
+  _state.set(5, value);
+}
+
+
+
+$core.Map<$core.String,$core.bool?> get mapValueNullField => _state.get(6) as $core.Map<$core.String,$core.bool?>;
+
+
+set mapValueNullField($core.Map<$core.String,$core.bool?> value) {
+  _state.set(6, value);
+}
+
+
+
+$core.Map<$core.String,$core.bool>? get mapNullField => _state.get(7) as $core.Map<$core.String,$core.bool>?;
+
+
+set mapNullField($core.Map<$core.String,$core.bool>? value) {
+  _state.set(7, value);
+}
+
+
+
+$core.Map<$core.String,$core.bool?>? get mapBothNullField => _state.get(8) as $core.Map<$core.String,$core.bool?>?;
+
+
+set mapBothNullField($core.Map<$core.String,$core.bool?>? value) {
+  _state.set(8, value);
+}
+
+
+
+@$core.override
+$td.Uint8List encode() {
+  final writer = $nex.getWriter();
+  
+  if(stringField == null) {
+        writer.encodeNull();
+      } else {
+        writer.encodeString(stringField!);
+      }
+writer.beginArray(listField.length);
+for(var value in listField) {
+  writer.encodeString(value);
+}
+writer.beginArray(listValueNullField.length);
+for(var value in listValueNullField) {
+  if(value == null) {
         writer.encodeNull();
       } else {
         writer.encodeString(value);
       }
-    }
-    if (listNullField == null) {
-      writer.encodeNull();
-    } else {
-      writer.beginArray(listNullField!.length);
-      for (var value in listNullField!) {
+}
+if(listNullField == null) {
+        writer.encodeNull();
+      } else {
+        writer.beginArray(listNullField!.length);
+for(var value in listNullField!) {
+  writer.encodeString(value);
+}
+      }
+if(listBothNullField == null) {
+        writer.encodeNull();
+      } else {
+        writer.beginArray(listBothNullField!.length);
+for(var value in listBothNullField!) {
+  if(value == null) {
+        writer.encodeNull();
+      } else {
         writer.encodeString(value);
       }
-    }
-    if (listBothNullField == null) {
-      writer.encodeNull();
-    } else {
-      writer.beginArray(listBothNullField!.length);
-      for (var value in listBothNullField!) {
-        if (value == null) {
-          writer.encodeNull();
-        } else {
-          writer.encodeString(value);
-        }
+}
       }
-    }
-    writer.beginMap(mapField.length);
-    for (var entry in mapField.entries) {
-      writer.encodeString(entry.key);
-      writer.encodeBool(entry.value);
-    }
-    writer.beginMap(mapValueNullField.length);
-    for (var entry in mapValueNullField.entries) {
-      writer.encodeString(entry.key);
-      if (entry.value == null) {
+writer.beginMap(mapField.length);
+for(var entry in mapField.entries) {
+  writer.encodeString(entry.key);
+  writer.encodeBool(entry.value);
+}
+writer.beginMap(mapValueNullField.length);
+for(var entry in mapValueNullField.entries) {
+  writer.encodeString(entry.key);
+  if(entry.value == null) {
         writer.encodeNull();
       } else {
         writer.encodeBool(entry.value!);
       }
-    }
-    if (mapNullField == null) {
-      writer.encodeNull();
-    } else {
-      writer.beginMap(mapNullField!.length);
-      for (var entry in mapNullField!.entries) {
-        writer.encodeString(entry.key);
-        writer.encodeBool(entry.value);
+}
+if(mapNullField == null) {
+        writer.encodeNull();
+      } else {
+        writer.beginMap(mapNullField!.length);
+for(var entry in mapNullField!.entries) {
+  writer.encodeString(entry.key);
+  writer.encodeBool(entry.value);
+}
       }
-    }
-    if (mapBothNullField == null) {
-      writer.encodeNull();
-    } else {
-      writer.beginMap(mapBothNullField!.length);
-      for (var entry in mapBothNullField!.entries) {
-        writer.encodeString(entry.key);
-        if (entry.value == null) {
-          writer.encodeNull();
-        } else {
-          writer.encodeBool(entry.value!);
-        }
+if(mapBothNullField == null) {
+        writer.encodeNull();
+      } else {
+        writer.beginMap(mapBothNullField!.length);
+for(var entry in mapBothNullField!.entries) {
+  writer.encodeString(entry.key);
+  if(entry.value == null) {
+        writer.encodeNull();
+      } else {
+        writer.encodeBool(entry.value!);
       }
-    }
-    return writer.takeBytes();
+}
+      }
+  return writer.takeBytes();
+}
+
+@$core.override
+void mergeFrom($td.Uint8List buffer) {
+  final reader = $nex.getReader(buffer);
+  _state.setAll([
+    
+    reader.isNextNull() ? null : (reader.decodeString()),
+$core.List.generate(reader.beginDecodeArray(), (_) => reader.decodeString()),
+$core.List.generate(reader.beginDecodeArray(), (_) => reader.isNextNull() ? null : (reader.decodeString())),
+reader.isNextNull() ? null : ($core.List.generate(reader.beginDecodeArray(), (_) => reader.decodeString())),
+reader.isNextNull() ? null : ($core.List.generate(reader.beginDecodeArray(), (_) => reader.isNextNull() ? null : (reader.decodeString()))),
+$nex.generateMap(reader.beginDecodeMap(), (_) => reader.decodeString(), (_) => reader.decodeBool()),
+$nex.generateMap(reader.beginDecodeMap(), (_) => reader.decodeString(), (_) => reader.isNextNull() ? null : (reader.decodeBool())),
+reader.isNextNull() ? null : ($nex.generateMap(reader.beginDecodeMap(), (_) => reader.decodeString(), (_) => reader.decodeBool())),
+reader.isNextNull() ? null : ($nex.generateMap(reader.beginDecodeMap(), (_) => reader.decodeString(), (_) => reader.isNextNull() ? null : (reader.decodeBool())))
+  ]);
+}
+
+
+@$core.override
+$core.int get hashCode => _state.hashCode;
+
+
+@$core.override
+$core.bool operator ==($core.Object other) {
+  if(other is! StructA) {
+    return false;
   }
 
-  @$core.override
-  void mergeFrom($td.Uint8List buffer) {
-    final reader = $nex.getReader(buffer);
-    _state.setAll([
-      reader.isNextNull() ? null : (reader.decodeString()),
-      $core.List.generate(
-          reader.beginDecodeArray(), (_) => reader.decodeString()),
-      $core.List.generate(reader.beginDecodeArray(),
-          (_) => reader.isNextNull() ? null : (reader.decodeString())),
-      reader.isNextNull()
-          ? null
-          : ($core.List.generate(
-              reader.beginDecodeArray(), (_) => reader.decodeString())),
-      reader.isNextNull()
-          ? null
-          : ($core.List.generate(reader.beginDecodeArray(),
-              (_) => reader.isNextNull() ? null : (reader.decodeString()))),
-      {
-        for ($core.int i = 0; i < reader.beginDecodeMap(); i++)
-          reader.decodeString(): reader.decodeBool()
-      },
-      {
-        for ($core.int i = 0; i < reader.beginDecodeMap(); i++)
-          reader.decodeString():
-              reader.isNextNull() ? null : (reader.decodeBool())
-      },
-      reader.isNextNull()
-          ? null
-          : ({
-              for ($core.int i = 0; i < reader.beginDecodeMap(); i++)
-                reader.decodeString(): reader.decodeBool()
-            }),
-      reader.isNextNull()
-          ? null
-          : ({
-              for ($core.int i = 0; i < reader.beginDecodeMap(); i++)
-                reader.decodeString():
-                    reader.isNextNull() ? null : (reader.decodeBool())
-            })
-    ]);
-  }
+  return other._state == _state;
+}
 
-  @$core.override
-  $core.int get hashCode => _state.hashCode;
-
-  @$core.override
-  $core.bool operator ==($core.Object other) {
-    if (other is! StructA) {
-      return false;
-    }
-
-    return other._state == _state;
-  }
-
-  @$core.override
-  $core.String toString() =>
-      'StructA(stringField: $stringField, listField: $listField, listValueNullField: $listValueNullField, listNullField: $listNullField, listBothNullField: $listBothNullField, mapField: $mapField, mapValueNullField: $mapValueNullField, mapNullField: $mapNullField, mapBothNullField: $mapBothNullField)';
+@$core.override
+$core.String toString() => 'StructA(stringField: $stringField, listField: $listField, listValueNullField: $listValueNullField, listNullField: $listNullField, listBothNullField: $listBothNullField, mapField: $mapField, mapValueNullField: $mapValueNullField, mapNullField: $mapNullField, mapBothNullField: $mapBothNullField)';
 }
 """;
 
@@ -857,149 +841,170 @@ class StructA extends $nex.NexemaType {
 
       String got = StructGenerator.generateFor(file, input);
       String want = r"""
+
+
 class StructA extends $nex.NexemaType {
-  final $nex.StructTypeState<StructA> _state;
-  @$core.override
-  $nex.NexemaTypeState<StructA> get $state_ => _state;
+final $nex.StructTypeState<StructA> _state;
+@$core.override
+$nex.NexemaTypeState<StructA> get $state_ => _state;
 
-  static const _typeInfo = $nex.TypeInfo(
-      name: 'StructA',
-      modifier: $nex.TypeModifier.struct,
-      packageName: 'root',
-      annotations: {},
-      fields: [
-        $nex.FieldInfo<StructA>(
-            name: 'struct_field',
-            dartName: 'structField',
-            index: 0,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.type,
-                isNullable: false,
-                typeArguments: []),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'struct_null_field',
-            dartName: 'structNullField',
-            index: 1,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.type,
-                isNullable: true,
-                typeArguments: []),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'enum_field',
-            dartName: 'enumField',
-            index: 2,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.type,
-                isNullable: false,
-                typeArguments: []),
-            annotations: const {}),
-        $nex.FieldInfo<StructA>(
-            name: 'enum_null_field',
-            dartName: 'enumNullField',
-            index: 3,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.type,
-                isNullable: true,
-                typeArguments: []),
-            annotations: const {})
-      ]);
+static const _typeInfo = $nex.TypeInfo(
+  name: 'StructA', 
+  modifier: $nex.TypeModifier.struct, 
+  packageName: 'root', 
+  annotations: const {},
+  fields: [$nex.FieldInfo<StructA>(
+  name: 'struct_field', 
+  dartName: 'structField', 
+  index: 0, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.type, 
+  isNullable: false, 
+  typeArguments: []
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'struct_null_field', 
+  dartName: 'structNullField', 
+  index: 1, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.type, 
+  isNullable: true, 
+  typeArguments: []
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'enum_field', 
+  dartName: 'enumField', 
+  index: 2, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.type, 
+  isNullable: false, 
+  typeArguments: []
+),
+  annotations: const {})
+,$nex.FieldInfo<StructA>(
+  name: 'enum_null_field', 
+  dartName: 'enumNullField', 
+  index: 3, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.type, 
+  isNullable: true, 
+  typeArguments: []
+),
+  annotations: const {})
+]
+);
 
-  StructA._internal($core.Iterable<$core.dynamic> values)
-      : _state = $nex.StructTypeState(values.toList(growable: false)),
-        super(_typeInfo);
+StructA._internal($core.Iterable<$core.dynamic> values)
+  : _state = $nex.StructTypeState(values.toList(growable: false)), super(_typeInfo);
 
-  StructA._empty()
-      : _state = $nex.StructTypeState([null, null, null, null]),
-        super(_typeInfo);
+StructA._empty()
+  : _state = $nex.StructTypeState([
+    null, null, null, null
+  ]), super(_typeInfo);
 
-  factory StructA(
-      {required $my_file.StructB structField,
-      $my_file.StructB? structNullField,
-      required $my_file.EnumA enumField,
-      $my_file.EnumA? enumNullField}) {
-    return StructA._internal(
-        [structField, structNullField, enumField, enumNullField]);
+factory StructA({
+  
+  required StructB structField, StructB? structNullField, required EnumA enumField, EnumA? enumNullField
+}) {
+  return StructA._internal([
+    structField,structNullField,enumField,enumNullField
+  ]);
+}
+
+factory StructA.decode($td.Uint8List buffer) {
+  var instance = StructA._empty();
+  instance.mergeFrom(buffer);
+  return instance;
+}
+
+
+
+
+StructB get structField => _state.get(0) as StructB;
+
+
+set structField(StructB value) {
+  _state.set(0, value);
+}
+
+
+
+StructB? get structNullField => _state.get(1) as StructB?;
+
+
+set structNullField(StructB? value) {
+  _state.set(1, value);
+}
+
+
+
+EnumA get enumField => _state.get(2) as EnumA;
+
+
+set enumField(EnumA value) {
+  _state.set(2, value);
+}
+
+
+
+EnumA? get enumNullField => _state.get(3) as EnumA?;
+
+
+set enumNullField(EnumA? value) {
+  _state.set(3, value);
+}
+
+
+
+@$core.override
+$td.Uint8List encode() {
+  final writer = $nex.getWriter();
+  
+  writer.encodeBinary(structField.encode());
+if(structNullField == null) {
+        writer.encodeNull();
+      } else {
+        writer.encodeBinary(structNullField!.encode());
+      }
+writer.encodeUint8(enumField.index);
+if(enumNullField == null) {
+        writer.encodeNull();
+      } else {
+        writer.encodeUint8(enumNullField!.index);
+      }
+  return writer.takeBytes();
+}
+
+@$core.override
+void mergeFrom($td.Uint8List buffer) {
+  final reader = $nex.getReader(buffer);
+  _state.setAll([
+    
+    StructB.decode(reader.decodeBinary()),
+reader.isNextNull() ? null : (StructB.decode(reader.decodeBinary())),
+EnumA.byIndex(reader.decodeUint8()) ?? EnumA.unknown,
+reader.isNextNull() ? null : (EnumA.byIndex(reader.decodeUint8()) ?? EnumA.unknown)
+  ]);
+}
+
+
+@$core.override
+$core.int get hashCode => _state.hashCode;
+
+
+@$core.override
+$core.bool operator ==($core.Object other) {
+  if(other is! StructA) {
+    return false;
   }
 
-  factory StructA.decode($td.Uint8List buffer) {
-    var instance = StructA._empty();
-    instance.mergeFrom(buffer);
-    return instance;
-  }
+  return other._state == _state;
+}
 
-  $my_file.StructB get structField => _state.get(0) as $my_file.StructB;
-
-  set structField($my_file.StructB value) {
-    _state.set(0, value);
-  }
-
-  $my_file.StructB? get structNullField => _state.get(1) as $my_file.StructB?;
-
-  set structNullField($my_file.StructB? value) {
-    _state.set(1, value);
-  }
-
-  $my_file.EnumA get enumField => _state.get(2) as $my_file.EnumA;
-
-  set enumField($my_file.EnumA value) {
-    _state.set(2, value);
-  }
-
-  $my_file.EnumA? get enumNullField => _state.get(3) as $my_file.EnumA?;
-
-  set enumNullField($my_file.EnumA? value) {
-    _state.set(3, value);
-  }
-
-  @$core.override
-  $td.Uint8List encode() {
-    final writer = $nex.getWriter();
-
-    writer.encodeBinary(structField.encode());
-    if (structNullField == null) {
-      writer.encodeNull();
-    } else {
-      writer.encodeBinary(structNullField!.encode());
-    }
-    writer.encodeUint8(enumField.index);
-    if (enumNullField == null) {
-      writer.encodeNull();
-    } else {
-      writer.encodeUint8(enumNullField!.index);
-    }
-    return writer.takeBytes();
-  }
-
-  @$core.override
-  void mergeFrom($td.Uint8List buffer) {
-    final reader = $nex.getReader(buffer);
-    _state.setAll([
-      $my_file.StructB.decode(reader.decodeBinary()),
-      reader.isNextNull() ? null : ($my_file.StructB.decode(reader.decodeBinary())),
-      $my_file.EnumA.byIndex(reader.decodeUint8()) ?? $my_file.EnumA.unknown,
-      reader.isNextNull()
-          ? null
-          : ($my_file.EnumA.byIndex(reader.decodeUint8()) ?? $my_file.EnumA.unknown)
-    ]);
-  }
-
-  @$core.override
-  $core.int get hashCode => _state.hashCode;
-
-  @$core.override
-  $core.bool operator ==($core.Object other) {
-    if (other is! StructA) {
-      return false;
-    }
-
-    return other._state == _state;
-  }
-
-  @$core.override
-  $core.String toString() =>
-      'StructA(structField: $structField, structNullField: $structNullField, enumField: $enumField, enumNullField: $enumNullField)';
+@$core.override
+$core.String toString() => 'StructA(structField: $structField, structNullField: $structNullField, enumField: $enumField, enumNullField: $enumNullField)';
 }
 """;
       expect(formatDartCode(got), equals(formatDartCode(want)));
@@ -1031,107 +1036,119 @@ class StructA extends $nex.NexemaType {
       String got = StructGenerator.generateFor(file, input);
       String want = r"""
 class StructA extends BaseA {
-  final $nex.StructTypeState<StructA> _state;
-  @$core.override
-  $nex.NexemaTypeState<StructA> get $state_ => _state;
+final $nex.StructTypeState<StructA> _state;
+@$core.override
+$nex.NexemaTypeState<StructA> get $state_ => _state;
 
-  static const _typeInfo = $nex.TypeInfo(
-      name: 'StructA',
-      modifier: $nex.TypeModifier.struct,
-      packageName: 'root',
-      annotations: const {},
-      fields: [
-        $nex.FieldInfo<StructA>(
-            name: 'string_field',
-            dartName: 'stringField',
-            index: 0,
-            valueType: $nex.FieldValueType(
-                kind: $nex.FieldValueKind.string,
-                isNullable: false,
-                typeArguments: []),
-            annotations: const {})
-      ]);
+static const _typeInfo = $nex.TypeInfo(
+  name: 'StructA', 
+  modifier: $nex.TypeModifier.struct, 
+  packageName: 'root', 
+  annotations: const {},
+  fields: [$nex.FieldInfo<StructA>(
+  name: 'string_field', 
+  dartName: 'stringField', 
+  index: 0, 
+  valueType: $nex.FieldValueType(
+  kind: $nex.FieldValueKind.string, 
+  isNullable: false, 
+  typeArguments: []
+),
+  annotations: const {})
+]
+);
 
-  StructA._internal($core.Iterable<$core.dynamic> values)
-      : _state = $nex.StructTypeState(values.toList(growable: false)),
-        super(_typeInfo);
+StructA._internal($core.Iterable<$core.dynamic> values)
+  : _state = $nex.StructTypeState(values.toList(growable: false)), super(_typeInfo);
 
-  StructA._empty()
-      : _state = $nex.StructTypeState([null]),
-        super(_typeInfo);
+StructA._empty()
+  : _state = $nex.StructTypeState([
+    null
+  ]), super(_typeInfo);
 
-  factory StructA(
-      {$core.int? varintField,
-      required $core.BigInt uvarintField,
-      required $core.String stringField}) {
-    return StructA._internal([stringField]);
+factory StructA({
+  $core.int? varintField,required $core.BigInt uvarintField,
+  required $core.String stringField
+}) {
+  return StructA._internal([
+    varintField,uvarintField,stringField
+  ]);
+}
+
+factory StructA.decode($td.Uint8List buffer) {
+  var instance = StructA._empty();
+  instance.mergeFrom(buffer);
+  return instance;
+}
+
+
+
+
+$core.String get stringField => _state.get(0) as $core.String;
+
+
+set stringField($core.String value) {
+  _state.set(0, value);
+}
+
+
+@$core.override
+$core.int? get varintField => _state.get(0) as $core.int?;
+
+@$core.override
+set varintField($core.int? value) {
+  _state.set(0, value);
+}
+
+
+@$core.override
+$core.BigInt get uvarintField => _state.get(1) as $core.BigInt;
+
+@$core.override
+set uvarintField($core.BigInt value) {
+  _state.set(1, value);
+}
+
+
+@$core.override
+$td.Uint8List encode() {
+  final writer = $nex.getWriter();
+  if(varintField == null) {
+        writer.encodeNull();
+      } else {
+        writer.encodeVarint(varintField!);
+      }
+writer.encodeUvarint(uvarintField);
+  writer.encodeString(stringField);
+  return writer.takeBytes();
+}
+
+@$core.override
+void mergeFrom($td.Uint8List buffer) {
+  final reader = $nex.getReader(buffer);
+  _state.setAll([
+    reader.isNextNull() ? null : (reader.decodeVarint()),
+reader.decodeUvarint(),
+    reader.decodeString()
+  ]);
+}
+
+
+@$core.override
+$core.int get hashCode => _state.hashCode;
+
+
+@$core.override
+$core.bool operator ==($core.Object other) {
+  if(other is! StructA) {
+    return false;
   }
 
-  factory StructA.decode($td.Uint8List buffer) {
-    var instance = StructA._empty();
-    instance.mergeFrom(buffer);
-    return instance;
-  }
+  return other._state == _state;
+}
 
-  $core.String get stringField => _state.get(0) as $core.String;
-
-  set stringField($core.String value) {
-    _state.set(0, value);
-  }
-
-  @$core.override
-  $core.int? get varintField => _state.get(0) as $core.int?;
-
-  @$core.override
-  set varintField($core.int? value) {
-    _state.set(0, value);
-  }
-
-  @$core.override
-  $core.BigInt get uvarintField => _state.get(1) as $core.BigInt;
-
-  @$core.override
-  set uvarintField($core.BigInt value) {
-    _state.set(1, value);
-  }
-
-  @$core.override
-  $td.Uint8List encode() {
-    final writer = $nex.getWriter();
-    if (varintField == null) {
-      writer.encodeNull();
-    } else {
-      writer.encodeVarint(varintField!);
-    }
-    writer.encodeUvarint(uvarintField);
-    writer.encodeString(stringField);
-    return writer.takeBytes();
-  }
-
-  @$core.override
-  void mergeFrom($td.Uint8List buffer) {
-    final reader = $nex.getReader(buffer);
-    _state.setAll([
-      reader.isNextNull() ? null : (reader.decodeVarint()),
-      reader.decodeUvarint(),
-      reader.decodeString()
-    ]);
-  }
-
-  @$core.override
-  $core.int get hashCode => _state.hashCode;
-
-  @$core.override
-  $core.bool operator ==($core.Object other) {
-    if (other is! StructA) {
-      return false;
-    }
-
-    return other._state == _state;
-  }
-
-  @$core.override
-  $core.String toString() => 'StructA(stringField: $stringField)';
+@$core.override
+$core.String toString() => 'StructA(stringField: $stringField)';
 }
 """;
       expect(formatDartCode(got), equals(formatDartCode(want)));
