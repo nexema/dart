@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -14,7 +12,7 @@ Future<void> main(List<String> args) async {
   //   input = File(arguments["snapshot-file"]).readAsStringSync();
   // } else {
   input = stdin.readLineSync(encoding: utf8);
-  if(input == null) {
+  if (input == null) {
     throw "empty content";
   }
   // }
@@ -23,18 +21,15 @@ Future<void> main(List<String> args) async {
   var snapshot = NexemaSnapshot.fromJson(input);
 
   // verify arguments
-  if(args.isEmpty) {
+  if (args.isEmpty) {
     _reportError("output-path argument is mandatory.");
     return;
   }
 
   // Create generator and execute
   var generator = Generator(
-    snapshot: snapshot, 
-    settings: GeneratorSettings(
-      outputPath: args.first
-    )
-  );
+      snapshot: snapshot,
+      settings: GeneratorSettings(outputPath: args.first, projectName: args.last));
 
   final result = generator.run();
   stdout.writeln(result.toJson());

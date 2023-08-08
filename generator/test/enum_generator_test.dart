@@ -7,28 +7,19 @@ import 'test_utils.dart';
 void main() {
   group("Test EnumGenerator", () {
     test("Test generate enum code", () {
-      final input = getEnumType("EnumA", 
-        [
-          getEnumField(0, "unknown"),
-          getEnumField(1, "red"),
-          getEnumField(2, "green"),
-          getEnumField(3, "blue"),
-        ], 
-        documentation: [
-          "First documentation"
-        ], 
-        annotations: {
-          "obsolete": true
-        }
-      );
+      final input = getEnumType("EnumA", [
+        getEnumField(0, "unknown"),
+        getEnumField(1, "red"),
+        getEnumField(2, "green"),
+        getEnumField(3, "blue"),
+      ], documentation: [
+        "First documentation"
+      ], annotations: {
+        "obsolete": true
+      });
 
-      final got = EnumGenerator.generateFor(NexemaFile(
-        id: 1,
-        fileName: "a.nex", 
-        path: "root", 
-        packageName: "root", 
-        types: []
-      ), input);
+      final got = EnumGenerator.generateFor(
+          NexemaFile(id: "1", path: "root/a.nex", packageName: "root", types: []), input);
       final want = r"""
 /// First documentation
 @$core.Deprecated('EnumA is obsolete and should not be used.')
@@ -43,7 +34,7 @@ class EnumA extends $nex.NexemaEnumType {
       name: 'EnumA',
       modifier: $nex.TypeModifier.enumerator,
       packageName: 'root',
-      annotations: {
+      annotations: const {
         'obsolete': true
       },
       fields: [
@@ -52,25 +43,25 @@ class EnumA extends $nex.NexemaEnumType {
             dartName: 'unknown',
             index: 0,
             valueType: null,
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<EnumA>(
             name: 'red',
             dartName: 'red',
             index: 1,
             valueType: null,
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<EnumA>(
             name: 'green',
             dartName: 'green',
             index: 2,
             valueType: null,
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<EnumA>(
             name: 'blue',
             dartName: 'blue',
             index: 3,
             valueType: null,
-            annotations: {})
+            annotations: const {})
       ]);
 
   $core.int get index => _index;

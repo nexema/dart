@@ -8,29 +8,24 @@ import 'test_utils.dart';
 void main() {
   group("Test StructGenerator", () {
     test("Struct with primitives", () {
-      final file = NexemaFile(
-          id: 1,
-          fileName: "my_file.nex",
-          packageName: "root",
-          path: "root/my_file.nex",
-          types: []);
+      final file = NexemaFile(id: "1", packageName: "root", path: "root/my_file.nex", types: []);
 
       final input = getStructType("StructA", [
-        getField(0, "string_field", getPrimitiveValueType("string")),
-        getField(1, "bool_field", getPrimitiveValueType("bool")),
-        getField(2, "int_field", getPrimitiveValueType("int")),
-        getField(3, "uint_field", getPrimitiveValueType("uint")),
-        getField(4, "int8_field", getPrimitiveValueType("int8")),
-        getField(5, "int16_field", getPrimitiveValueType("int16")),
-        getField(6, "int32_field", getPrimitiveValueType("int32")),
-        getField(7, "int64_field", getPrimitiveValueType("int64")),
-        getField(8, "uint8_field", getPrimitiveValueType("uint8")),
-        getField(9, "uint16_field", getPrimitiveValueType("uint16")),
-        getField(10, "uint32_field", getPrimitiveValueType("uint32")),
-        getField(11, "uint64_field", getPrimitiveValueType("uint64")),
-        getField(12, "float32_field", getPrimitiveValueType("float32")),
-        getField(13, "float64_field", getPrimitiveValueType("float64")),
-        getField(14, "binary_field", getPrimitiveValueType("binary")),
+        getField(0, "string_field", getPrimitiveValueType(NexemaPrimitive.string)),
+        getField(1, "bool_field", getPrimitiveValueType(NexemaPrimitive.bool)),
+        getField(2, "int_field", getPrimitiveValueType(NexemaPrimitive.int)),
+        getField(3, "uint_field", getPrimitiveValueType(NexemaPrimitive.uint)),
+        getField(4, "int8_field", getPrimitiveValueType(NexemaPrimitive.int8)),
+        getField(5, "int16_field", getPrimitiveValueType(NexemaPrimitive.int16)),
+        getField(6, "int32_field", getPrimitiveValueType(NexemaPrimitive.int32)),
+        getField(7, "int64_field", getPrimitiveValueType(NexemaPrimitive.int64)),
+        getField(8, "uint8_field", getPrimitiveValueType(NexemaPrimitive.uint8)),
+        getField(9, "uint16_field", getPrimitiveValueType(NexemaPrimitive.uint16)),
+        getField(10, "uint32_field", getPrimitiveValueType(NexemaPrimitive.uint32)),
+        getField(11, "uint64_field", getPrimitiveValueType(NexemaPrimitive.uint64)),
+        getField(12, "float32_field", getPrimitiveValueType(NexemaPrimitive.float32)),
+        getField(13, "float64_field", getPrimitiveValueType(NexemaPrimitive.float64)),
+        getField(14, "binary_field", getPrimitiveValueType(NexemaPrimitive.binary)),
       ], documentation: [
         "Documentation for StructA",
         "Another comment"
@@ -52,7 +47,7 @@ class StructA extends $nex.NexemaType {
       name: 'StructA',
       modifier: $nex.TypeModifier.struct,
       packageName: 'root',
-      annotations: {
+      annotations: const {
         'obsolete': true
       },
       fields: [
@@ -64,7 +59,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.string,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'bool_field',
             dartName: 'boolField',
@@ -73,7 +68,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.bool,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'int_field',
             dartName: 'intField',
@@ -82,7 +77,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.int,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'uint_field',
             dartName: 'uintField',
@@ -91,7 +86,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.uint,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'int8_field',
             dartName: 'int8Field',
@@ -100,7 +95,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.int8,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'int16_field',
             dartName: 'int16Field',
@@ -109,7 +104,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.int16,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'int32_field',
             dartName: 'int32Field',
@@ -118,7 +113,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.int32,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'int64_field',
             dartName: 'int64Field',
@@ -127,7 +122,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.int64,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'uint8_field',
             dartName: 'uint8Field',
@@ -136,7 +131,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.uint8,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'uint16_field',
             dartName: 'uint16Field',
@@ -145,7 +140,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.uint16,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'uint32_field',
             dartName: 'uint32Field',
@@ -154,7 +149,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.uint32,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'uint64_field',
             dartName: 'uint64Field',
@@ -163,7 +158,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.uint64,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'float32_field',
             dartName: 'float32Field',
@@ -172,7 +167,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.float32,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'float64_field',
             dartName: 'float64Field',
@@ -181,7 +176,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.float64,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'binary_field',
             dartName: 'binaryField',
@@ -190,7 +185,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.binary,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {})
+            annotations: const {})
       ]);
 
   StructA._internal($core.Iterable<$core.dynamic> values)
@@ -259,76 +254,91 @@ class StructA extends $nex.NexemaType {
   }
 
   $core.String get stringField => _state.get(0) as $core.String;
+
   set stringField($core.String value) {
     _state.set(0, value);
   }
 
   $core.bool get boolField => _state.get(1) as $core.bool;
+
   set boolField($core.bool value) {
     _state.set(1, value);
   }
 
   $core.int get intField => _state.get(2) as $core.int;
+  
   set intField($core.int value) {
     _state.set(2, value);
   }
 
   $core.BigInt get uintField => _state.get(3) as $core.BigInt;
+
   set uintField($core.BigInt value) {
     _state.set(3, value);
   }
 
   $core.int get int8Field => _state.get(4) as $core.int;
+
   set int8Field($core.int value) {
     _state.set(4, value);
   }
 
   $core.int get int16Field => _state.get(5) as $core.int;
+
   set int16Field($core.int value) {
     _state.set(5, value);
   }
 
   $core.int get int32Field => _state.get(6) as $core.int;
+
   set int32Field($core.int value) {
     _state.set(6, value);
   }
 
   $core.int get int64Field => _state.get(7) as $core.int;
+
   set int64Field($core.int value) {
     _state.set(7, value);
   }
 
   $core.int get uint8Field => _state.get(8) as $core.int;
+
   set uint8Field($core.int value) {
     _state.set(8, value);
   }
 
   $core.int get uint16Field => _state.get(9) as $core.int;
+
   set uint16Field($core.int value) {
     _state.set(9, value);
   }
 
   $core.int get uint32Field => _state.get(10) as $core.int;
+
   set uint32Field($core.int value) {
     _state.set(10, value);
   }
 
   $core.BigInt get uint64Field => _state.get(11) as $core.BigInt;
+
   set uint64Field($core.BigInt value) {
     _state.set(11, value);
   }
 
   $core.double get float32Field => _state.get(12) as $core.double;
+
   set float32Field($core.double value) {
     _state.set(12, value);
   }
 
   $core.double get float64Field => _state.get(13) as $core.double;
+
   set float64Field($core.double value) {
     _state.set(13, value);
   }
 
   $td.Uint8List get binaryField => _state.get(14) as $td.Uint8List;
+
   set binaryField($td.Uint8List value) {
     _state.set(14, value);
   }
@@ -336,6 +346,7 @@ class StructA extends $nex.NexemaType {
   @$core.override
   $td.Uint8List encode() {
     final writer = $nex.getWriter();
+
     writer.encodeString(stringField);
     writer.encodeBool(boolField);
     writer.encodeVarint(intField);
@@ -395,46 +406,40 @@ class StructA extends $nex.NexemaType {
 """;
 
       expect(formatDartCode(got), equals(formatDartCode(want)));
-    }, skip: true);
+    });
 
     test("Struct with list, maps and nullable", () {
-      final file = NexemaFile(
-          id: 1,
-          fileName: "my_file.nex",
-          packageName: "root",
-          path: "root/my_file.nex",
-          types: []);
+      final file = NexemaFile(id: "1", packageName: "root", path: "root/my_file.nex", types: []);
 
       final input = getStructType("StructA", [
-        getField(0, "string_field", getPrimitiveValueType("string", true)),
-        getField(
-            1, "list_field", getListValueType(getPrimitiveValueType("string"))),
+        getField(0, "string_field", getPrimitiveValueType(NexemaPrimitive.string, true)),
+        getField(1, "list_field", getListValueType(getPrimitiveValueType(NexemaPrimitive.string))),
         getField(2, "list_value_null_field",
-            getListValueType(getPrimitiveValueType("string", true))),
+            getListValueType(getPrimitiveValueType(NexemaPrimitive.string, true))),
         getField(3, "list_null_field",
-            getListValueType(getPrimitiveValueType("string"), true)),
+            getListValueType(getPrimitiveValueType(NexemaPrimitive.string), true)),
         getField(4, "list_both_null_field",
-            getListValueType(getPrimitiveValueType("string", true), true)),
+            getListValueType(getPrimitiveValueType(NexemaPrimitive.string, true), true)),
         getField(
             5,
             "map_field",
-            getMapValueType(getPrimitiveValueType("string"),
-                getPrimitiveValueType("bool"))),
+            getMapValueType(getPrimitiveValueType(NexemaPrimitive.string),
+                getPrimitiveValueType(NexemaPrimitive.bool))),
         getField(
             6,
             "map_value_null_field",
-            getMapValueType(getPrimitiveValueType("string"),
-                getPrimitiveValueType("bool", true))),
+            getMapValueType(getPrimitiveValueType(NexemaPrimitive.string),
+                getPrimitiveValueType(NexemaPrimitive.bool, true))),
         getField(
             7,
             "map_null_field",
-            getMapValueType(getPrimitiveValueType("string"),
-                getPrimitiveValueType("bool"), true)),
+            getMapValueType(getPrimitiveValueType(NexemaPrimitive.string),
+                getPrimitiveValueType(NexemaPrimitive.bool), true)),
         getField(
             8,
             "map_both_null_field",
-            getMapValueType(getPrimitiveValueType("string"),
-                getPrimitiveValueType("bool", true), true)),
+            getMapValueType(getPrimitiveValueType(NexemaPrimitive.string),
+                getPrimitiveValueType(NexemaPrimitive.bool, true), true)),
       ]);
 
       String got = StructGenerator.generateFor(file, input);
@@ -448,7 +453,7 @@ class StructA extends $nex.NexemaType {
       name: 'StructA',
       modifier: $nex.TypeModifier.struct,
       packageName: 'root',
-      annotations: {},
+      annotations: const {},
       fields: [
         $nex.FieldInfo<StructA>(
             name: 'string_field',
@@ -458,7 +463,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.string,
                 isNullable: true,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'list_field',
             dartName: 'listField',
@@ -472,7 +477,7 @@ class StructA extends $nex.NexemaType {
                       isNullable: false,
                       typeArguments: [])
                 ]),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'list_value_null_field',
             dartName: 'listValueNullField',
@@ -486,7 +491,7 @@ class StructA extends $nex.NexemaType {
                       isNullable: true,
                       typeArguments: [])
                 ]),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'list_null_field',
             dartName: 'listNullField',
@@ -500,7 +505,7 @@ class StructA extends $nex.NexemaType {
                       isNullable: false,
                       typeArguments: [])
                 ]),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'list_both_null_field',
             dartName: 'listBothNullField',
@@ -514,7 +519,7 @@ class StructA extends $nex.NexemaType {
                       isNullable: true,
                       typeArguments: [])
                 ]),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'map_field',
             dartName: 'mapField',
@@ -532,7 +537,7 @@ class StructA extends $nex.NexemaType {
                       isNullable: false,
                       typeArguments: [])
                 ]),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'map_value_null_field',
             dartName: 'mapValueNullField',
@@ -550,7 +555,7 @@ class StructA extends $nex.NexemaType {
                       isNullable: true,
                       typeArguments: [])
                 ]),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'map_null_field',
             dartName: 'mapNullField',
@@ -568,7 +573,7 @@ class StructA extends $nex.NexemaType {
                       isNullable: false,
                       typeArguments: [])
                 ]),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'map_both_null_field',
             dartName: 'mapBothNullField',
@@ -586,7 +591,7 @@ class StructA extends $nex.NexemaType {
                       isNullable: true,
                       typeArguments: [])
                 ]),
-            annotations: {})
+            annotations: const {})
       ]);
 
   StructA._internal($core.Iterable<$core.dynamic> values)
@@ -628,54 +633,63 @@ class StructA extends $nex.NexemaType {
   }
 
   $core.String? get stringField => _state.get(0) as $core.String?;
+  
   set stringField($core.String? value) {
     _state.set(0, value);
   }
 
   $core.List<$core.String> get listField =>
       _state.get(1) as $core.List<$core.String>;
+
   set listField($core.List<$core.String> value) {
     _state.set(1, value);
   }
 
   $core.List<$core.String?> get listValueNullField =>
       _state.get(2) as $core.List<$core.String?>;
+
   set listValueNullField($core.List<$core.String?> value) {
     _state.set(2, value);
   }
 
   $core.List<$core.String>? get listNullField =>
       _state.get(3) as $core.List<$core.String>?;
+
   set listNullField($core.List<$core.String>? value) {
     _state.set(3, value);
   }
 
   $core.List<$core.String?>? get listBothNullField =>
       _state.get(4) as $core.List<$core.String?>?;
+
   set listBothNullField($core.List<$core.String?>? value) {
     _state.set(4, value);
   }
 
   $core.Map<$core.String, $core.bool> get mapField =>
       _state.get(5) as $core.Map<$core.String, $core.bool>;
+
   set mapField($core.Map<$core.String, $core.bool> value) {
     _state.set(5, value);
   }
 
   $core.Map<$core.String, $core.bool?> get mapValueNullField =>
       _state.get(6) as $core.Map<$core.String, $core.bool?>;
+
   set mapValueNullField($core.Map<$core.String, $core.bool?> value) {
     _state.set(6, value);
   }
 
   $core.Map<$core.String, $core.bool>? get mapNullField =>
       _state.get(7) as $core.Map<$core.String, $core.bool>?;
+
   set mapNullField($core.Map<$core.String, $core.bool>? value) {
     _state.set(7, value);
   }
 
   $core.Map<$core.String, $core.bool?>? get mapBothNullField =>
       _state.get(8) as $core.Map<$core.String, $core.bool?>?;
+
   set mapBothNullField($core.Map<$core.String, $core.bool?>? value) {
     _state.set(8, value);
   }
@@ -683,6 +697,7 @@ class StructA extends $nex.NexemaType {
   @$core.override
   $td.Uint8List encode() {
     final writer = $nex.getWriter();
+
     if (stringField == null) {
       writer.encodeNull();
     } else {
@@ -824,26 +839,21 @@ class StructA extends $nex.NexemaType {
 
     test("Struct with other types", () {
       final input = getStructType("StructA", [
-        getField(0, "struct_field", getTypeValueType(5)),
-        getField(1, "struct_null_field", getTypeValueType(5, true)),
-        getField(2, "enum_field", getTypeValueType(6)),
-        getField(3, "enum_null_field", getTypeValueType(6, true)),
+        getField(0, "struct_field", getTypeValueType("5")),
+        getField(1, "struct_null_field", getTypeValueType("5", true)),
+        getField(2, "enum_field", getTypeValueType("6")),
+        getField(3, "enum_null_field", getTypeValueType("6", true)),
       ]);
 
-      final file = NexemaFile(
-          id: 1,
-          fileName: "my_file.nex",
-          packageName: "root",
-          path: "root/my_file.nex",
-          types: [
-            getStructType("StructB", [], id: 5),
-            getEnumType("EnumA", [getEnumField(0, "unknown")], id: 6)
-          ])
+      final file = NexemaFile(id: "1", packageName: "root", path: "root/my_file.nex", types: [
+        getStructType("StructB", [], id: "5"),
+        getEnumType("EnumA", [getEnumField(0, "unknown")], id: "6")
+      ])
         ..types.add(input);
 
       Generator(
-          snapshot: NexemaSnapshot(version: 0, hashcode: 0, files: [file]),
-          settings: GeneratorSettings(outputPath: ""));
+          snapshot: NexemaSnapshot(version: 0, hashcode: "0", files: [file]),
+          settings: GeneratorSettings(outputPath: "", projectName: ""));
 
       String got = StructGenerator.generateFor(file, input);
       String want = r"""
@@ -866,7 +876,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.type,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'struct_null_field',
             dartName: 'structNullField',
@@ -875,7 +885,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.type,
                 isNullable: true,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'enum_field',
             dartName: 'enumField',
@@ -884,7 +894,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.type,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<StructA>(
             name: 'enum_null_field',
             dartName: 'enumNullField',
@@ -893,7 +903,7 @@ class StructA extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.type,
                 isNullable: true,
                 typeArguments: []),
-            annotations: {})
+            annotations: const {})
       ]);
 
   StructA._internal($core.Iterable<$core.dynamic> values)
@@ -905,10 +915,10 @@ class StructA extends $nex.NexemaType {
         super(_typeInfo);
 
   factory StructA(
-      {required StructB structField,
-      StructB? structNullField,
-      required EnumA enumField,
-      EnumA? enumNullField}) {
+      {required $my_file.StructB structField,
+      $my_file.StructB? structNullField,
+      required $my_file.EnumA enumField,
+      $my_file.EnumA? enumNullField}) {
     return StructA._internal(
         [structField, structNullField, enumField, enumNullField]);
   }
@@ -919,29 +929,34 @@ class StructA extends $nex.NexemaType {
     return instance;
   }
 
-  StructB get structField => _state.get(0) as StructB;
-  set structField(StructB value) {
+  $my_file.StructB get structField => _state.get(0) as $my_file.StructB;
+
+  set structField($my_file.StructB value) {
     _state.set(0, value);
   }
 
-  StructB? get structNullField => _state.get(1) as StructB?;
-  set structNullField(StructB? value) {
+  $my_file.StructB? get structNullField => _state.get(1) as $my_file.StructB?;
+
+  set structNullField($my_file.StructB? value) {
     _state.set(1, value);
   }
 
-  EnumA get enumField => _state.get(2) as EnumA;
-  set enumField(EnumA value) {
+  $my_file.EnumA get enumField => _state.get(2) as $my_file.EnumA;
+
+  set enumField($my_file.EnumA value) {
     _state.set(2, value);
   }
 
-  EnumA? get enumNullField => _state.get(3) as EnumA?;
-  set enumNullField(EnumA? value) {
+  $my_file.EnumA? get enumNullField => _state.get(3) as $my_file.EnumA?;
+
+  set enumNullField($my_file.EnumA? value) {
     _state.set(3, value);
   }
 
   @$core.override
   $td.Uint8List encode() {
     final writer = $nex.getWriter();
+
     writer.encodeBinary(structField.encode());
     if (structNullField == null) {
       writer.encodeNull();
@@ -961,12 +976,12 @@ class StructA extends $nex.NexemaType {
   void mergeFrom($td.Uint8List buffer) {
     final reader = $nex.getReader(buffer);
     _state.setAll([
-      StructB.decode(reader.decodeBinary()),
-      reader.isNextNull() ? null : (StructB.decode(reader.decodeBinary())),
-      EnumA.byIndex(reader.decodeUint8()) ?? EnumA.unknown,
+      $my_file.StructB.decode(reader.decodeBinary()),
+      reader.isNextNull() ? null : ($my_file.StructB.decode(reader.decodeBinary())),
+      $my_file.EnumA.byIndex(reader.decodeUint8()) ?? $my_file.EnumA.unknown,
       reader.isNextNull()
           ? null
-          : (EnumA.byIndex(reader.decodeUint8()) ?? EnumA.unknown)
+          : ($my_file.EnumA.byIndex(reader.decodeUint8()) ?? $my_file.EnumA.unknown)
     ]);
   }
 
@@ -994,34 +1009,28 @@ class StructA extends $nex.NexemaType {
       final input = getStructType(
           "StructA",
           [
-            getField(0, "string_field", getPrimitiveValueType("string")),
+            getField(0, "string_field", getPrimitiveValueType(NexemaPrimitive.string)),
           ],
-          baseTypeId: 5);
+          baseTypeId: "5");
 
-      final file = NexemaFile(
-          fileName: "my_file.nex",
-          id: 1,
-          packageName: "root",
-          path: "root/my_file.nex",
-          types: [
-            getBaseType(
-                "BaseA",
-                [
-                  getField(
-                      0, "varint_field", getPrimitiveValueType("int", true)),
-                  getField(1, "uvarint_field", getPrimitiveValueType("uint")),
-                ],
-                id: 5)
-          ])
+      final file = NexemaFile(id: "1", packageName: "root", path: "root/my_file.nex", types: [
+        getBaseType(
+            "BaseA",
+            [
+              getField(0, "varint_field", getPrimitiveValueType(NexemaPrimitive.int, true)),
+              getField(1, "uvarint_field", getPrimitiveValueType(NexemaPrimitive.uint)),
+            ],
+            id: "5")
+      ])
         ..types.add(input);
 
       Generator(
-          snapshot: NexemaSnapshot(version: 0, hashcode: 0, files: [file]),
-          settings: GeneratorSettings(outputPath: ""));
+          snapshot: NexemaSnapshot(version: 0, hashcode: "0", files: [file]),
+          settings: GeneratorSettings(outputPath: "", projectName: ""));
 
       String got = StructGenerator.generateFor(file, input);
       String want = r"""
-class StructA extends $my_file.BaseA {
+class StructA extends BaseA {
   final $nex.StructTypeState<StructA> _state;
   @$core.override
   $nex.NexemaTypeState<StructA> get $state_ => _state;
@@ -1030,7 +1039,7 @@ class StructA extends $my_file.BaseA {
       name: 'StructA',
       modifier: $nex.TypeModifier.struct,
       packageName: 'root',
-      annotations: {},
+      annotations: const {},
       fields: [
         $nex.FieldInfo<StructA>(
             name: 'string_field',
@@ -1040,7 +1049,7 @@ class StructA extends $my_file.BaseA {
                 kind: $nex.FieldValueKind.string,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {})
+            annotations: const {})
       ]);
 
   StructA._internal($core.Iterable<$core.dynamic> values)

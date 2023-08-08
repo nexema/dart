@@ -7,17 +7,11 @@ import 'test_utils.dart';
 void main() {
   group("Test UnionGenerator", () {
     test("Union generation", () {
-      final file = NexemaFile(
-        id: 1,
-        fileName: "my_file.nex",
-        packageName: "root",
-        path: "root/my_file.nex",
-        types: []
-      );
+      final file = NexemaFile(id: "1", packageName: "root", path: "root/my_file.nex", types: []);
 
       final input = getUnionType("UnionB", [
-        getField(0, "string_field", getPrimitiveValueType("string")),
-        getField(1, "bool_field", getPrimitiveValueType("bool")),
+        getField(0, "string_field", getPrimitiveValueType(NexemaPrimitive.string)),
+        getField(1, "bool_field", getPrimitiveValueType(NexemaPrimitive.bool)),
       ]);
 
       String got = UnionGenerator.generateFor(file, input);
@@ -31,7 +25,7 @@ class UnionB extends $nex.NexemaType {
       name: 'UnionB',
       modifier: $nex.TypeModifier.union,
       packageName: 'root',
-      annotations: {},
+      annotations: const {},
       fields: [
         $nex.FieldInfo<UnionB>(
             name: 'string_field',
@@ -41,7 +35,7 @@ class UnionB extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.string,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {}),
+            annotations: const {}),
         $nex.FieldInfo<UnionB>(
             name: 'bool_field',
             dartName: 'boolField',
@@ -50,7 +44,7 @@ class UnionB extends $nex.NexemaType {
                 kind: $nex.FieldValueKind.bool,
                 isNullable: false,
                 typeArguments: []),
-            annotations: {})
+            annotations: const {})
       ]);
 
   UnionB._internal($core.dynamic value, UnionBField field)

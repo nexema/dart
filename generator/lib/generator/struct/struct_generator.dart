@@ -37,7 +37,7 @@ ${_toStringMethod()}
   }
 
   String _extends() {
-    if(type.baseType == null) {
+    if (type.baseType == null) {
       return "$kNexAlias.NexemaType";
     } else {
       final reference = resolveReference(type.baseType!);
@@ -45,7 +45,7 @@ ${_toStringMethod()}
       return getDartDeclarationForReference(reference);
     }
   }
-  
+
   String _constructors() {
     return """
 ${type.dartName}._internal($kCoreAlias.Iterable<$kCoreAlias.dynamic> values)
@@ -61,7 +61,10 @@ factory ${type.dartName}({
   ${type.fields.map((e) => _factoryConstructorParameter(e)).join(", ")}
 }) {
   return ${type.dartName}._internal([
-    ${type.fields.map((e) => _factoryConstructorCreateArgument(e)).join(",")}
+    ${[
+      if (_baseType != null) ..._baseType!.fields,
+      ...type.fields
+    ].map((e) => _factoryConstructorCreateArgument(e)).join(",")}
   ]);
 }
 
@@ -76,7 +79,7 @@ factory ${type.dartName}.decode($kTdUint8List buffer) {
   String _factoryConstructorParameter(NexemaTypeFieldDefinition field) {
     final fieldType = field.type!;
     final buffer = StringBuffer();
-    if(!fieldType.nullable && !type.defaults.containsKey(field.name)) {
+    if (!fieldType.nullable && (type.defaults == null || !type.defaults!.containsKey(field.name))) {
       buffer.write("required ");
     }
 
@@ -89,8 +92,8 @@ factory ${type.dartName}.decode($kTdUint8List buffer) {
 
     buffer.write(" ${field.dartName}");
 
-    if(type.defaults.containsKey(field.name) && !typeIsBigInt) {
-      buffer.write(" = ${type.defaults[field.name]}");
+    if (type.defaults != null && type.defaults!.containsKey(field.name) && !typeIsBigInt) {
+      buffer.write(" = ${writeValueToString(type.defaults![field.name])}");
     }
 
     return buffer.toString();
@@ -98,9 +101,9 @@ factory ${type.dartName}.decode($kTdUint8List buffer) {
 
   String _factoryConstructorCreateArgument(NexemaTypeFieldDefinition field) {
     String output = field.dartName;
-    
-    if(isBigInt(field.type!) && type.defaults[field.name] != null) {
-      output += " ?? $kCoreBigInt.parse(${type.defaults[field.name]})";
+
+    if (isBigInt(field.type!) && type.defaults != null && type.defaults![field.name] != null) {
+      output += " ?? $kCoreBigInt.parse(${type.defaults![field.name]})";
     }
 
     return output;
@@ -121,7 +124,7 @@ set ${field.dartName}($dartType value) {
   }
 
   String _baseImplementations() {
-    if(_baseType == null) {
+    if (_baseType == null) {
       return "";
     }
 

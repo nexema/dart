@@ -45,14 +45,6 @@ const kReturnTakeBytes = "return writer.takeBytes();";
 
 const kObsoleteAnnotationKey = "obsolete";
 
-const kNexemaListPrimitive = "list";
-const kNexemaMapPrimitive = "map";
-
-const kEnumModifier = "enum";
-const kStructModifier = "struct";
-const kBaseModifier = "base";
-const kUnionModifier = "union";
-
 const kDefaultImports = [
   r"'package:nexema/nexema.dart' as $nex",
   r"'dart:typed_data' as $td",

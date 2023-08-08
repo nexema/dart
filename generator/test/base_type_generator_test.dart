@@ -7,24 +7,18 @@ import 'test_utils.dart';
 void main() {
   group("Test BaseTypeGenerator", () {
     test("Base with primitives", () {
-      final file = NexemaFile(
-        id: 1,
-        fileName: "my_file.nex",
-        packageName: "root",
-        path: "root/my_file.nex",
-        types: []
-      );
+      final file = NexemaFile(id: "1", packageName: "root", path: "root/my_file.nex", types: []);
 
       final input = getStructType("BaseA", [
-        getField(0, "string_field", getPrimitiveValueType("string")),
-        getField(1, "bool_field", getPrimitiveValueType("bool")),
-        getField(2, "int_field", getPrimitiveValueType("int")),
-        getField(3, "uint_field", getPrimitiveValueType("uint")),
-        getField(4, "int8_field", getPrimitiveValueType("int8")),
-        getField(5, "int16_field", getPrimitiveValueType("int16")),
-        getField(6, "int32_field", getPrimitiveValueType("int32")),
-        getField(7, "int64_field", getPrimitiveValueType("int64")),
-        getField(8, "uint8_field", getPrimitiveValueType("uint8")),
+        getField(0, "string_field", getPrimitiveValueType(NexemaPrimitive.string)),
+        getField(1, "bool_field", getPrimitiveValueType(NexemaPrimitive.bool)),
+        getField(2, "int_field", getPrimitiveValueType(NexemaPrimitive.int)),
+        getField(3, "uint_field", getPrimitiveValueType(NexemaPrimitive.uint)),
+        getField(4, "int8_field", getPrimitiveValueType(NexemaPrimitive.int8)),
+        getField(5, "int16_field", getPrimitiveValueType(NexemaPrimitive.int16)),
+        getField(6, "int32_field", getPrimitiveValueType(NexemaPrimitive.int32)),
+        getField(7, "int64_field", getPrimitiveValueType(NexemaPrimitive.int64)),
+        getField(8, "uint8_field", getPrimitiveValueType(NexemaPrimitive.uint8)),
       ]);
 
       String got = BaseGenerator.generateFor(file, input);
@@ -61,7 +55,7 @@ abstract class BaseA extends $nex.NexemaType {
 }
 """;
 
-        expect(formatDartCode(got), equals(formatDartCode(want)));
+      expect(formatDartCode(got), equals(formatDartCode(want)));
     });
   });
 }
