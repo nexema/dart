@@ -59,7 +59,7 @@ void main() {
               '{"key":25,"key2":false,"key3":"hello world!","key4":5554.548784,"key5":"545418484684867864684168468","key6":[12, 2, 4],"key7":{"cats":true,"dogs":false},"key8":"aG9sYSBtdW5kbw==","key9":"2023-08-01T21:36:15.563","key10":"72h3m0.5s"}')
           as Uint8List;
       final typeInfo = <String, FieldValueKind>{
-        "key": FieldValueKind.int,
+        "key": FieldValueKind.varint,
         "key2": FieldValueKind.bool,
         "key3": FieldValueKind.string,
         "key4": FieldValueKind.float32,
@@ -72,7 +72,7 @@ void main() {
       };
 
       final typeInfoArguments = <String, List<FieldValueKind>>{
-        "key6": [FieldValueKind.int],
+        "key6": [FieldValueKind.varint],
         "key7": [FieldValueKind.string, FieldValueKind.bool]
       };
       final object = <String, dynamic>{};

@@ -288,11 +288,11 @@ class NexemajReader {
         value = readFloat();
         break;
 
-      case FieldValueKind.int ||
+      case FieldValueKind.varint ||
             FieldValueKind.int8 ||
             FieldValueKind.int16 ||
             FieldValueKind.int32 ||
-            FieldValueKind.uint ||
+            FieldValueKind.uvarint ||
             FieldValueKind.uint8 ||
             FieldValueKind.uint16 ||
             FieldValueKind.uint32:
